@@ -1,14 +1,16 @@
-import React, {  useState } from 'react'
-import './sidebar.css'
-import { FaBars,FaBookReader, FaTh, FaWpforms, } from 'react-icons/fa'
+import React, {  useState } from 'react';
+import './sidebar.css';
+import { FaBars,FaBookReader, FaTh,FaMoneyBillAlt, FaWpforms, } from 'react-icons/fa';
 import {  AiOutlineOrderedList, AiOutlineProfile } from "react-icons/ai";
 import { Link } from 'react-router-dom';
-import { GiArchiveRegister, GiTimeBomb } from "react-icons/gi";
+import { GiArchiveRegister,GiDorsalScales, GiTimeBomb } from "react-icons/gi";
 import { MdMeetingRoom, MdOutlineAppRegistration, MdOutlineEmojiTransportation, MdOutlineHolidayVillage, MdRoomService } from "react-icons/md";
 import { BsFillBookFill } from 'react-icons/bs';
-import { SiWebmoney,SiTrendmicro } from 'react-icons/si'
+import { SiWebmoney,SiTrendmicro } from 'react-icons/si';
 import { RiBillFill } from 'react-icons/ri';
 import { SiGoogleclassroom } from "react-icons/si";
+import { VscAccount } from "react-icons/vsc";
+import { FcSalesPerformance } from "react-icons/fc";
 
 
 
@@ -31,13 +33,20 @@ const Sidebar = ({children}) => {
     {
       path: "/sale",
       name: "Sale",
-      icon: <MdMeetingRoom />
+      icon: <GiDorsalScales />
+      // icon: <MdMeetingRoom />
     },
     
     {
       path: "/additem",
       name: "Add-Item",
       icon: <SiGoogleclassroom />
+    },
+
+    {
+      path: "/addaccount",
+      name: "Add-Account",
+      icon: <VscAccount />
     },
     
     {
@@ -48,7 +57,8 @@ const Sidebar = ({children}) => {
     {
         path: "/billing",
         name: "Billing",
-        icon: <RiBillFill />
+        icon: < FaMoneyBillAlt />
+        // icon: <RiBillFill />
       },
 
 ]

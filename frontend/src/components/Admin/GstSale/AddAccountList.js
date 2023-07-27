@@ -1,11 +1,12 @@
 import React from 'react'
-import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
+import Layout from '../../Header/Layout';
 
-const Itemlist = () => {
+const AddAccountList = () => {
+
   return (
     <>
     <Layout />
@@ -13,7 +14,7 @@ const Itemlist = () => {
         <Table striped bordered hover className='main-table'>
           <thead>
             <tr>
-              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ Item-Details</h5></th>
+              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ Add-Account-Details</h5></th>
             </tr>
           </thead>
         </Table>
@@ -25,17 +26,16 @@ const Itemlist = () => {
                   <div className='table-div' >
 
                     <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/additem">Create</Link>
+                      <IoIosCreate />&nbsp;<Link to="/addaccount">Create</Link>
                     </Button>
                   </div>
                 </th>
               </tr>
             </thead>
           </Table>
-       
+         
         </Row>
       </Container>
-
 
       <div className='form-div' >
         <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Item Details</h5>
@@ -50,22 +50,27 @@ const Itemlist = () => {
                 <thead>
                   <tr>
 
-                    <th>Item Name</th>
-                    <th>Selling Price</th>
-                    <th>Purchase Price</th>
-                    <th>Stock</th>
+                    <th>Name</th>
+                    <th>Phone No</th>
+                    <th>Email ID</th>
+                    <th>Address</th>
+                    <th>GST No</th>
                     <th>Action Edit</th>
                     <th>Action View</th>
+
+
                   </tr>
                 </thead>
                 <tbody>
 
                   {/* {get?.ser?.map((items) => ( */}
                     <tr>
-                        <td>Biscuit</td>
-                        <td>10</td>
-                        <td>15</td>
-                        <td>500</td>
+                        <td>Depanshu</td>
+                        <td>8796541235</td>
+                        <td>depanshu@gmail.com</td>
+                        <td>Delhi</td>
+                        <td>265A45BB7</td>
+                        
                        
                       {/* <td>{items.Service_Name}</td>
                       <td>{items.Service_Charge}</td> */}
@@ -101,16 +106,12 @@ const Itemlist = () => {
         </Container>
 
       </div>
-
-
-
-
-
-
     
-    
+
+
+
     </>
   )
 }
 
-export default Itemlist
+export default AddAccountList

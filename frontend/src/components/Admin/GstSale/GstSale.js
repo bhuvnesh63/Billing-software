@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import Form from 'react-bootstrap/Form';
+import "./gstsale.css"
+import ModalCamp from './ModalCamp';
 
-const GstSale = () => {
+const GstSale = ({post}) => {
+
+  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState({});
+  const handleModel = () => {
+    setOpen(true);
+    setUser(post);
+  };
 
   
   return (
@@ -39,7 +48,7 @@ const GstSale = () => {
               </tr>
             </thead>
           </Table>
-          <hr />
+       
         </Row>
       </Container>
 
@@ -47,17 +56,47 @@ const GstSale = () => {
       <div className="form-div">
         <Container>
           <Row>
+
+          <td>
+              <Button 
+                onClick={handleModel}
+                variant="success"
+                className="float-end"
+              >
+                Create GST
+              </Button>
+              {open && (
+                <ModalCamp
+                  open={open}
+                  setOpen={setOpen}
+                  // selectedItems={selectedItems}
+                  // itemQuantities={itemQuantities}
+                />
+              )}
+            </td>
+
+            {/* <div>
+            <Button
+                onClick={handleModel}
+                variant="success"
+                className="gst-btn float-end" 
+                >
+                Create GST
+              </Button>
+
+            </div> */}
+          
             <form className="row g-4 p-3 registration-form">
 
               <div class="col-md-4 position-relative">
-                <label class="form-label">GST.No</label>
+                <label class="form-label">Customer name</label>
                 <Form.Select
               //  value={gender} onChange={(e) => setGender(e.target.value)}
               //    required
                  > 
                   <option>Choose</option>
-                  <option value="Male">654A45df</option>
-                   <option value="Female">654A45df</option>
+                  <option value="Male">Rr infosoft</option>
+                   <option value="Female">chetu</option>
                 </Form.Select>
               </div> 
 

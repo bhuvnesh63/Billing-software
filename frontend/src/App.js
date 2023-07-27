@@ -9,6 +9,10 @@ import Billing from './components/Admin/Billing/Billing';
 import Itemlist from './components/Admin/Add-Item/Itemlist';
 import GstSale from './components/Admin/GstSale/GstSale';
 import SaleList from './components/Admin/Sale/SaleList';
+import CreateGst from './components/Admin/GstSale/AddAccount';
+import AddAccount from './components/Admin/GstSale/AddAccount';
+import AddAccountList from './components/Admin/GstSale/AddAccountList';
+
 
 function App() {
   return (
@@ -23,6 +27,9 @@ function App() {
    <Route path='/additem' element={<Sidebar><Additem /></Sidebar>} />
    <Route path='/itemlist' element={<Sidebar><Itemlist /></Sidebar>} />
    <Route path='/gstsale' element={<Sidebar><GstSale /></Sidebar>} />
+   <Route path='/addaccount' element={<Sidebar><AddAccount /></Sidebar>} />
+   <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
+ 
    <Route path='/billing' element={<Sidebar><Billing /></Sidebar>} />
    
 

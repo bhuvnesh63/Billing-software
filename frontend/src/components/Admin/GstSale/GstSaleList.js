@@ -1,16 +1,18 @@
 import React from 'react'
+import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
-import Layout from '../../Header/Layout';
 
-const AddAccountList = () => {
+
+
+const GstSaleList = () => {
 
   return (
-    <>
-    <Layout />
-    <Container  className='main-col' >
+   <>
+   <Layout />
+   <Container  className='main-col' >
         <Table striped bordered hover >
           <thead>
             <tr>
@@ -26,7 +28,7 @@ const AddAccountList = () => {
                   <div className='table-div' >
 
                     <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/addaccount">Create</Link>
+                      <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
                     </Button>
                   </div>
                 </th>
@@ -36,6 +38,7 @@ const AddAccountList = () => {
          
         </Row>
       </Container>
+
 
       <div className='form-div' >
         <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Item Details</h5>
@@ -50,11 +53,15 @@ const AddAccountList = () => {
                 <thead>
                   <tr>
 
-                    <th>Name</th>
+                    <th>Customer name</th>
                     <th>Phone No</th>
                     <th>Email ID</th>
                     <th>Address</th>
                     <th>GST No</th>
+                    <th>Stock </th>
+                    <th>Price per item</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
                     <th>Action Edit</th>
                     <th>Action View</th>
 
@@ -70,6 +77,11 @@ const AddAccountList = () => {
                         <td>depanshu@gmail.com</td>
                         <td>Delhi</td>
                         <td>265A45BB7</td>
+                        <td>500</td>
+                        <td>200</td>
+                        <td>500</td>
+                        <td>2000</td> 
+                       
                         
                        
                       {/* <td>{items.Service_Name}</td>
@@ -106,12 +118,11 @@ const AddAccountList = () => {
         </Container>
 
       </div>
-    
+   
+   
+   </>
 
-
-
-    </>
   )
 }
 
-export default AddAccountList
+export default GstSaleList

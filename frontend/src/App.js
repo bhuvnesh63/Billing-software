@@ -12,6 +12,7 @@ import SaleList from './components/Admin/Sale/SaleList';
 import CreateGst from './components/Admin/GstSale/AddAccount';
 import AddAccount from './components/Admin/GstSale/AddAccount';
 import AddAccountList from './components/Admin/GstSale/AddAccountList';
+import GstSaleList from './components/Admin/GstSale/GstSaleList';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
    <Route path='/additem' element={<Sidebar><Additem /></Sidebar>} />
    <Route path='/itemlist' element={<Sidebar><Itemlist /></Sidebar>} />
    <Route path='/gstsale' element={<Sidebar><GstSale /></Sidebar>} />
+   <Route path='/gstsale-list' element={<Sidebar><GstSaleList /></Sidebar>} />
    <Route path='/addaccount' element={<Sidebar><AddAccount /></Sidebar>} />
    <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
  

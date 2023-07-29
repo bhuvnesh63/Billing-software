@@ -6,12 +6,14 @@
     padding-bottom: 10px;
 }
 
-.logo-link {
+.logo-link{
     text-decoration: none;
     font-size: 2rem;
     font-family: serif;
     font-weight: bold;
     color: white;
+    text-align: center !important;
+    justify-content: center !important;
 }
 
 .item-links {

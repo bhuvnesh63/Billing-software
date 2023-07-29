@@ -7,20 +7,19 @@ import { IoIosCreate } from 'react-icons/io';
 
 
 
-const Additem = () => {
+const AddAccount = () => {
 
 
   return (
-  <>
-
-  <Layout />
-  <Container style={{ width: '90%', marginTop: '20px' }}>
+   <>
+   <Layout />
+    <Container style={{ width: '90%', marginTop: '20px' }}>
         <Table striped bordered hover className="main-table">
           <thead>
             <tr>
               <th>
                 <h5>
-                  <AiFillDashboard /> &nbsp;Dasboard / Add Item
+                  <AiFillDashboard /> &nbsp;Dasboard / Add-Account
                 </h5>
               </th>
             </tr>
@@ -33,25 +32,24 @@ const Additem = () => {
                 <th>
                   <div className="table-div">
                     <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/itemlist">Go Back</Link>
+                      <IoIosCreate />&nbsp;<Link to="/addaccount-list">Go Back</Link>
                     </Button>
                   </div>
                 </th>
               </tr>
             </thead>
           </Table>
-         
+       
         </Row>
       </Container>
 
 
       <div className="form-div">
-      <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Add Item </h5>
         <Container>
           <Row>
             <form className="row g-4 p-3 registration-form">
               <div class="col-md-4 position-relative">
-                <label className="label">Item Name</label>
+                <label className="label">Name</label>
                 <input
                   type="text"
                   class="form-control"
@@ -62,9 +60,9 @@ const Additem = () => {
               </div>
 
               <div class="col-md-4 position-relative">
-                <label className="label">Selling Price</label>
+                <label className="label">Phone No</label>
                 <input
-                  type="number"
+                  type="text"
                   class="form-control"
                 // value={service_Charge}
                 // onChange={(e) => setService_Charge(e.target.value)}
@@ -73,9 +71,9 @@ const Additem = () => {
               </div>
 
               <div class="col-md-4 position-relative">
-                <label className="label">Purchase Price</label>
+                <label className="label">Email ID</label>
                 <input
-                 type="number"
+                  type="text"
                   class="form-control"
                 // value={service_Charge}
                 // onChange={(e) => setService_Charge(e.target.value)}
@@ -83,11 +81,21 @@ const Additem = () => {
                 />
               </div>
 
+              <div class="col-md-4 position-relative">
+                <label className="label">Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                // value={service_Charge}
+                // onChange={(e) => setService_Charge(e.target.value)}
+                // required
+                />
+              </div>
 
               <div class="col-md-4 position-relative">
-                <label className="label">Stock</label>
+                <label className="label">GST No</label>
                 <input
-                   type="number"
+                  type="text"
                   class="form-control"
                 // value={service_Charge}
                 // onChange={(e) => setService_Charge(e.target.value)}
@@ -109,11 +117,11 @@ const Additem = () => {
           </Row>
         </Container>
       </div>
-
-  
-  </>
    
+   
+   
+   </>
   )
 }
 
-export default Additem
+export default AddAccount

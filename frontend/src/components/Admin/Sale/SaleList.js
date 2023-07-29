@@ -34,7 +34,7 @@ const SaleList = () => {
               </tr>
             </thead>
           </Table>
-          <hr />
+      
         </Row>
       </Container>
 
@@ -54,6 +54,10 @@ const SaleList = () => {
 
                     <th>Customer Name</th>
                     <th>Mobile No</th>
+                    <th>Stock</th> 
+                    <th>Price per item</th>
+                    <th>Quantity</th>
+                    <th>Total price</th>
                     <th>Action Edit</th>
                     <th>Action View</th>
 
@@ -66,6 +70,10 @@ const SaleList = () => {
                     <tr>
                         <td>Depanshu</td>
                         <td>8796541235</td>
+                        <td>item</td>
+                        <td>100</td>
+                        <td>5</td>
+                        <td>500</td>
                         
                        
                       {/* <td>{items.Service_Name}</td>

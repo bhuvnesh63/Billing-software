@@ -42,7 +42,7 @@ const Billing = () => {
               </tr>
             </thead>
           </Table>
-          <hr />
+          
         </Row>
       </Container>
 

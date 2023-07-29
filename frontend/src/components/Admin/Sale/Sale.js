@@ -1,10 +1,12 @@
 import React from 'react'
 import Layout from '../../Header/Layout'
-import { Button, Container, Row, Table } from 'react-bootstrap'
-import { Form, Link } from 'react-router-dom'
+import { Button, Col, Container, Row, Table } from 'react-bootstrap'
+import {  Link } from 'react-router-dom'
+import Form from 'react-bootstrap/Form';
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import "./sale.css"
+
 
 
 const Sale = () => {
@@ -14,8 +16,9 @@ const Sale = () => {
     <>
 
       <Layout />
-      <Container style={{ width: '90%', marginTop: '20px' }}>
-        <Table striped bordered hover className="main-table">
+      <Container className='mt-4'>
+        <Row>
+        <Table striped bordered hover className='dasboard-table' >
           <thead>
             <tr>
               <th>
@@ -26,12 +29,13 @@ const Sale = () => {
             </tr>
           </thead>
         </Table>
+        </Row>
         <Row>
-          <Table striped bordered hover>
+          <Table striped bordered hover  className='dasboard-table'>
             <thead>
               <tr>
                 <th>
-                  <div className="table-div">
+                  <div>
                     <Button className="table-btn" variant="light">
                       <IoIosCreate />&nbsp;<Link to="/salelist">Go Back</Link>
                     </Button>
@@ -40,7 +44,6 @@ const Sale = () => {
               </tr>
             </thead>
           </Table>
-          <hr />
         </Row>
       </Container>
 
@@ -60,7 +63,7 @@ const Sale = () => {
                 />
               </div>
 
-              <div class="col-md-4 position-relative">
+              <div class="col-md-4 mb-5 position-relative">
                 <label className="label">Mobile No</label>
                 <input
                   type="text"
@@ -70,20 +73,72 @@ const Sale = () => {
                 // required
                 />
               </div>
+    
 
-              {/* <div class="col-md-4 position-relative">
+           <hr></hr>
 
+           <h5>Product Details</h5>
 
-                <label class="form-label">Category</label>
-                <Form.Select */}
-                {/* // value={gender} onChange={(e) => setGender(e.target.value)}
-                // required */}
-                {/* > */}
-                  {/* <option>Choose</option> */}
-                  {/* <option value="Male">Male</option> */}
-                  {/* <option value="Female">Female</option>
+           <Col sm={6}>
+           <label className="label">Stock </label>
+       
+                <Form.Select
+              //  value={gender} onChange={(e) => setGender(e.target.value)}
+              //    required
+                 > 
+                  <option>Choose</option>
+                  <option value="Male">500</option>
+                   <option value="Female">400</option>
+                   <option value="Female">300</option>
+                   <option value="Female">700</option>
+                   <option value="Female">800</option>
+
                 </Form.Select>
-              </div> */}
+
+           </Col>
+           
+           <Col sm={2}>
+             <label className="label">Price per item </label>
+           <input
+                  type="text"
+                  class="form-control"
+                // value={service_Name}
+                // onChange={(e) => setService_Name(e.target.value)}
+                // required
+                /></Col>
+           
+           <Col sm={2}> 
+           <label className="label">Quantity </label>
+           <input
+                  type="text"
+                  class="form-control"
+                // value={service_Name}
+                // onChange={(e) => setService_Name(e.target.value)}
+                // required
+                /></Col>
+           
+           <Col sm={2}> 
+           <label className="label">Total Price </label>
+           <input
+                  type="text"
+                  class="form-control"
+                // value={service_Name}
+                // onChange={(e) => setService_Name(e.target.value)}
+                // required
+                /></Col>
+
+                <div>
+                <Button
+                  className="float-end"
+                  variant="success"
+                  type="submit"
+                // onClick={(event) => submitform(event)} // Pass the event parameter
+                >
+                  Add more
+                </Button>
+
+                </div>
+
 
               <center>
                 <Button

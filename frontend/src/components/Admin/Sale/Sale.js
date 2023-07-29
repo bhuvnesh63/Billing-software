@@ -17,8 +17,8 @@ const Sale = () => {
 
       <Layout />
       <Container className='mt-4'>
-        <Row>
-        <Table striped bordered hover className='dasboard-table' >
+      
+        <Table striped bordered hover  >
           <thead>
             <tr>
               <th>
@@ -29,9 +29,9 @@ const Sale = () => {
             </tr>
           </thead>
         </Table>
-        </Row>
+      
         <Row>
-          <Table striped bordered hover  className='dasboard-table'>
+          <Table striped bordered hover >
             <thead>
               <tr>
                 <th>

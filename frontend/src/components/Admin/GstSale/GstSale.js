@@ -36,7 +36,7 @@ const GstSale = () => {
                 <th>
                   <div className="table-div">
                     <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/service-list">Go Back</Link>
+                      <IoIosCreate />&nbsp;<Link to="/gstsale-list">Go Back</Link>
                     </Button>
                   </div>
                 </th>

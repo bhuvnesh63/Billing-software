@@ -15,16 +15,17 @@ const Billing = () => {
   return (
     <>
 
-    <Layout />
-      <Container className="main-col">
-        <Table striped bordered hover className="main-table">
+      <Layout />
+      <Container className='mt-4' >
+        <Table striped bordered hover >
           <thead>
             <tr>
+              <th>
 
               <h5>
                 <AiFillDashboard /> &nbsp; Dashboard/ Bill
               </h5>
-
+              </th>
             </tr>
           </thead>
         </Table>
@@ -42,96 +43,160 @@ const Billing = () => {
               </tr>
             </thead>
           </Table>
-          
+
         </Row>
       </Container>
 
+
       <div className="form-div">
+
+
+        <h5 className='gst' >GSTIN : 09AAZFG2944CIZ2 </h5>
+        <div className='text-center'>
+          <h4>TAX INVOICE</h4>
+          <h3>M/S V K ENTERPRISES</h3>
+          <p>149, 0, Hanuman Nagar Near S.s.m School Linepar Majhola <br/>
+             Pachimi, Moradabad, Moradabad, Uttar Pradesh, 244001<br />
+            
+          </p>
+        </div>
+
+
         <Container>
+
+
           <Row>
-            <Col sm={4}>
-              <div className="billing-cards-2" id="billing-card">
-                <h3 className="res-name text-style">Billing</h3>
-                <h5 className='text-style'>Phone Number: <span>8796541234</span></h5>
-                <h5 className='text-style'>Address: <span>Mansrowar</span></h5>
-                <h5 className='text-style'>Gst Number: <span>1</span></h5>
-               
-                <Table>
-                  <table className="table table-bordered border-secondary">
-                    <thead>
-                      <tr className='text-style'>
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <td>item</td>
-                      <td>200</td>
-                      <td>2</td>
-                      <td>200</td>
-                      {/* {order.Items.map((item) => (
-                        <tr key={item._id} className='text-style'>
-                          <td>{item.Item_Name}</td>
-                          <td>{item.price}</td>
-                          <td>{item.Quantity}</td>
-                          <td>{item.price * item.Quantity}</td>
-                        </tr>
-                      ))} */}
-                    </tbody>
-                  </table>
-                  <hr />
-                  <h5 className="mt-2 text-style">
-                    Total Price: <span className="float-end">
-                      {/* {calculateTotal(order.Items)} */}
-                      </span>
-                  </h5>
-                  <h5 className="mt-2 text-style">GST (5%): <span className="float-end">
-                    {/* {gstAmount.toFixed(2)} */}
-                    </span></h5>
-                  <h5 className="mt-2 text-style">Total (incl. GST): <span className="float-end">
-                    {/* {(calculateTotal(order.Items) + gstAmount).toFixed(2)} */}
-                    </span></h5>
-                  <h5 className='text-style'>Payment Method <span className="float-end">
-                    {/* {paymentMethod} */}
-                    </span></h5>
-                </Table>
-                <div>
-                <Button className="table-btns d-flex" variant="light" 
-                // onClick={printBill}
-                >
-                    &#128065;Print Bill
-                  </Button>
-                  <span className="float-end">
-                    <div className="QR-img-box">
-                      <img className="fill-img-box" src="/img/qr_img.png" alt="QR Code" />
-                    </div>
-                  </span>
-                </div>
+            <Col sm={6}>
+
+              <div className='billing-border'>
+                <p>Invoice No : <span>  260</span></p>
+                <p>Dated : <span>  01-06-2023</span></p>
+
               </div>
+
+
             </Col>
+
+            <Col sm={6}>
+
+              <div className='bill-border'>
+                <p>Place of Supply : <span>  Uttar Pradesh (09)</span></p>
+                <p>Reverse Charge : <span>  N</span></p>
+
+              </div>
+
+
+            </Col>
+
+
+
+            <Col sm={6}>
+
+              <div className='billing-border'>
+                <p className='text-bold' >Billed to :</p>
+                <p>Iqbal Brothers</p>
+                <p>Amroha Gate Near Fruit Mandi Moradabad</p>
+                <br /><br />
+                <p> GSTIN/UIN : 1254789632145 </p>
+
+              </div>
+
+
+            </Col>
+
+            <Col sm={6}>
+
+              <div className='bill-border'>
+                <p className='text-bold' >Shipped to :</p>
+                <p>Iqbal Brothers</p>
+                <p>Amroha Gate Near Fruit Mandi Moradabad</p>
+                <br /><br />
+                <p> GSTIN/UIN : 1254789632145 </p>
+
+              </div>
+
+
+            </Col>
+
+            <Table responsive className='bill-table'>
+              <table class="table table-bordered border-secondary">
+                <thead>
+                  <tr>
+                    <th>S.N.</th>
+                    <th>Item name</th>
+                    <th>Qty.</th>
+                    <th>Price</th>
+                    <th>CGST Amount</th>
+                    <th>Amount</th>
+
+
+                    {/* <th>HSN/SAC/Code</th> */}
+                    {/* <th>Unit</th> */}
+                    {/* <th>CGST Rate</th> */}                   
+                    {/* <th>SGST Rate</th> */}
+                    {/* <th>SGST Amount</th> */}
+                  
+                  </tr>
+                  </thead>
+
+
+                  <tbody>
+                    <tr>
+                      <td>1.</td>
+                      <td>Mug</td>
+                      <td>500</td>
+                      <td>2222</td>
+                      <td>700.00</td>
+                      <td>826.00</td>
+                     
+
+
+                    </tr>
+                  </tbody>
+
+
+                  
+              </table>
+              <div className='total-bill'>
+              <p >Grand Total <span className='float-end'>826.00</span></p></div>
+            </Table>
+
+            <div className='bank-details'>
+              <p className='text-bold'>Bank Details : </p>
+            <p  > BANK NAME :<span> PUNJAB NATIONAL BANK </span> </p> 
+            <p >  IFSC : <span>PUNB0027872 A/C NO.54789654785158458 </span> </p>
+          
+              </div>
+
+              <div className='bank-details'>
+                <h5>Terms & Conditions</h5>
+                <p>E.& O.E.</p>
+                <p>1. Goods once sold will not be taken back.</p>
+                <p>2.Interest @ 18% p.a will be changed if the payment<br/>
+                 is not made with in the Stipulated time. </p>
+                 <p>3. Subject to 'Uttar Pradesh' Jurisdiction only.</p>
+
+
+              </div>
+
+
+
+
            
-            <Col sm={4}>
-              {/* Payment Method Form */}
-              <div className="payment-form">
-                <h4 className='text-style'> Select Payment Method:</h4>
-                <select className='select'
-                //  onChange={(e) => setPaymentMethod(e.target.value)}
-                 >
-                  <option className='text-style'  
-                  // value={paymentMethod}
-                  >Choose</option>
-                  <option value="cash" className='text-style'>Cash</option>
-                  <option value="UPI" className='text-style'>UPI</option>
-                </select>
-              </div>
-            </Col>
-            <Col sm={4}></Col>
+
+
+
+
+
+
+
+
+
+
           </Row>
         </Container>
       </div>
-    
+
     </>
   )
 }

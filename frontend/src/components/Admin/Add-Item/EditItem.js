@@ -1,129 +1,153 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Col, Row, Table, Button } from 'react-bootstrap'
-import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
-import { RiArrowGoBackLine } from 'react-icons/ri';
-import Form from 'react-bootstrap/Form';
+import { Container, Row, Table, Button } from 'react-bootstrap';
+import { AiFillDashboard} from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import Layout from '../../Header/Layout'
+import Layout from '../../Header/Layout';
+import './additem.css';
 
 const EditItem = () => {
-    const params = useParams();
-    const navigate = useNavigate();
-    const [specificItem, setSpecificItem] = useState("");
-    const [itemName, setitemName] = useState(specificItem.itemName);
-    const [sellingPrice, setSellingPrice] = useState(specificItem.sellingPrice);
-    const [purchasingPrice, setpurchasingPrice] = useState(specificItem.purchasingPrice);
-    const [stock, setStock] = useState(specificItem.stock);
+  const params = useParams();
+  const navigate = useNavigate();
+  const [specificItem, setSpecificItem] = useState({});
+  const [itemName, setitemName] = useState('');
+  const [sellingPrice, setSellingPrice] = useState('');
+  const [totalamount, setTotalamount] = useState('');
+  const [stock, setStock] = useState('');
+  const [cgst, setCgst] = useState('');
+  const [sgst, setSgst] = useState('');
+  const [cgstPerItem, setCgstPerItem] = useState('');
+  const [sgstPerItem, setSgstPerItem] = useState('');
+  const [PurchasingPrice, setPurchasingPrice] = useState('');
 
-    useEffect(() => {
-        axios.get(`http://localhost:4000/api/v1/item/${params.id}`).then((response) => {
-            setSpecificItem(response.data);
-            setitemName(response.data.item.itemName);
-            setSellingPrice(response.data.item.sellingPrice);
-            setpurchasingPrice(response.data.item.purchasingPrice);
-            setStock(response.data.item.stock);
+  const calculateValues = () => {
+    setCgstPerItem((parseFloat(cgst) / parseFloat(stock)).toFixed(2));
+    setSgstPerItem((parseFloat(sgst) / parseFloat(stock)).toFixed(2));
+    setPurchasingPrice((parseFloat(totalamount) / parseFloat(stock)).toFixed(2));
+  };
 
-        })
-    }, [])
+  useEffect(() => {
+    axios.get(`http://localhost:4000/api/v1/item/${params.id}`).then((response) => {
+      setSpecificItem(response.data.item);
+      setitemName(response.data.item.itemName);
+      setSellingPrice(response.data.item.sellingPrice);
+      setTotalamount(response.data.item.totalamount);
+      setStock(response.data.item.stock);
+      setCgst(response.data.item.cgst);
+      setSgst(response.data.item.sgst);
+      calculateValues();
+    });
+  }, [params.id]);
 
-
-    const submitform = (event) => {
-        event.preventDefault();
-        try {
-            axios.put(`http://localhost:4000/api/v1/item/${params.id}`, {
-                "itemName": itemName,
-                "sellingPrice": sellingPrice,
-                "purchasingPrice": purchasingPrice,
-                "stock": stock,
-            })
-            // toast.success("Item Updated Succesfully")
-            navigate("/itemlist")
-        } catch (error) {
-            console.log(error.response)
-
-        }
+  const submitform = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.put(`http://localhost:4000/api/v1/item/${params.id}`, {
+        itemName,
+        sellingPrice,
+        totalamount,
+        stock,
+        cgst,
+        sgst,
+        cgstPerItem,
+        sgstPerItem,
+        PurchasingPrice,
+      });
+      navigate('/itemlist');
+    } catch (error) {
+      console.log(error.response);
     }
-    console.log(specificItem)
+  };
 
-    return (
-        <>
+  return (
+    <>
+      <Layout />
+      <Container style={{ width: '90%', marginTop: '20px' }}>
+        <Table striped bordered hover className="main-table">
+          <thead>
+            <tr>
+              <th>
+                <h5>
+                  <AiFillDashboard /> &nbsp;Dashboard / Edit Item
+                </h5>
+              </th>
+            </tr>
+          </thead>
+        </Table>
+        <Row>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>
+                  <div className="table-div">
+                    <Button className="table-btn" variant="light">
+                      <IoIosCreate />&nbsp;<Link to="/itemlist">Go Back</Link>
+                    </Button>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+          </Table>
+          <hr />
+        </Row>
+      </Container>
+      {/* form section start */}
+      <div className="form-div">
+        <Container>
+          <Row>
+            <form className="row g-4 p-3 registration-form">
+              <div className="col-md-4 position-relative">
+                <label className="label">Item Name</label>
+                <input type="text" className="form-control" value={itemName} onChange={(e) => setitemName(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">MRP</label>
+                <input type="number" className="form-control" value={sellingPrice} onChange={(e) => setSellingPrice(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">Total Amount</label>
+                <input type="number" className="form-control" value={totalamount} onChange={(e) => setTotalamount(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">Stock</label>
+                <input type="number" className="form-control" value={stock} onChange={(e) => setStock(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">CGST</label>
+                <input type="number" className="form-control" value={cgst} onChange={(e) => setCgst(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">SGST</label>
+                <input type="number" className="form-control" value={sgst} onChange={(e) => setSgst(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">CGST Per Item</label>
+                <input type="number" className="form-control" value={cgstPerItem} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">SGST Per item</label>
+                <input type="number" className="form-control" value={sgstPerItem} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">Purchase Price</label>
+                <input type="number" className="form-control" value={PurchasingPrice} required />
+              </div>
+              <center>
+                <Button className="stu_btn" variant="success" type="submit" onClick={(event) => submitform(event)}>
+                  Update Item
+                </Button>
+                <Button className="cal-stu_btn" variant="success" onClick={calculateValues}>
+                  Calculate
+                </Button>
+              </center>
+            </form>
+          </Row>
+        </Container>
+      </div>
+    </>
+  );
+};
 
-            <Layout />
-            <Container style={{ width: "90%", marginTop: "20px" }} >
-                <Table striped bordered hover className='main-table'>
-                    <thead>
-                        <tr>
-                            <th><h5><AiFillDashboard /> &nbsp;Dasboard / Edit Item</h5></th>
-                        </tr>
-                    </thead>
-                </Table>
-                <Row>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>
-                                    <div className='table-div'>
-
-                                        <Button className='table-btn' variant="light" >
-                                            <IoIosCreate />&nbsp;<Link to="/item-list">Go Back</Link>
-                                        </Button>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                    </Table>
-                    <hr />
-                </Row>
-            </Container>
-            {/* form section start */}
-            <div className='form-div' >
-                <Container>
-                    <Row>
-
-                        <form className="row g-4 p-3 registration-form" >
-                            <div class="col-md-4 position-relative">
-                                <label className="label">Item Name</label>
-                                <input type="text" className="form-control"
-                                    value={itemName} onChange={(e) =>
-                                        setitemName(e.target.value)} />
-                            </div>
-                            <div class="col-md-4 position-relative">
-                                <label className="label">Selling Price</label>
-                                <input type="text" className="form-control"
-                                    value={sellingPrice} onChange={(e) =>
-                                        setSellingPrice(e.target.value)} />
-                            </div>
-                            <div class="col-md-4 position-relative">
-                                <label className="label">Purching Price</label>
-                                <input type="text" className="form-control"
-                                    value={purchasingPrice} onChange={(e) =>
-                                        setpurchasingPrice(e.target.value)} />
-                            </div>
-                            <div class="col-md-4 position-relative">
-                                <label className="label">Stock</label>
-                                <input type="text" className="form-control"
-                                    value={stock} onChange={(e) =>
-                                        setStock(e.target.value)} />
-                            </div>
-                            <center>
-                                <Button className="stu_btn"
-                                    variant="success"
-                                    type="submit"
-                                    onClick={(event) => submitform(event)}
-                                >
-                                    Update Item
-                                </Button>
-                            </center>
-                        </form>
-                    </Row>
-                </Container>
-            </div>
-        </>
-    )
-}
-
-export default EditItem
+export default EditItem;

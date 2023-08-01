@@ -9,10 +9,25 @@ const itemSchema = new mongoose.Schema({
     sellingPrice: {
         type: Number,
     },
-    purchasingPrice: {
+    totalamount: {
         type: Number,
     },
     stock: {
+        type: Number,
+    },
+    cgst: {
+        type: Number,
+    },
+    sgst: {
+        type: Number,
+    },
+    cgstPerItem: {
+        type: Number,
+    },
+    sgstPerItem: {
+        type: Number,
+    },
+    PurchasingPrice: {
         type: Number,
     },
     // image: {

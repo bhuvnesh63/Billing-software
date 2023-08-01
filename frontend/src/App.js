@@ -1,3 +1,4 @@
+import React, { Component }  from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
@@ -13,6 +14,8 @@ import CreateGst from './components/Admin/GstSale/AddAccount';
 import AddAccount from './components/Admin/GstSale/AddAccount';
 import AddAccountList from './components/Admin/GstSale/AddAccountList';
 import GstSaleList from './components/Admin/GstSale/GstSaleList';
+import EditItem from './components/Admin/Add-Item/EditItem';
+import EditAccount from './components/Admin/GstSale/EditAccount';
 
 
 function App() {
@@ -20,20 +23,22 @@ function App() {
     <div className="App">
 
 
-   <Routes>
+      <Routes>
 
-   <Route path='/' element={<Sidebar><Dashboard /></Sidebar>} />
-   <Route path='/sale' element={<Sidebar><Sale /></Sidebar>} />
-   <Route path='/salelist' element={<Sidebar><SaleList /></Sidebar>} />
-   <Route path='/additem' element={<Sidebar><Additem /></Sidebar>} />
-   <Route path='/itemlist' element={<Sidebar><Itemlist /></Sidebar>} />
-   <Route path='/gstsale' element={<Sidebar><GstSale /></Sidebar>} />
-   <Route path='/gstsale-list' element={<Sidebar><GstSaleList /></Sidebar>} />
-   <Route path='/addaccount' element={<Sidebar><AddAccount /></Sidebar>} />
-   <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
- 
-   <Route path='/billing' element={<Sidebar><Billing /></Sidebar>} />
-   
+        <Route path='/' element={<Sidebar><Dashboard /></Sidebar>} />
+        <Route path='/sale' element={<Sidebar><Sale /></Sidebar>} />
+        <Route path='/salelist' element={<Sidebar><SaleList /></Sidebar>} />
+        <Route path='/additem' element={<Sidebar><Additem /></Sidebar>} />
+        <Route path='/edititem/:id' element={<Sidebar><EditItem /></Sidebar>} />
+        <Route path='/itemlist' element={<Sidebar><Itemlist /></Sidebar>} />
+        <Route path='/gstsale' element={<Sidebar><GstSale /></Sidebar>} />
+        <Route path='/gstsale-list' element={<Sidebar><GstSaleList /></Sidebar>} />
+        <Route path='/addaccount' element={<Sidebar><AddAccount /></Sidebar>} />
+        <Route path='/editaccount/:id' element={<Sidebar><EditAccount /></Sidebar>} />
+        <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
+
+        <Route path='/billing' element={<Sidebar><Billing /></Sidebar>} />
+
 
 
       </Routes>

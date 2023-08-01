@@ -1,17 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
 import {  Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
-import "./sale.css"
-
-
+import "./sale.css";
+import axios from 'axios';
 
 const Sale = () => {
+  const [customerName, setCustomerName]= useState("");
+  const [mobileNumber, setMobileNumber]= useState("");
+  const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState('');
+  const [pricePerItem, setPricePerItem] = useState('');
 
 
+  const submitform = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:4000/api/v1/saleorder/new", {
+        "customerName": customerName,
+        "mobileNumber": mobileNumber,
+        // "purchasingPrice": purchasingPrice,
+        // "stock": stock
+      })
+      // toast.success("Item Add Successfully");
+      // navigate("/itemlist");
+
+    } catch (error) {
+      console.log(error.response);
+
+    }
+  }
   return (
     <>
 
@@ -57,9 +78,9 @@ const Sale = () => {
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                required
                 />
               </div>
 
@@ -68,9 +89,9 @@ const Sale = () => {
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Charge}
-                // onChange={(e) => setService_Charge(e.target.value)}
-                // required
+                value={mobileNumber}
+                onChange={(e) => setMobileNumber(e.target.value)}
+                required
                 />
               </div>
     
@@ -80,18 +101,15 @@ const Sale = () => {
            <h5>Product Details</h5>
 
            <Col sm={6}>
-           <label className="label">Stock </label>
+           <label className="label">Item Name </label>
        
                 <Form.Select
               //  value={gender} onChange={(e) => setGender(e.target.value)}
               //    required
                  > 
                   <option>Choose</option>
-                  <option value="Male">500</option>
-                   <option value="Female">400</option>
-                   <option value="Female">300</option>
-                   <option value="Female">700</option>
-                   <option value="Female">800</option>
+                  <option value="Male">Chips</option>
+                   <option value="Female">Kurkure</option>
 
                 </Form.Select>
 
@@ -132,7 +150,7 @@ const Sale = () => {
                   className="float-end"
                   variant="success"
                   type="submit"
-                // onClick={(event) => submitform(event)} // Pass the event parameter
+                onClick={(event) => submitform(event)} // Pass the event parameter
                 >
                   Add more
                 </Button>
@@ -154,10 +172,6 @@ const Sale = () => {
           </Row>
         </Container>
       </div>
-
-
-
-
     </>
   )
 }

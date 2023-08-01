@@ -1,16 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Container, Row, Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import Layout from '../../Header/Layout';
+import axios from 'axios';
+
+
+const AccountUrl = "http://localhost:4000/api/v1/accounts"
 
 const AddAccountList = () => {
+  const navigate = useNavigate();
+  const [getaccounts, setGetAccounts] = useState(null);
+  // const params = useParams();
 
+  // const [specificItem, setSpecificItem] = useState("");
+  // const [name, setName] = useState(specificItem.name);
+  // const [phoneNumber, setPhoneNumber] = useState(specificItem.phoneNumber);
+  // const [email, setEmail] = useState(specificItem.email);
+  // const [address, setAddress] = useState(specificItem.address);
+  // const [gstNumber, setGstnumber] = useState(specificItem.gstNumber);
+
+  useEffect(() => {
+    axios.get(AccountUrl).then((response) => {
+      setGetAccounts(response.data)
+      console.log(response)
+    })
+  }, [getaccounts])
+
+
+  const deleteData = (id) => {
+    // console.log(id)
+    axios.delete(`http://localhost:4000/api/v1/account/${id}`).then(response => {
+      // alert("Item has been deleted successfully")
+      // toast.success("Item deleted Succesfully")
+    })
+      .catch(error => {
+        console.log(error)
+      })
+
+  }
+  if (!getaccounts) return null;
   return (
     <>
-    <Layout />
-    <Container  className='main-col' >
+      <Layout />
+      <Container className='main-col' >
         <Table striped bordered hover >
           <thead>
             <tr>
@@ -33,7 +67,7 @@ const AddAccountList = () => {
               </tr>
             </thead>
           </Table>
-         
+
         </Row>
       </Container>
 
@@ -63,39 +97,34 @@ const AddAccountList = () => {
                 </thead>
                 <tbody>
 
-                  {/* {get?.ser?.map((items) => ( */}
-                    <tr>
-                        <td>Depanshu</td>
-                        <td>8796541235</td>
-                        <td>depanshu@gmail.com</td>
-                        <td>Delhi</td>
-                        <td>265A45BB7</td>
-                        
-                       
-                      {/* <td>{items.Service_Name}</td>
-                      <td>{items.Service_Charge}</td> */}
-                  
+                  {getaccounts?.accounts?.map((account) => (
+                  <tr>
+                    <td>{account.name}</td>
+                    <td>{account.phoneNumber}</td>
+                    <td>{account.email}</td>
+                    <td>{account.address}</td>
+                    <td>{account.gstNumber}</td>
+  
+                    <td>
+                      <Link to={`/editaccount/${account._id}`}>
+                      <Button className='table-btn'
+                        variant="light" >
+                        &#9998;Edit</Button>
+                      </Link>
+                    </td>
 
-                      <td>
-                        {/* <Link to={`/serviceEdit/${items._id}`}> */}
-                        <Button className='table-btn'
-                         variant="light" >
-                          &#9998;Edit</Button> 
-                          {/* </Link> */}
-                          </td>
+                    <td>
+                      <Button className='table-btn' variant="light"
+                        onClick={(e) => { deleteData(account._id) }}
+                        value={"Delete"} >
+                        <span className='delete-icon'>&#x2717;</span>Delete
+                      </Button>
+                    </td>
 
-                      <td>
-                        <Button className='table-btn' variant="light" 
-                    //   onClick={(e) => { deleteData(items._id) }}
-                       value={"Delete"} >
-                           <span className='delete-icon'>&#x2717;</span>Delete
-                       </Button>
-                       </td>
-                      
-                    </tr>
+                  </tr>
 
 
-                  {/* ))} */}
+                   ))} 
 
 
 
@@ -106,7 +135,7 @@ const AddAccountList = () => {
         </Container>
 
       </div>
-    
+
 
 
 

@@ -1,26 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
-import { Form, Link, useNavigate, } from 'react-router-dom'
+import { Form, Link, useNavigate, useParams, } from 'react-router-dom'
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import axios from 'axios'
 
 
 
-const AddAccount = () => {
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [gstNumber, setGstnumber] = useState("");
+const EditAccount = () => {
+  const params = useParams();
   const navigate = useNavigate();
+  const [specificItem, setSpecificItem] = useState("");
+  const [name, setName] = useState(specificItem.name);
+  const [phoneNumber, setPhoneNumber] = useState(specificItem.phoneNumber);
+  const [email, setEmail] = useState(specificItem.email);
+  const [address, setAddress] = useState(specificItem.address);
+  const [gstNumber, setGstnumber] = useState(specificItem.address);
 
+  useEffect(() => {
+    axios.get(`http://localhost:4000/api/v1/account/${params.id}`).then((response) => {
+        setSpecificItem(response.data);
+        setName(response.data.account.name);
+        setPhoneNumber(response.data.account.phoneNumber);
+        setEmail(response.data.account.email);
+        setAddress(response.data.account.address);
+        setGstnumber(response.data.account.gstNumber);
+
+    })
+}, [])
 
   const submitform = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/v1/account/new", {
+      await axios.put(`http://localhost:4000/api/v1/account/${params.id}`, {
         "name": name,
         "phoneNumber": phoneNumber,
         "email": email,
@@ -43,7 +56,7 @@ const AddAccount = () => {
             <tr>
               <th>
                 <h5>
-                  <AiFillDashboard /> &nbsp;Dasboard / Add-Account
+                  <AiFillDashboard /> &nbsp;Dasboard / Edit-Account
                 </h5>
               </th>
             </tr>
@@ -134,7 +147,7 @@ const AddAccount = () => {
                   type="submit"
                   onClick={(event) => submitform(event)}
                 >
-                  Submit
+                  Update Account
                 </Button>
               </center>
             </form>
@@ -145,4 +158,4 @@ const AddAccount = () => {
   )
 }
 
-export default AddAccount
+export default EditAccount;

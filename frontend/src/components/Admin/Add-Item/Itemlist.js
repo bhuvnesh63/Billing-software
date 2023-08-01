@@ -1,15 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
+import axios from 'axios'
 
-const Itemlist = () => {
+const ItemsUrl = "http://localhost:4000/api/v1/items"
+
+const Itemlist = ({ items }) => {
+  const [getitems, setGetItems] = useState(null);
+
+  useEffect(() => {
+    axios.get(ItemsUrl).then((response) => {
+      setGetItems(response.data)
+      console.log(response)
+    })
+  }, [getitems])
+
+  const deleteData = (id) => {
+    // console.log(id)
+    axios.delete(`http://localhost:4000/api/v1/item/${id}`).then(response => {
+      // alert("Item has been deleted successfully")
+      // toast.success("Item deleted Succesfully")
+    })
+      .catch(error => {
+        console.log(error)
+      })
+
+  }
+  if (!getitems) return null;
   return (
     <>
-    <Layout />
-    <Container className='main-col' >
+      <Layout />
+      <Container className='main-col' >
         <Table striped bordered hover className='main-table'>
           <thead>
             <tr>
@@ -32,7 +56,7 @@ const Itemlist = () => {
               </tr>
             </thead>
           </Table>
-       
+
         </Row>
       </Container>
 
@@ -58,41 +82,49 @@ const Itemlist = () => {
                     <th>Action View</th>
                   </tr>
                 </thead>
+
                 <tbody>
-
-                  {/* {get?.ser?.map((items) => ( */}
+                  {getitems?.items?.map((items) => (
                     <tr>
-                        <td>Biscuit</td>
-                        <td>10</td>
-                        <td>15</td>
-                        <td>500</td>
-                       
-                      {/* <td>{items.Service_Name}</td>
-                      <td>{items.Service_Charge}</td> */}
-                  
 
+                      <td>{items.itemName}</td>
+                      <td>{items.sellingPrice}</td>
+                      <td>{items.purchasingPrice}</td>
+                      <td>{items.stock}</td>
                       <td>
-                        {/* <Link to={`/serviceEdit/${items._id}`}> */}
+
+                        <Link to={`/edititem/${items._id}`}>
+                          <Button className='table-btn' 
+                          variant="light" >
+                            &#9998;Edit
+                          </Button>
+                        </Link>
+                      </td>
+                      <td>
                         <Button className='table-btn'
-                         variant="light" >
-                          &#9998;Edit</Button> 
-                          {/* </Link> */}
-                          </td>
-
-                      <td>
-                        <Button className='table-btn' variant="light" 
-                    //   onClick={(e) => { deleteData(items._id) }}
-                       value={"Delete"} >
-                           <span className='delete-icon'>&#x2717;</span>Delete
-                       </Button>
-                       </td>
-                      
+                         variant="light" onClick={(e) => 
+                          { deleteData(items._id) }} value={"Delete"}
+                        >
+                        <span className='delete-icon'>&#x2717;</span>Delete
+                        </Button>
+                      </td>
+                      {/* <td>
+                      <Button className='table-btn' variant="light"
+                        onClick={() => handleModel(items)}
+                      >
+                        &#128065;View
+                      </Button>
+                    </td>
+                    {open && (
+                      <ModalComp
+                        open={open}
+                        setOpen={setOpen}
+                        {...user}
+                      />
+                    )} */}
+                    
                     </tr>
-
-
-                  {/* ))} */}
-
-
+                  ))}
 
                 </tbody>
               </table>
@@ -107,10 +139,10 @@ const Itemlist = () => {
 
 
 
-    
-    
+
+
     </>
   )
 }
 
-export default Itemlist
+export default Itemlist;

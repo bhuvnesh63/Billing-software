@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
-import {  Link, useNavigate } from 'react-router-dom'
+import {  Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
@@ -25,7 +25,6 @@ const Sale = () => {
   const [service, setService] = useState(null);
   const [charge, setCharge] = useState([]);
   const [get,setGet] = useState()
-  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -37,10 +36,8 @@ const Sale = () => {
 
 
   const selectedChargeList = charge?.map((items) => (
-    <div key={items.sellingPrice
-    }>
-      <p>{items.sellingPrice
-}</p>
+    <div key={items.purchasingPrice}>
+      <p>{items.purchasingPrice}</p>
     </div>
   ));
 
@@ -50,8 +47,7 @@ const Sale = () => {
     );
 
     if (selectedServiceObj) {
-      setSelectedServiceCharge(selectedServiceObj.sellingPrice
-        );
+      setSelectedServiceCharge(selectedServiceObj.purchasingPrice);
     }
   };
 
@@ -70,7 +66,7 @@ const Sale = () => {
       
       })
       // toast.success("Item Add Successfully");
-      navigate("/salelist");
+      // navigate("/itemlist");
 
     } catch (error) {
       console.log(error.response);

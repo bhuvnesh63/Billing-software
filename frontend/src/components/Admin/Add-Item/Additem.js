@@ -5,24 +5,43 @@ import { Form, Link, useNavigate } from 'react-router-dom'
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import axios from 'axios';
+import './additem.css';
 
 const Additem = () => {
 
   const [itemName, setitemName] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
-  const [purchasingPrice, setpurchasingPrice] = useState("");
+  const [totalamount, setTotalamount] = useState("");
   const [stock, setStock] = useState("");
+  const [cgst, setCgst] = useState("");
+  const [sgst, setSgst] = useState("");
+  const [cgstPerItem, setCgstPerItem] = useState("");
+  const [sgstPerItem, setSgstPerItem] = useState("");
+  const [PurchasingPrice, setPurchasingPrice] = useState("");
   const navigate = useNavigate();
 
-
+  const calculateValues = () => {
+    setCgstPerItem((cgst / stock).toFixed(2));
+    setSgstPerItem((sgst / stock).toFixed(2));
+    setPurchasingPrice((totalamount / stock).toFixed(2));
+  };
+  const handleCalculate = () => {
+    calculateValues();
+  };
   const submitform = async (event) => {
     event.preventDefault();
     try {
       await axios.post("http://localhost:4000/api/v1/item/new", {
         "itemName": itemName,
         "sellingPrice": sellingPrice,
-        "purchasingPrice": purchasingPrice,
-        "stock": stock
+        "totalamount": totalamount,
+        "stock": stock,
+        "cgst": cgst,
+        "sgst": sgst,
+        "cgstPerItem": cgstPerItem,
+        "sgstPerItem": sgstPerItem,
+        "PurchasingPrice": PurchasingPrice,
+
       })
       // toast.success("Item Add Successfully");
       navigate("/itemlist");
@@ -85,7 +104,7 @@ const Additem = () => {
               </div>
 
               <div class="col-md-4 position-relative">
-                <label className="label">Selling Price</label>
+                <label className="label">MRP </label>
                 <input
                   type="number"
                   class="form-control"
@@ -96,12 +115,12 @@ const Additem = () => {
               </div>
 
               <div class="col-md-4 position-relative">
-                <label className="label">Purchase Price</label>
+                <label className="label">Total Amount</label>
                 <input
                   type="number"
                   class="form-control"
-                  value={purchasingPrice}
-                  onChange={(e) => setpurchasingPrice(e.target.value)}
+                  value={totalamount}
+                  onChange={(e) => setTotalamount(e.target.value)}
                   required
                 />
               </div>
@@ -117,7 +136,55 @@ const Additem = () => {
                   required
                 />
               </div>
+              <div class="col-md-4 position-relative">
+                <label className="label">CGST</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={cgst}
+                  onChange={(e) => setCgst(e.target.value)}
+                  required
+                />
+              </div>
+              <div class="col-md-4 position-relative">
+                <label className="label">SGST</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={sgst}
+                  onChange={(e) => setSgst(e.target.value)}
+                  required
+                />
+              </div>
+              <div class="col-md-4 position-relative">
+                <label className="label">CGST Per Item</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={cgstPerItem}
+                  required
+                />
+              </div>
+              <div class="col-md-4 position-relative">
+                <label className="label">SGST Per item</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={sgstPerItem}
+                  required
+                />
+              </div>
 
+              <div class="col-md-4 position-relative">
+                <label className="label">Purchase Price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={PurchasingPrice}
+                  required
+                />
+              </div>
+              <span className='note'>Note:<h6 className='note-text'> Please Calculate the remaning value by clicking on the calculate button</h6></span >
               <center>
                 <Button
                   className="stu_btn"
@@ -126,6 +193,13 @@ const Additem = () => {
                   onClick={(event) => submitform(event)}
                 >
                   Submit
+                </Button>
+                <Button
+                  className="cal-stu_btn"
+                  variant="success"
+                  onClick={handleCalculate}
+                >
+                  Calculate
                 </Button>
               </center>
             </form>

@@ -29,6 +29,7 @@ const Itemlist = ({ items }) => {
       })
 
   }
+
   if (!getitems) return null;
   return (
     <>
@@ -75,9 +76,14 @@ const Itemlist = ({ items }) => {
                   <tr>
 
                     <th>Item Name</th>
-                    <th>Selling Price</th>
-                    <th>Purchase Price</th>
+                    <th>MRP</th>
+                    <th>Total Amount</th>
                     <th>Stock</th>
+                    <th>CGST</th>
+                    <th>SGST</th>
+                    <th>CGST Amount/pcs</th>
+                    <th>SGST Amount/pcs</th>
+                    <th>Purchase Price</th>
                     <th>Action Edit</th>
                     <th>Action View</th>
                   </tr>
@@ -89,8 +95,14 @@ const Itemlist = ({ items }) => {
 
                       <td>{items.itemName}</td>
                       <td>{items.sellingPrice}</td>
-                      <td>{items.purchasingPrice}</td>
+                      <td>{items.totalamount}</td>
                       <td>{items.stock}</td>
+                      <td>{items.cgst}</td>
+                      <td>{items.sgst}</td>
+                      <td>{items.cgstPerItem}</td>
+                      <td>{items.sgstPerItem}</td>
+                      <td>{items.PurchasingPrice}</td>
+
                       <td>
 
                         <Link to={`/edititem/${items._id}`}>

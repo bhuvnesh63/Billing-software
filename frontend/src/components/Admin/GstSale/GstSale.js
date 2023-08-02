@@ -1,14 +1,56 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Container, Row,Col , Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import Form from 'react-bootstrap/Form';
 import "./gstsale.css"
 import ModalCamp from './ModalCamp';
+import axios from 'axios';
+
+
+const ItemsUrl = "http://localhost:4000/api/v1/items"
+
+
 
 const GstSale = () => {
+  const [getitems, setGetItems] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState('');
+  const [itemName, setItemName] = useState(null);
+  const [price, setPrice] = useState([]);
+  
+
+
+
+
+
+  useEffect(() => {
+    axios.get(ItemsUrl).then((response) => {
+      setGetItems(response.data)
+      console.log(response,"list")
+    })
+  }, [getitems])
+
+
+  const selectedPriceList = price?.map((items) => (
+    <div key={items.sellingPrice
+    }>
+      <p>{items.sellingPrice
+}</p>
+    </div>
+  ));
+
+  const getItemPrice = (selectedItemName) => {
+    const selectedItemObj = getitems?.items?.find(
+      (items) => items.itemName === selectedItemName
+    );
+
+    if (selectedItemObj) {
+      setSelectedPrice(selectedItemObj.sellingPrice
+        );
+    }
+  };
 
 
 
@@ -125,52 +167,87 @@ const GstSale = () => {
 
               <h5>Product Details</h5>
 
-              <Col sm={6}>
-                <label className="label">Stock </label>
 
+
+
+              <Col sm={6}>
+           <label className="label">Item Name </label>
+       
                 <Form.Select
-                //  value={gender} onChange={(e) => setGender(e.target.value)}
-                //    required
-                >
+                 onChange={(e) => {
+                  setItemName(e.target.value);
+                  getItemPrice(e.target.value);
+                }}
+              
+                 > 
                   <option>Choose</option>
-                  <option value="Male">500</option>
-                  <option value="Female">400</option>
-                  <option value="Female">300</option>
-                  <option value="Female">700</option>
-                  <option value="Female">800</option>
+                  {getitems?.items?.map((items) => (
+                    
+                  <option key={items._id} 
+                  value={items.itemName}>{items.itemName}</option>
+
+                  ))}
 
                 </Form.Select>
 
-              </Col>
+           </Col>
+           
+           {/* <Col sm={2}> */}
+
+            <div className='col-md-2 position-relative'>
+                <label className='label'>Price per item</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  value={selectedPrice}
+                  readOnly
+                />
+                {selectedPriceList}
+            </div>
+
+
+
 
               <Col sm={2}>
-                <label className="label">Price per item </label>
+              <p className='head-quantity'  >Quantity</p>
+              <div className="Opretor d-flex" >
+              
+              <button
+                type="button"
+                className='decrease'
+                
+              >
+                -
+              </button>
+              <p className='quantity' > 1
+                {/* {itemQuantities[item.Item_Name] || 1} */}
+              </p>
+              <button
+                type="button"
+                className='increase float-end'
+           
+              >
+                +
+              </button>
+          
+            </div>
+
+
+                {/* <label className="label">Quantity </label>
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
-                /></Col>
+               
+                /> */}
+                </Col>
 
-              <Col sm={2}>
-                <label className="label">Quantity </label>
-                <input
-                  type="text"
-                  class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
-                /></Col>
 
               <Col sm={2}>
                 <label className="label">Total Price </label>
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
+           
                 /></Col>
 
               <div>

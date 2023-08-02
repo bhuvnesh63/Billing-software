@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
-import {  Link } from 'react-router-dom'
+import {  Link, useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form';
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
@@ -25,6 +25,7 @@ const Sale = () => {
   const [service, setService] = useState(null);
   const [charge, setCharge] = useState([]);
   const [get,setGet] = useState()
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -69,7 +70,7 @@ const Sale = () => {
       
       })
       // toast.success("Item Add Successfully");
-      // navigate("/itemlist");
+      navigate("/salelist");
 
     } catch (error) {
       console.log(error.response);

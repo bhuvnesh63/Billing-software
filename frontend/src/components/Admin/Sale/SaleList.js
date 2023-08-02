@@ -1,13 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import Layout from '../../Header/Layout';
+import axios from 'axios';
 
+
+const SaleUrl = "http://localhost:4000/api/v1/saleorders"
 
 
 const SaleList = () => {
+  const [getsale, setSale] = useState(null);
+
+  useEffect(() => {
+    axios.get(SaleUrl).then((response) => {
+      setSale(response.data)
+      console.log(response ,"sale-list")
+    })
+  }, [getsale])
+
+  const deleteData = (id) => {
+    // console.log(id)
+    axios.delete(`http://localhost:4000/api/v1/saleorder/${id}`).then(response => {
+      // alert("Item has been deleted successfully")
+      // toast.success("Item deleted Succesfully")
+    })
+      .catch(error => {
+        console.log(error)
+      })
+
+  }
+
+  if (!getsale) return null;
+
+
   return (
    <>
     <Layout />

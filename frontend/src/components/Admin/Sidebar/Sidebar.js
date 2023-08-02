@@ -1,20 +1,10 @@
 import React, {  useState } from 'react';
-import './sidebar.css';
-import { FaBars,FaBookReader, FaTh,FaMoneyBillAlt, FaWpforms, } from 'react-icons/fa';
-import {  AiOutlineOrderedList, AiOutlineProfile } from "react-icons/ai";
+import { FaBars, FaTh,FaMoneyBillAlt, } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { GiArchiveRegister,GiDorsalScales, GiTimeBomb } from "react-icons/gi";
-import { MdMeetingRoom, MdOutlineAppRegistration, MdOutlineEmojiTransportation, MdOutlineHolidayVillage, MdRoomService } from "react-icons/md";
-import { BsFillBookFill } from 'react-icons/bs';
-import { SiWebmoney,SiTrendmicro } from 'react-icons/si';
-import { RiBillFill } from 'react-icons/ri';
+import { MdCrisisAlert, MdRoomService } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import { VscAccount } from "react-icons/vsc";
-import { FcSalesPerformance } from "react-icons/fc";
-
-
-
-
+import './sidebar.css';
 
 
 
@@ -33,7 +23,8 @@ const Sidebar = ({children}) => {
     {
       path: "/sale",
       name: "Sale",
-      icon: <GiDorsalScales />
+      icon: <MdCrisisAlert />
+      // icon: <GiDorsalScales />
       // icon: <MdMeetingRoom />
     },
     

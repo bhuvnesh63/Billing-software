@@ -19,9 +19,10 @@
     border: none;
 }
 
-.quantity{
-    text-align: center;
-}
+/* .quantity{
+   
+    padding: 0px 20px 0px 20px;
+} */
 
 .increase{
     width: 30%;

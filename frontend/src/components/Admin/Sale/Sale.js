@@ -37,8 +37,10 @@ const Sale = () => {
 
 
   const selectedChargeList = charge?.map((items) => (
-    <div key={items.purchasingPrice}>
-      <p>{items.purchasingPrice}</p>
+    <div key={items.sellingPrice
+    }>
+      <p>{items.sellingPrice
+}</p>
     </div>
   ));
 
@@ -48,7 +50,8 @@ const Sale = () => {
     );
 
     if (selectedServiceObj) {
-      setSelectedServiceCharge(selectedServiceObj.purchasingPrice);
+      setSelectedServiceCharge(selectedServiceObj.sellingPrice
+        );
     }
   };
 

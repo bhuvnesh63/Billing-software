@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
 import {  Link } from 'react-router-dom'
@@ -8,12 +8,49 @@ import { IoIosCreate } from 'react-icons/io';
 import "./sale.css";
 import axios from 'axios';
 
+
+
+const ItemsUrl = "http://localhost:4000/api/v1/items"
+
+
 const Sale = () => {
+  const [getitems, setGetItems] = useState(null);
   const [customerName, setCustomerName]= useState("");
   const [mobileNumber, setMobileNumber]= useState("");
-  const [items, setItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [pricePerItem, setPricePerItem] = useState('');
+  // const [itemName, setItemName]= useState("");
+  // const [pricePerItem, setPricePerItem]= useState("");
+  const [quantity, setQuantity]= useState("");
+  const [totalPrice, setTotalPrice]= useState("");
+  const [selectedServiceCharge, setSelectedServiceCharge] = useState('');
+  const [service, setService] = useState(null);
+  const [charge, setCharge] = useState([]);
+  const [get,setGet] = useState()
+
+
+  useEffect(() => {
+    axios.get(ItemsUrl).then((response) => {
+      setGetItems(response.data)
+      console.log(response,"list")
+    })
+  }, [getitems])
+
+
+  const selectedChargeList = charge?.map((items) => (
+    <div key={items.purchasingPrice}>
+      <p>{items.purchasingPrice}</p>
+    </div>
+  ));
+
+  const getServiceCharge = (selectedService) => {
+    const selectedServiceObj = getitems?.items?.find(
+      (items) => items.itemName === selectedService
+    );
+
+    if (selectedServiceObj) {
+      setSelectedServiceCharge(selectedServiceObj.purchasingPrice);
+    }
+  };
+
 
 
   const submitform = async (event) => {
@@ -22,8 +59,11 @@ const Sale = () => {
       await axios.post("http://localhost:4000/api/v1/saleorder/new", {
         "customerName": customerName,
         "mobileNumber": mobileNumber,
-        // "purchasingPrice": purchasingPrice,
-        // "stock": stock
+        "itemName":service,
+        "pricePerItem":selectedServiceCharge,
+        "quantity":quantity,
+        "totalPrice":totalPrice,
+      
       })
       // toast.success("Item Add Successfully");
       // navigate("/itemlist");
@@ -104,35 +144,56 @@ const Sale = () => {
            <label className="label">Item Name </label>
        
                 <Form.Select
-              //  value={gender} onChange={(e) => setGender(e.target.value)}
-              //    required
+                 onChange={(e) => {
+                  setService(e.target.value);
+                  getServiceCharge(e.target.value);
+                }}
+              
                  > 
                   <option>Choose</option>
-                  <option value="Male">Chips</option>
-                   <option value="Female">Kurkure</option>
+                  {getitems?.items?.map((items) => (
+                    
+                  <option key={items._id} 
+                  value={items.itemName}>{items.itemName}</option>
+
+                  ))}
 
                 </Form.Select>
 
            </Col>
            
-           <Col sm={2}>
-             <label className="label">Price per item </label>
+           {/* <Col sm={2}> */}
+
+            <div className='col-md-2 position-relative'>
+                <label className='label'>Price per item</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  value={selectedServiceCharge}
+                  readOnly
+                />
+                {selectedChargeList}
+            </div>
+
+
+             {/* <label className="label">Price per item </label>
            <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
-                /></Col>
+                  value={selectedServiceCharge}
+                />
+                {selectedChargeList} */}
+               
+                {/* </Col> */}
            
            <Col sm={2}> 
            <label className="label">Quantity </label>
            <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                required
                 /></Col>
            
            <Col sm={2}> 
@@ -140,9 +201,9 @@ const Sale = () => {
            <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
-                // required
+                value={totalPrice}
+                onChange={(e) => setTotalPrice(e.target.value)}
+                required
                 /></Col>
 
                 <div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
-import { Button, Container, Row,Col , Table } from 'react-bootstrap'
+import { Button, Container, Row, Col, Table } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
@@ -20,6 +20,7 @@ const GstSale = () => {
   const [selectedPrice, setSelectedPrice] = useState('');
   const [itemName, setItemName] = useState(null);
   const [price, setPrice] = useState([]);
+
   const [listName, setListName] = useState(null);
 
 
@@ -38,7 +39,7 @@ const GstSale = () => {
   useEffect(() => {
     axios.get(ItemsUrl).then((response) => {
       setGetItems(response.data)
-      console.log(response,"list")
+      console.log(response, "list")
     })
   }, [getitems])
 
@@ -51,10 +52,8 @@ const GstSale = () => {
 
 
   const selectedPriceList = price?.map((items) => (
-    <div key={items.sellingPrice
-    }>
-      <p>{items.sellingPrice
-}</p>
+    <div key={items.sellingPrice}>
+      <p>{items.sellingPrice}</p>
     </div>
   ));
 
@@ -65,7 +64,7 @@ const GstSale = () => {
 
     if (selectedItemObj) {
       setSelectedPrice(selectedItemObj.sellingPrice
-        );
+      );
     }
   };
 
@@ -250,30 +249,30 @@ const GstSale = () => {
 
 
               <Col sm={6}>
-           <label className="label">Item Name </label>
-       
+                <label className="label">Item Name </label>
+
                 <Form.Select
-                 onChange={(e) => {
-                  setItemName(e.target.value);
-                  getItemPrice(e.target.value);
-                }}
-              
-                 > 
+                  onChange={(e) => {
+                    setItemName(e.target.value);
+                    getItemPrice(e.target.value);
+                  }}
+
+                >
                   <option>Choose</option>
                   {getitems?.items?.map((items) => (
-                    
-                  <option key={items._id} 
-                  value={items.itemName}>{items.itemName}</option>
+
+                    <option key={items._id}
+                      value={items.itemName}>{items.itemName}</option>
 
                   ))}
 
                 </Form.Select>
 
-           </Col>
-           
-           {/* <Col sm={2}> */}
+              </Col>
 
-            <div className='col-md-2 position-relative'>
+              {/* <Col sm={2}> */}
+
+              <div className='col-md-2 position-relative'>
                 <label className='label'>Price per item</label>
                 <input
                   type='text'
@@ -282,48 +281,34 @@ const GstSale = () => {
                   readOnly
                 />
                 {selectedPriceList}
-            </div>
+              </div>
 
 
 
 
               <Col sm={2}>
-              <p className='head-quantity'  >Quantity</p>
-              <div className="Opretor d-flex" >
-              
-              <button
-                type="button"
-                className='decrease'
-                // onClick={() => {
-                //   if (itemQuantities[item.Item_Name] > 1) {
-                //     setItemQuantities((prevItemQuantities) => ({
-                //       ...prevItemQuantities,
-                //       [item.Item_Name]: prevItemQuantities[item.Item_Name] - 1
-                //     }));
-                //   }
-                // }}
-                
-              >
-                -
-              </button>
-              <p className='text-center'> 1
-                {/* {itemQuantities[item.Item_Name] || 1} */}
-              </p>
-              <button
-                type="button"
-                className='increase float-end'
-                // onClick={() => {
-                //   setItemQuantities((prevItemQuantities) => ({
-                //     ...prevItemQuantities,
-                //     [item.Item_Name]: (prevItemQuantities[item.Item_Name] || 1) + 1
-                //   }));
-                // }}
-           
-              >
-                +
-              </button>
-          
-            </div>
+                <p className='head-quantity'  >Quantity</p>
+                <div className="Opretor d-flex" >
+
+                  <button
+                    type="button"
+                    className='decrease'
+
+                  >
+                    -
+                  </button>
+                  <p className='quantity' > 1
+                    {/* {itemQuantities[item.Item_Name] || 1} */}
+                  </p>
+                  <button
+                    type="button"
+                    className='increase float-end'
+
+                  >
+                    +
+                  </button>
+
+                </div>
 
 
                 {/* <label className="label">Quantity </label>
@@ -332,7 +317,7 @@ const GstSale = () => {
                   class="form-control"
                
                 /> */}
-                </Col>
+              </Col>
 
 
               <Col sm={2}>
@@ -340,7 +325,7 @@ const GstSale = () => {
                 <input
                   type="text"
                   class="form-control"
-           
+
                 /></Col>
 
               <div>

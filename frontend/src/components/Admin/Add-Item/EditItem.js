@@ -37,10 +37,14 @@ const EditItem = () => {
       setStock(response.data.item.stock);
       setCgst(response.data.item.cgst);
       setSgst(response.data.item.sgst);
+      setCgstPerItem(response.data.item.cgstPerItem);
+      setSgstPerItem(response.data.item.sgstPerItem);
+      setPurchasingPrice(response.data.item.PurchasingPrice);
+
       calculateValues();
     });
   }, [params.id]);
-
+  console.log("deepanshu",specificItem)
   const submitform = async (event) => {
     event.preventDefault();
     try {
@@ -60,7 +64,7 @@ const EditItem = () => {
       console.log(error.response);
     }
   };
-
+// console.log("deepanshu",specificItem)
   return (
     <>
       <Layout />
@@ -124,15 +128,15 @@ const EditItem = () => {
               </div>
               <div className="col-md-4 position-relative">
                 <label className="label">CGST Per Item</label>
-                <input type="number" className="form-control" value={cgstPerItem} required />
+                <input type="number" className="form-control" value={cgstPerItem} onChange={(e) => setCgstPerItem(e.target.value)} required />
               </div>
               <div className="col-md-4 position-relative">
                 <label className="label">SGST Per item</label>
-                <input type="number" className="form-control" value={sgstPerItem} required />
+                <input type="number" className="form-control" value={sgstPerItem} onChange={(e) => setSgstPerItem(e.target.value)} required />
               </div>
               <div className="col-md-4 position-relative">
                 <label className="label">Purchase Price</label>
-                <input type="number" className="form-control" value={PurchasingPrice} required />
+                <input type="number" className="form-control" value={PurchasingPrice} onChange={(e) => setPurchasingPrice(e.target.value)} required />
               </div>
               <center>
                 <Button className="stu_btn" variant="success" type="submit" onClick={(event) => submitform(event)}>

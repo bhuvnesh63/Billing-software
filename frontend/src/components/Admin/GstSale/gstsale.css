@@ -19,10 +19,12 @@
     border: none;
 }
 
-/* .quantity{
-   
-    padding: 0px 20px 0px 20px;
-} */
+.quantity{
+    /* text-align: center !important; */
+    align-items: center !important;
+    /* margin-left: 35px; */
+    /* padding: 0px 15px 0px 15px; */
+}
 
 .increase{
     width: 30%;

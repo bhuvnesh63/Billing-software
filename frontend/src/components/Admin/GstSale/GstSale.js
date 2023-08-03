@@ -9,10 +9,9 @@ import "./gstsale.css"
 import ModalCamp from './ModalCamp';
 import axios from 'axios';
 
-
 const ItemsUrl = "http://localhost:4000/api/v1/items"
-const AccountUrl = "http://localhost:4000/api/v1/accounts"
 
+const AccountUrl = "http://localhost:4000/api/v1/accounts"
 
 const GstSale = () => {
 
@@ -34,9 +33,9 @@ const GstSale = () => {
   const [cgstPerItem, setCgstPerItem] = useState('');
   const [sgstPerItem, setSgstPerItem] = useState('');
   const [pricewithoutgst, setPricewithoutgst] = useState('');
-  const [totalGST, setTotalGST] = useState('');
-  
-
+  const [initialCgstPerItem, setInitialCgstPerItem] = useState('');
+  const [initialSgstPerItem, setInitialSgstPerItem] = useState('');
+  const [initialamountwithoutgst, setInitialAmountwithoutgst] = useState('');
 
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const GstSale = () => {
       setGetItems(response.data)
       console.log(response, "list")
     })
-  }, [getitems])
+  }, [])
 
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const GstSale = () => {
       setGetAccounts(response.data)
       console.log(response)
     })
-  }, [getaccounts])
+  }, [])
 
 
   const increment = () => {
@@ -65,17 +64,30 @@ const GstSale = () => {
     });
   }
 
+  const updatePriceWithQuantity = () => {
+    const totalPrice = selectedPrice * quantity;
+    setTotalPrice(totalPrice.toFixed(2));
 
+    const newCgstPerItem = initialCgstPerItem * quantity;
+    setCgstPerItem(newCgstPerItem.toFixed(2));
+
+    const newSgstPerItem = initialSgstPerItem * quantity;
+    setSgstPerItem(newSgstPerItem.toFixed(2));
+
+    const newAmountWithoutGst = initialamountwithoutgst * quantity;
+    setPricewithoutgst(newAmountWithoutGst.toFixed(2));
+  };
+
+  useEffect(() => {
+    updatePriceWithQuantity();
+  }, [quantity, selectedPrice]);
 
   const selectedPriceList = price?.map((items) => (
-     <div key={items._id}>
+    <div key={items._id}>
       <p>{items.sellingPrice}</p>
       <p>{items.cgstPerItem}</p>
       <p>{items.sgstPerItem}</p>
       <p>{items.pricewithoutgst}</p>
-      <p>{items.totalGST}</p>
-
-
     </div>
   ));
 
@@ -86,18 +98,14 @@ const GstSale = () => {
 
     if (selectedItemObj) {
       setSelectedPrice(selectedItemObj.sellingPrice);
+      setInitialCgstPerItem(selectedItemObj.cgstPerItem);
       setCgstPerItem(selectedItemObj.cgstPerItem);
+      setInitialSgstPerItem(selectedItemObj.sgstPerItem);
       setSgstPerItem(selectedItemObj.sgstPerItem);
+      setInitialAmountwithoutgst(selectedItemObj.pricewithoutgst);
       setPricewithoutgst(selectedItemObj.pricewithoutgst);
-      setTotalGST(selectedItemObj.totalGST);
-      
     }
   };
-
-
-
-
-
 
   const selectedList = namelist?.map((accounts) => (
     <div key={accounts._id}>
@@ -115,17 +123,62 @@ const GstSale = () => {
     );
 
     if (selectedItemObj) {
-      setname(selectedItemObj.name );
-      setPhoneNumber(selectedItemObj.phoneNumber );
-      setEmail(selectedItemObj.email );
-      setAddress(selectedItemObj.address );
-      setGstNumber(selectedItemObj.gstNumber );
-        
-       
+      setname(selectedItemObj.name);
+      setPhoneNumber(selectedItemObj.phoneNumber);
+      setEmail(selectedItemObj.email);
+      setAddress(selectedItemObj.address);
+      setGstNumber(selectedItemObj.gstNumber);
+
     }
   };
+  const submitform = async (event) => {
+    event.preventDefault();
+    try {
+
+      const saleOrderData = {
+        name: name,
+        phoneNumber: phoneNumber,
+        email: email,
+        address: address,
+        gstNumber: gstNumber,
+        Items: [
+          {
+            itemName: itemName,
+            pricePerItem: selectedPrice,
+            quantity: quantity.toString(),
+            totalPrice: parseFloat(totalPrice),
+            amountWithoutGST: parseFloat(pricewithoutgst),
+            cgstapplied: parseFloat(cgstPerItem),
+            sgstapplied: parseFloat(sgstPerItem),
+          },
+        ],
+      };
 
 
+      const response = await axios.post('http://localhost:4000/api/v1/gstorder/new', saleOrderData);
+
+      // console.log('Sale order data saved:', response.data);
+
+      setname('');
+      setEmail('');
+      setAddress('');
+      setGstNumber('');
+      setPhoneNumber('');
+      setItemName('');
+      setQuantity(1);
+      setTotalPrice('');
+      setSelectedPrice('');
+      setCgstPerItem('');
+      setSgstPerItem('');
+      setPricewithoutgst('');
+      setInitialCgstPerItem('');
+      setInitialSgstPerItem('');
+      setInitialAmountwithoutgst('');
+
+    } catch (error) {
+      console.log('Error saving sale order data:', error.response);
+    }
+  };
 
 
   return (
@@ -162,7 +215,6 @@ const GstSale = () => {
         </Row>
       </Container>
 
-
       <div className="form-div">
         <Container>
           <Row>
@@ -172,20 +224,18 @@ const GstSale = () => {
               <div class="col-md-4 position-relative">
                 <label class="label">Customer name</label>
                 <Form.Select
-                 onChange={(e) => {
-                  // setItemName(e.target.value);
-                  getList(e.target.value);
-                }}
+                  onChange={(e) => {
+                    // setItemName(e.target.value);
+                    getList(e.target.value);
+                  }}
                 >
                   <option>Choose</option>
                   {getaccounts?.accounts?.map((account) => (
-                  <option >{account.name}</option>
+                    <option >{account.name}</option>
                   ))}
-              
+
                 </Form.Select>
               </div>
-
-
 
               <div class="col-md-4 position-relative">
                 <label className="label">Name</label>
@@ -193,10 +243,8 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={name}
-                //   onChange={(e) => getList(e.target.value)}
-                // required
                 />
-                  {selectedList}
+                {selectedList}
               </div>
 
               <div class="col-md-4 position-relative">
@@ -205,11 +253,8 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={phoneNumber}
-                // onChange={(e) => getList(e.target.value)}
-                // required
-            
                 />
-                    {selectedList}
+
               </div>
 
               <div class="col-md-4 position-relative">
@@ -218,10 +263,9 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={email}
-                // onChange={(e) => getList(e.target.value)}
-                // required
+        
                 />
-                    {selectedList}
+
               </div>
 
               <div class="col-md-4 position-relative">
@@ -230,10 +274,8 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={address}
-                // onChange={(e) => getList(e.target.value)}
-                // required
                 />
-                    {selectedList}
+
               </div>
 
               <div class="col-md-4 mb-5 position-relative">
@@ -242,36 +284,14 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={gstNumber}
-                // onChange={(e) => getList(e.target.value)}
-                // required
+            
                 />
-                    {selectedList}
               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               <hr></hr>
 
               <h5>Product Details</h5>
 
-              <Col sm={2}>
+              <Col sm={2}>  
                 <label className="label">Item Name </label>
                 <Form.Select
                   onChange={(e) => {
@@ -284,7 +304,6 @@ const GstSale = () => {
 
                     <option key={items._id}
                       value={items.itemName}>{items.itemName}</option>
-
                   ))}
 
                 </Form.Select>
@@ -292,16 +311,15 @@ const GstSale = () => {
               </Col>
 
               {/* <Col sm={2}> */}
-
               <div className='col-md-2 position-relative'>
-                <label className='label'>Price per item</label>
+                <label className='label'>Amount without GST</label>
                 <input
                   type='text'
                   className='form-control'
-                  value={selectedPrice}
+                  value={pricewithoutgst}
                   readOnly
                 />
-                {selectedPriceList}
+
               </div>
 
               <div className='col-md-2 position-relative'>
@@ -312,7 +330,7 @@ const GstSale = () => {
                   value={cgstPerItem}
                   readOnly
                 />
-                {selectedPriceList}
+
               </div>
 
               <div className='col-md-2 position-relative'>
@@ -323,29 +341,27 @@ const GstSale = () => {
                   value={sgstPerItem}
                   readOnly
                 />
-                {selectedPriceList}
+
               </div>
 
               <div className='col-md-2 position-relative'>
-                <label className='label'>Amount without GST</label>
+                <label className='label'>Price per item</label>
                 <input
                   type='text'
                   className='form-control'
-                  value={pricewithoutgst}
+                  value={selectedPrice}
                   readOnly
                 />
-                {selectedPriceList}
+
               </div>
 
-              
-              <div className='col-md-2 position-relative'>
-                <label className='label'>Quantity</label>
+              <div className="col-md-2 position-relative">
+                <label className="label">Quantity</label>
                 <div className="cart-buttons">
-
                   <div className="quantity-buttons">
-                    <span onClick={decrement}>-</span>
-                    <span>{quantity}</span>
-                    <span onClick={increment}>+</span>
+                    <span className="increment-buttons" onClick={decrement}>-</span>
+                    <span className="increment-buttons">{quantity}</span>
+                    <span className="increment-buttons" onClick={increment}>+</span>
                   </div>
                 </div>
               </div>
@@ -359,11 +375,6 @@ const GstSale = () => {
                   onChange={(e) => setTotalPrice(e.target.value)}
                   required
                 /></Col>
-
-
-
-
-
               <div>
                 <Button
                   className="float-end"
@@ -373,7 +384,6 @@ const GstSale = () => {
                 >
                   Add more
                 </Button>
-
               </div>
 
 
@@ -382,7 +392,7 @@ const GstSale = () => {
                   className="stu_btn"
                   variant="success"
                   type="submit"
-                // onClick={(event) => submitform(event)} // Pass the event parameter
+                  // onClick={(event) => (event)} 
                 >
                   Submit
                 </Button>
@@ -391,11 +401,6 @@ const GstSale = () => {
           </Row>
         </Container>
       </div>
-
-
-
-
-
     </>
   )
 }

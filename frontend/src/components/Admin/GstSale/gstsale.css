@@ -20,7 +20,10 @@
 }
 
 .quantity{
-    text-align: center;
+    /* text-align: center !important; */
+    align-items: center !important;
+    /* margin-left: 35px; */
+    /* padding: 0px 15px 0px 15px; */
 }
 
 .increase{

@@ -30,6 +30,12 @@ const itemSchema = new mongoose.Schema({
     PurchasingPrice: {
         type: Number,
     },
+    totalGST: {
+        type: Number,
+    },
+    pricewithoutgst: {
+        type: Number,
+    },
     // image: {
     //     type:String
     //   },

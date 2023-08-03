@@ -29,6 +29,18 @@ const OrderSchema = new mongoose.Schema({
       totalPrice: {
         type: Number,
       },
+      amountWithoutGST: {
+        type: Number,
+      },
+      cgstapplied: {
+        type: Number,
+      },
+      sgstapplied: {
+        type: Number,
+      },
+      pricePerItem: {
+        type: Number,
+      },
     },
   ],
 });

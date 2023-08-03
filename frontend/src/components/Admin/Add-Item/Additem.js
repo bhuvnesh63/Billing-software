@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Form, Link, useNavigate } from 'react-router-dom'
@@ -9,25 +9,44 @@ import './additem.css';
 
 const Additem = () => {
 
+
   const [itemName, setitemName] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [totalamount, setTotalamount] = useState("");
   const [stock, setStock] = useState("");
   const [cgst, setCgst] = useState("");
   const [sgst, setSgst] = useState("");
+  const [PurchasingPrice, setPurchasingPrice] = useState("");
   const [cgstPerItem, setCgstPerItem] = useState("");
   const [sgstPerItem, setSgstPerItem] = useState("");
-  const [PurchasingPrice, setPurchasingPrice] = useState("");
+  const [totalGST, setTotalGST] = useState("");
+  const [pricewithoutgst, setPricewithoutgst] = useState("");
   const navigate = useNavigate();
 
   const calculateValues = () => {
+    
     setCgstPerItem((cgst / stock).toFixed(2));
     setSgstPerItem((sgst / stock).toFixed(2));
     setPurchasingPrice((totalamount / stock).toFixed(2));
+
+    const totalGSTAmount = (parseFloat(cgstPerItem) + parseFloat(sgstPerItem)).toFixed(2);
+    setTotalGST(totalGSTAmount);
+
+    const pricewithoutgst = (parseFloat(sellingPrice) - parseFloat(totalGST)).toFixed(2);
+    setPricewithoutgst(pricewithoutgst);
+
   };
+
+  useEffect(() => {
+    calculateValues();
+  }, [cgstPerItem, sellingPrice, sgstPerItem, totalGST]);
+
+
   const handleCalculate = () => {
     calculateValues();
   };
+
+
   const submitform = async (event) => {
     event.preventDefault();
     try {
@@ -41,6 +60,8 @@ const Additem = () => {
         "cgstPerItem": cgstPerItem,
         "sgstPerItem": sgstPerItem,
         "PurchasingPrice": PurchasingPrice,
+        "totalGST": totalGST,
+        "pricewithoutgst": pricewithoutgst,
 
       })
       // toast.success("Item Add Successfully");
@@ -113,19 +134,6 @@ const Additem = () => {
                   required
                 />
               </div>
-
-              <div class="col-md-4 position-relative">
-                <label className="label">Total Amount</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  value={totalamount}
-                  onChange={(e) => setTotalamount(e.target.value)}
-                  required
-                />
-              </div>
-
-
               <div class="col-md-4 position-relative">
                 <label className="label">Stock</label>
                 <input
@@ -156,6 +164,21 @@ const Additem = () => {
                   required
                 />
               </div>
+
+
+              <div class="col-md-4 position-relative">
+                <label className="label">Total Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={totalamount}
+                  onChange={(e) => setTotalamount(e.target.value)}
+                  required
+                />
+              </div>
+
+
+
               <div class="col-md-4 position-relative">
                 <label className="label">CGST Per Item</label>
                 <input
@@ -174,6 +197,15 @@ const Additem = () => {
                   required
                 />
               </div>
+              <div class="col-md-4 position-relative">
+                <label className="label">Total GST</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={totalGST}
+                  required
+                />
+              </div>
 
               <div class="col-md-4 position-relative">
                 <label className="label">Purchase Price</label>
@@ -181,6 +213,16 @@ const Additem = () => {
                   type="number"
                   class="form-control"
                   value={PurchasingPrice}
+                  required
+                />
+              </div>
+
+              <div class="col-md-4 position-relative">
+                <label className="label">Price without GST</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  value={pricewithoutgst}
                   required
                 />
               </div>

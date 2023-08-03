@@ -130,6 +130,7 @@ const Sale = () => {
     }
   };
 
+
   return (
     <>
       <Layout />

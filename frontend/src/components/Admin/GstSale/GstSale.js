@@ -15,24 +15,27 @@ const AccountUrl = "http://localhost:4000/api/v1/accounts"
 
 
 const GstSale = () => {
+
+
   const [getitems, setGetItems] = useState(null);
   const [getaccounts, setGetAccounts] = useState(null);
-  const [selectedPrice, setSelectedPrice] = useState('');
   const [itemName, setItemName] = useState(null);
   const [price, setPrice] = useState([]);
-
   const [listName, setListName] = useState(null);
-
-
   const [name, setname] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState([]);
   const [email, setEmail] = useState([]);
   const [address, setAddress] = useState([]);
   const [gstNumber, setGstNumber] = useState([]);
   const [namelist, setNamelist] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState('');
+  const [cgstPerItem, setCgstPerItem] = useState('');
+  const [sgstPerItem, setSgstPerItem] = useState('');
+  const [pricewithoutgst, setPricewithoutgst] = useState('');
+  const [totalGST, setTotalGST] = useState('');
   
-
-
 
 
 
@@ -43,6 +46,7 @@ const GstSale = () => {
     })
   }, [getitems])
 
+
   useEffect(() => {
     axios.get(AccountUrl).then((response) => {
       setGetAccounts(response.data)
@@ -51,9 +55,27 @@ const GstSale = () => {
   }, [getaccounts])
 
 
+  const increment = () => {
+    setQuantity((prevState) => prevState + 1);
+  }
+  const decrement = () => {
+    setQuantity((prevState) => {
+      if (prevState === 1) return 1;
+      return prevState - 1;
+    });
+  }
+
+
+
   const selectedPriceList = price?.map((items) => (
-    <div key={items.sellingPrice}>
+     <div key={items._id}>
       <p>{items.sellingPrice}</p>
+      <p>{items.cgstPerItem}</p>
+      <p>{items.sgstPerItem}</p>
+      <p>{items.pricewithoutgst}</p>
+      <p>{items.totalGST}</p>
+
+
     </div>
   ));
 
@@ -63,8 +85,12 @@ const GstSale = () => {
     );
 
     if (selectedItemObj) {
-      setSelectedPrice(selectedItemObj.sellingPrice
-      );
+      setSelectedPrice(selectedItemObj.sellingPrice);
+      setCgstPerItem(selectedItemObj.cgstPerItem);
+      setSgstPerItem(selectedItemObj.sgstPerItem);
+      setPricewithoutgst(selectedItemObj.pricewithoutgst);
+      setTotalGST(selectedItemObj.totalGST);
+      
     }
   };
 
@@ -245,18 +271,13 @@ const GstSale = () => {
 
               <h5>Product Details</h5>
 
-
-
-
-              <Col sm={6}>
+              <Col sm={2}>
                 <label className="label">Item Name </label>
-
                 <Form.Select
                   onChange={(e) => {
                     setItemName(e.target.value);
                     getItemPrice(e.target.value);
                   }}
-
                 >
                   <option>Choose</option>
                   {getitems?.items?.map((items) => (
@@ -283,50 +304,65 @@ const GstSale = () => {
                 {selectedPriceList}
               </div>
 
-
-
-
-              <Col sm={2}>
-                <p className='head-quantity'  >Quantity</p>
-                <div className="Opretor d-flex" >
-
-                  <button
-                    type="button"
-                    className='decrease'
-
-                  >
-                    -
-                  </button>
-                  <p className='quantity' > 1
-                    {/* {itemQuantities[item.Item_Name] || 1} */}
-                  </p>
-                  <button
-                    type="button"
-                    className='increase float-end'
-
-                  >
-                    +
-                  </button>
-
-                </div>
-
-
-                {/* <label className="label">Quantity </label>
+              <div className='col-md-2 position-relative'>
+                <label className='label'>CGST Applied</label>
                 <input
-                  type="text"
-                  class="form-control"
-               
-                /> */}
-              </Col>
+                  type='text'
+                  className='form-control'
+                  value={cgstPerItem}
+                  readOnly
+                />
+                {selectedPriceList}
+              </div>
 
+              <div className='col-md-2 position-relative'>
+                <label className='label'>SGST Applied</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  value={sgstPerItem}
+                  readOnly
+                />
+                {selectedPriceList}
+              </div>
+
+              <div className='col-md-2 position-relative'>
+                <label className='label'>Amount without GST</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  value={pricewithoutgst}
+                  readOnly
+                />
+                {selectedPriceList}
+              </div>
+
+              
+              <div className='col-md-2 position-relative'>
+                <label className='label'>Quantity</label>
+                <div className="cart-buttons">
+
+                  <div className="quantity-buttons">
+                    <span onClick={decrement}>-</span>
+                    <span>{quantity}</span>
+                    <span onClick={increment}>+</span>
+                  </div>
+                </div>
+              </div>
 
               <Col sm={2}>
                 <label className="label">Total Price </label>
                 <input
                   type="text"
                   class="form-control"
-
+                  value={totalPrice}
+                  onChange={(e) => setTotalPrice(e.target.value)}
+                  required
                 /></Col>
+
+
+
+
 
               <div>
                 <Button

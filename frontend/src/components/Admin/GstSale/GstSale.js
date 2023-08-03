@@ -11,15 +11,26 @@ import axios from 'axios';
 
 
 const ItemsUrl = "http://localhost:4000/api/v1/items"
-
+const AccountUrl = "http://localhost:4000/api/v1/accounts"
 
 
 const GstSale = () => {
   const [getitems, setGetItems] = useState(null);
+  const [getaccounts, setGetAccounts] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState('');
   const [itemName, setItemName] = useState(null);
   const [price, setPrice] = useState([]);
 
+  const [listName, setListName] = useState(null);
+
+
+  const [name, setname] = useState([]);
+  const [phoneNumber, setPhoneNumber] = useState([]);
+  const [email, setEmail] = useState([]);
+  const [address, setAddress] = useState([]);
+  const [gstNumber, setGstNumber] = useState([]);
+  const [namelist, setNamelist] = useState([]);
+  
 
 
 
@@ -31,6 +42,13 @@ const GstSale = () => {
       console.log(response, "list")
     })
   }, [getitems])
+
+  useEffect(() => {
+    axios.get(AccountUrl).then((response) => {
+      setGetAccounts(response.data)
+      console.log(response)
+    })
+  }, [getaccounts])
 
 
   const selectedPriceList = price?.map((items) => (
@@ -47,6 +65,37 @@ const GstSale = () => {
     if (selectedItemObj) {
       setSelectedPrice(selectedItemObj.sellingPrice
       );
+    }
+  };
+
+
+
+
+
+
+  const selectedList = namelist?.map((accounts) => (
+    <div key={accounts._id}>
+      <p>{accounts.name}</p>
+      <p>{accounts.phoneNumber}</p>
+      <p>{accounts.email}</p>
+      <p>{accounts.address}</p>
+      <p>{accounts.gstNumber}</p>
+    </div>
+  ));
+
+  const getList = (selectedItemName) => {
+    const selectedItemObj = getaccounts?.accounts?.find(
+      (account) => account.name === selectedItemName,
+    );
+
+    if (selectedItemObj) {
+      setname(selectedItemObj.name );
+      setPhoneNumber(selectedItemObj.phoneNumber );
+      setEmail(selectedItemObj.email );
+      setAddress(selectedItemObj.address );
+      setGstNumber(selectedItemObj.gstNumber );
+        
+       
     }
   };
 
@@ -97,23 +146,31 @@ const GstSale = () => {
               <div class="col-md-4 position-relative">
                 <label class="label">Customer name</label>
                 <Form.Select
-                //  value={gender} onChange={(e) => setGender(e.target.value)}
-                //    required
+                 onChange={(e) => {
+                  // setItemName(e.target.value);
+                  getList(e.target.value);
+                }}
                 >
                   <option>Choose</option>
-                  <option value="Male">Rr infosoft</option>
-                  <option value="Female">chetu</option>
+                  {getaccounts?.accounts?.map((account) => (
+                  <option >{account.name}</option>
+                  ))}
+              
                 </Form.Select>
               </div>
+
+
+
               <div class="col-md-4 position-relative">
                 <label className="label">Name</label>
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Name}
-                // onChange={(e) => setService_Name(e.target.value)}
+                  value={name}
+                //   onChange={(e) => getList(e.target.value)}
                 // required
                 />
+                  {selectedList}
               </div>
 
               <div class="col-md-4 position-relative">
@@ -121,10 +178,12 @@ const GstSale = () => {
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Charge}
-                // onChange={(e) => setService_Charge(e.target.value)}
+                  value={phoneNumber}
+                // onChange={(e) => getList(e.target.value)}
                 // required
+            
                 />
+                    {selectedList}
               </div>
 
               <div class="col-md-4 position-relative">
@@ -132,10 +191,11 @@ const GstSale = () => {
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Charge}
-                // onChange={(e) => setService_Charge(e.target.value)}
+                  value={email}
+                // onChange={(e) => getList(e.target.value)}
                 // required
                 />
+                    {selectedList}
               </div>
 
               <div class="col-md-4 position-relative">
@@ -143,10 +203,11 @@ const GstSale = () => {
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Charge}
-                // onChange={(e) => setService_Charge(e.target.value)}
+                  value={address}
+                // onChange={(e) => getList(e.target.value)}
                 // required
                 />
+                    {selectedList}
               </div>
 
               <div class="col-md-4 mb-5 position-relative">
@@ -154,11 +215,30 @@ const GstSale = () => {
                 <input
                   type="text"
                   class="form-control"
-                // value={service_Charge}
-                // onChange={(e) => setService_Charge(e.target.value)}
+                  value={gstNumber}
+                // onChange={(e) => getList(e.target.value)}
                 // required
                 />
+                    {selectedList}
               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
               <hr></hr>

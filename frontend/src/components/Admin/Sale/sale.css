@@ -26,7 +26,7 @@
   margin-right: 10px;
   height: 40px;
 }
-span{
+.increment-buttons{
   font-size: 18px;
   display: flex;
   width: 40px;

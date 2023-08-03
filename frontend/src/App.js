@@ -16,6 +16,7 @@ import AddAccountList from './components/Admin/GstSale/AddAccountList';
 import GstSaleList from './components/Admin/GstSale/GstSaleList';
 import EditItem from './components/Admin/Add-Item/EditItem';
 import EditAccount from './components/Admin/GstSale/EditAccount';
+import EditSale from './components/Admin/Sale/EditSale';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path='/' element={<Sidebar><Dashboard /></Sidebar>} />
         <Route path='/sale' element={<Sidebar><Sale /></Sidebar>} />
         <Route path='/salelist' element={<Sidebar><SaleList /></Sidebar>} />
+        <Route path='/editsale/:id' element={<Sidebar><EditSale /></Sidebar>} />
         <Route path='/additem' element={<Sidebar><Additem /></Sidebar>} />
         <Route path='/edititem/:id' element={<Sidebar><EditItem /></Sidebar>} />
         <Route path='/itemlist' element={<Sidebar><Itemlist /></Sidebar>} />

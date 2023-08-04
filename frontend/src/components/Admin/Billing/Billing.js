@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import "./billing.css"
 import axios from 'axios'
 
 
-
-
-const SaleUrl = "http://localhost:4000/api/v1/saleorders"
-
-
 const Billing = () => {
-
-  const [getsale, setSale] = useState(null);
+  const params = useParams();
+  const [saleOrder, setSaleOrder] = useState(null);
 
   useEffect(() => {
-    axios.get(SaleUrl).then((response) => {
-      setSale(response.data)
-      console.log(response, "sale-list")
-    })
-  }, [getsale])
+    axios.get(`http://localhost:4000/api/v1/saleorder/${params.id}`)
+      .then((response) => {
+        setSaleOrder(response.data.sale); 
+      })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+  }, [params.id]);
+
+  if (!saleOrder) return <div>Loading...</div>;
+
+  const { customerName, mobileNumber, Items } = saleOrder;
 
 
   return (
@@ -61,30 +63,30 @@ const Billing = () => {
       </Container>
 
 
-      {getsale?.saleorders?.map((item) => (
+      {/* { sale.map((item) => ( */}
         <>
 
-      <div className="form-div">
-
-      
-        <h5 className='gst' >GSTIN : 09AAZFG2944CIZ2 </h5>
-        <div className='text-center'>
-          <h4>TAX INVOICE</h4>
-          <h3>M/S V K ENTERPRISES</h3>
-          <p>149, 0, Hanuman Nagar Near S.s.m School Linepar Majhola <br />
-            Pachimi, Moradabad, Moradabad, Uttar Pradesh, 244001<br />
-
-          </p>
-        </div>
+          <div className="form-div">
 
 
-        <Container>
+            <h5 className='gst' >GSTIN : 09AAZFG2944CIZ2 </h5>
+            <div className='text-center'>
+              <h4>TAX INVOICE</h4>
+              <h3>M/S V K ENTERPRISES</h3>
+              <p>149, 0, Hanuman Nagar Near S.s.m School Linepar Majhola <br />
+                Pachimi, Moradabad, Moradabad, Uttar Pradesh, 244001<br />
 
-       
-          <Row>
-           
-         
-              
+              </p>
+            </div>
+
+
+            <Container>
+
+
+              <Row>
+
+
+
 
                 <Col sm={6}>
 
@@ -114,11 +116,11 @@ const Billing = () => {
 
                   <div className='billing-border'>
                     <p className='text-bold' >Billed to :</p>
-                    <p>Customer Name : <span>{item.customerName}</span></p>
-                    <p>Mobile .No : <span>{item.mobileNumber}</span></p>
-                    {/* <p>Amroha Gate Near Fruit Mandi Moradabad</p> */}
+                    <p>Customer Name : <span>{customerName}</span></p>
+                    <p>Mobile .No : <span>{mobileNumber}</span></p>
+                    <p>Amroha Gate Near Fruit Mandi Moradabad</p>
                     <p className='mb-5'> GSTIN/UIN : 1254789632145 </p>
-                    <br/>
+                    <br />
 
                   </div>
 
@@ -129,7 +131,8 @@ const Billing = () => {
 
                   <div className='bill-border'>
                     <p className='text-bold' >Shipped to :</p>
-                    <p>Iqbal Brothers</p>
+                    <p>Customer Name : <span>{customerName}</span></p>
+                    <p>Mobile .No : <span>{mobileNumber}</span></p>
                     <p>Amroha Gate Near Fruit Mandi Moradabad</p>
 
                     <p className='mb-5'> GSTIN/UIN : 1254789632145 </p>
@@ -155,33 +158,33 @@ const Billing = () => {
                       </tr>
                     </thead>
 
-                   
-                    <tbody>
-                    
-                  <tr>
 
-                    {item.Items.map((item) => (
-                              <React.Fragment key={item._id}>
-                                <td>{item.itemName}</td>
-                                <td>{item.amountWithoutGST}</td>
-                                <td>{item.cgstapplied}</td>
-                                <td>{item.sgstapplied}</td>
-                                <td>{item.pricePerItem}</td>
-                                <td>{item.quantity}</td>
-                                <td>{item.totalPrice}</td>
-                              </React.Fragment>
-                          ))}
-                           
-                        
-                           </tr>
+                    <tbody>
+
+                      <tr>
+
+                        {Items?.map((item) => (
+                          <React.Fragment key={item._id}>
+                            <td>{item.itemName}</td>
+                            <td>{item.amountWithoutGST}</td>
+                            <td>{item.cgstapplied}</td>
+                            <td>{item.sgstapplied}</td>
+                            <td>{item.pricePerItem}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.totalPrice}</td>
+                          </React.Fragment>
+                        ))}
+
+
+                      </tr>
                     </tbody>
-                   
+
 
 
                   </table>
                   <div className='total-bill'>
                     <p >Grand Total <span className='float-end'>826.00</span></p></div>
-                      
+
                 </Table>
 
                 <div className='bank-details'>
@@ -202,19 +205,19 @@ const Billing = () => {
 
                 </div>
 
-                
-            
-          </Row>
-        </Container>
-       
-        
-      </div>
-       </>
-       ))}
 
-       <br/> <br/>
-   
-     
+
+              </Row>
+            </Container>
+
+
+          </div>
+        </>
+       {/* ))}  */}
+
+      <br /> <br />
+
+
 
     </>
   )

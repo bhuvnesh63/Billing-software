@@ -20,7 +20,10 @@
 }
 
 .quantity{
-    text-align: center;
+    /* text-align: center !important; */
+    align-items: center !important;
+    /* margin-left: 35px; */
+    /* padding: 0px 15px 0px 15px; */
 }
 
 .increase{
@@ -30,3 +33,28 @@
 
 
 }
+.quantity-buttons{
+    display: flex;
+    width: fit-content;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
+    height: 40px;
+  }
+  .increment-buttons{
+    font-size: 18px;
+    display: flex;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b6b6b;
+    &:nth-child(1){
+        border-right: 2px solid rgba(0, 0, 0, 0.2);
+    }
+    &:nth-child(2){
+        width: 60px;
+    }
+    &:nth-child(3){
+        border-left: 2px solid rgba(0, 0, 0, 0.2);
+    }
+  }

@@ -1,76 +1,140 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../Header/Layout';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
+import { AiFillDashboard} from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
-import "./sale.css";
+import './sale.css';
 import axios from 'axios';
 
-const ItemsUrl = "http://localhost:4000/api/v1/items";
+const ItemsUrl = 'http://localhost:4000/api/v1/items';
+const SaleOrderUrl = 'http://localhost:4000/api/v1/saleorder/new'; 
+
 
 const Sale = () => {
   const [getitems, setGetItems] = useState(null);
-  const [customerName, setCustomerName] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [items, setItems] = useState([
-    {
-      itemName: "",
-      pricePerItem: "",
-      quantity: "",
-      totalPrice: "",
-    },
-  ]);
-  const [service, setService] = useState(null);
-  const [selectedServiceCharge, setSelectedServiceCharge] = useState('');
-  const navigate = useNavigate();
+  const [customerName, setCustomerName] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [itemName, setItemName] = useState('');
+  const [quantity, setQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState('');
+  const [selectedPrice, setSelectedPrice] = useState('');
+  const [cgstPerItem, setCgstPerItem] = useState('');
+  const [sgstPerItem, setSgstPerItem] = useState('');
+  const [pricewithoutgst, setPricewithoutgst] = useState('');
+  const [initialCgstPerItem, setInitialCgstPerItem] = useState('');
+  const [initialSgstPerItem, setInitialSgstPerItem] = useState('');
+  const [initialamountwithoutgst, setInitialAmountwithoutgst] = useState('');
+
+  const [totalGST, setTotalGST] = useState('');
 
   useEffect(() => {
     axios.get(ItemsUrl).then((response) => {
       setGetItems(response.data);
-      console.log(response, "list");
+      console.log(response, 'list');
     });
-  }, [getitems]);
+  }, []);
 
-  const selectedChargeList = getitems?.items?.map((item) => (
-    <div key={item.sellingPrice}>
-      <p>{item.sellingPrice}</p>
-    </div>
-  ));
-
-  const getServiceCharge = (selectedService) => {
-    const selectedServiceObj = getitems?.items?.find(
-      (item) => item.itemName === selectedService
-    );
-
-    if (selectedServiceObj) {
-      setSelectedServiceCharge(selectedServiceObj.sellingPrice);
-    }
+  const increment = () => {
+    setQuantity((prevState) => prevState + 1);
   };
 
-  const addMoreFields = () => {
-    setItems([...items, { itemName: "", pricePerItem: "", quantity: "", totalPrice: "" }]);
+  const decrement = () => {
+    setQuantity((prevState) => {
+      if (prevState === 1) return 1;
+      return prevState - 1;
+    });
+  };
+
+
+
+  const updatePriceWithQuantity = () => {
+    const totalPrice = selectedPrice * quantity;
+    setTotalPrice(totalPrice.toFixed(2));
+  
+
+    const newCgstPerItem = initialCgstPerItem * quantity;
+    setCgstPerItem(newCgstPerItem.toFixed(2));
+
+    const newSgstPerItem = initialSgstPerItem * quantity;
+    setSgstPerItem(newSgstPerItem.toFixed(2));
+
+    const newAmountWithoutGst = initialamountwithoutgst * quantity;
+    setPricewithoutgst(newAmountWithoutGst.toFixed(2));
+  
+
+
+  };
+
+  useEffect(() => {
+    updatePriceWithQuantity();
+  }, [quantity, selectedPrice]);
+
+
+  const getItemPrice = (selectedItemName) => {
+    const selectedItemObj = getitems?.items?.find((items) => items.itemName === selectedItemName);
+
+    if (selectedItemObj) {
+      setSelectedPrice(selectedItemObj.sellingPrice);
+      setInitialCgstPerItem(selectedItemObj.cgstPerItem); 
+      setCgstPerItem(selectedItemObj.cgstPerItem); 
+      setInitialSgstPerItem(selectedItemObj.sgstPerItem); 
+      setSgstPerItem(selectedItemObj.sgstPerItem);
+      setPricewithoutgst(selectedItemObj.pricewithoutgst);
+      setInitialAmountwithoutgst(selectedItemObj.pricewithoutgst); 
+      setTotalGST(selectedItemObj.totalGST);
+    }
   };
 
   const submitform = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/v1/saleorder/new", {
+
+      const saleOrderData = {
         customerName: customerName,
         mobileNumber: mobileNumber,
-        items: items,
-      });
-      navigate("/salelist");
+        Items: [
+          {
+            itemName: itemName,
+            pricePerItem: selectedPrice,
+            quantity: quantity.toString(),
+            totalPrice: parseFloat(totalPrice),
+            amountWithoutGST: parseFloat(pricewithoutgst),
+            cgstapplied: parseFloat(cgstPerItem),
+            sgstapplied: parseFloat(sgstPerItem),
+          },
+        ],
+      };
+
+  
+      const response = await axios.post(SaleOrderUrl, saleOrderData);
+      
+      console.log('Sale order data saved:', response.data);
+
+      setCustomerName('');
+      setMobileNumber('');
+      setItemName('');
+      setQuantity(1);
+      setTotalPrice('');
+      setSelectedPrice('');
+      setCgstPerItem('');
+      setSgstPerItem('');
+      setPricewithoutgst('');
+      setInitialCgstPerItem('');
+      setInitialSgstPerItem('');
+      setInitialAmountwithoutgst('');
+
     } catch (error) {
-      console.log(error.response);
+      console.log('Error saving sale order data:', error.response);
     }
   };
+
 
   return (
     <>
       <Layout />
-      <Container className='mt-4'>
+      <Container className="mt-4">
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -82,6 +146,7 @@ const Sale = () => {
             </tr>
           </thead>
         </Table>
+
         <Row>
           <Table striped bordered hover>
             <thead>
@@ -98,6 +163,7 @@ const Sale = () => {
           </Table>
         </Row>
       </Container>
+
       <div className="form-div">
         <Container>
           <Row>
@@ -112,6 +178,7 @@ const Sale = () => {
                   required
                 />
               </div>
+
               <div className="col-md-4 mb-5 position-relative">
                 <label className="label">Mobile No</label>
                 <input
@@ -122,84 +189,108 @@ const Sale = () => {
                   required
                 />
               </div>
-              <hr />
+
+              <hr></hr>
+
               <h5>Product Details</h5>
-              {items.map((item, index) => (
-                <React.Fragment key={index}>
-                  <Col sm={6}>
-                    <label className="label">Item Name</label>
-                    <Form.Select
-                      onChange={(e) => {
-                        const selectedItem = getitems?.items.find((item) => item.itemName === e.target.value);
-                        getServiceCharge(e.target.value);
-                        setItems((prevItems) => {
-                          const newItems = [...prevItems];
-                          newItems[index].itemName = e.target.value;
-                          newItems[index].pricePerItem = selectedItem?.sellingPrice || "";
-                          newItems[index].totalPrice = (parseFloat(selectedItem?.sellingPrice) * parseFloat(newItems[index].quantity)).toFixed(2) || "";
-                          return newItems;
-                        });
-                      }}
-                    >
-                      <option>Choose</option>
-                      {getitems?.items?.map((item) => (
-                        <option key={item._id} value={item.itemName}>{item.itemName}</option>
-                      ))}
-                    </Form.Select>
-                  </Col>
-                  <Col sm={2}>
-                    <label className="label">Price per item</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={item.pricePerItem}
-                      readOnly
-                    />
-                  </Col>
-                  <Col sm={2}>
-                    <label className="label">Quantity</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={item.quantity}
-                      onChange={(e) => {
-                        setItems((prevItems) => {
-                          const newItems = [...prevItems];
-                          newItems[index].quantity = e.target.value;
-                          newItems[index].totalPrice = (parseFloat(newItems[index].pricePerItem) * parseFloat(e.target.value)).toFixed(2) || "";
-                          return newItems;
-                        });
-                      }}
-                      required
-                    />
-                  </Col>
-                  <Col sm={2}>
-                    <label className="label">Total Price</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={item.totalPrice}
-                      // readOnly
-                    />
-                  </Col>
-                </React.Fragment>
-              ))}
-              <center>
+
+              <Col sm={2}>
+                <label className="label">Item Name</label>
+
+                <Form.Select onChange={(e) => {
+                  setItemName(e.target.value);
+                  getItemPrice(e.target.value);
+                }}
+                >
+                  <option>Choose</option>
+                  {getitems?.items?.map((items) => (
+                    <option key={items._id} value={items.itemName}>{items.itemName}</option>
+                  ))}
+                </Form.Select>
+
+              </Col>
+
+              <div className="col-md-2 position-relative">
+                <label className="label">Amount without GST</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={pricewithoutgst}
+                  readOnly
+                />
+              </div>
+
+              <div className="col-md-2 position-relative">
+                <label className="label">CGST Applied</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={cgstPerItem}
+                  readOnly
+                />
+              </div>
+
+              <div className="col-md-2 position-relative">
+                <label className="label">SGST Applied</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={sgstPerItem}
+                  readOnly
+                />
+              </div>
+
+              <div className="col-md-2 position-relative">
+                <label className="label">Price per item</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={selectedPrice}
+                  readOnly
+                />
+              </div>
+
+              <div className="col-md-2 position-relative">
+                <label className="label">Quantity</label>
+                <div className="cart-buttons">
+                  <div className="quantity-buttons">
+                    <span className="increment-buttons" onClick={decrement}>-</span>
+                    <span className="increment-buttons">{quantity}</span>
+                    <span className="increment-buttons" onClick={increment}>+</span>
+                  </div>
+                </div>
+              </div>
+
+              <Col sm={2}>
+                <label className="label">Total Price</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={totalPrice}
+                  onChange={(e) => setTotalPrice(e.target.value)}
+                  required
+                />
+              </Col>
+
+            
+              <div>
                 <Button
                   className="float-end"
                   variant="success"
-                  type="button"
-                  onClick={addMoreFields}
+                  type="submit"
+                // onClick={(event) => submitform(event)} // Pass the event parameter
                 >
                   Add more
                 </Button>
-              </center>
+
+              </div>
+
               <center>
                 <Button
                   className="stu_btn"
                   variant="success"
                   type="submit"
-                  onClick={submitform}
+                  onClick={(event) => submitform(event)}
                 >
                   Submit
                 </Button>

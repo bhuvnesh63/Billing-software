@@ -81,7 +81,10 @@ const SaleList = () => {
 
                     <th>Customer Name</th>
                     <th>Mobile No</th>
-                    <th>Stock</th> 
+                    <th>Item Name</th>
+                    <th>Amount without GST</th>
+                    <th>CGST Applied</th>
+                    <th>SGST Applied</th> 
                     <th>Price per item</th>
                     <th>Quantity</th>
                     <th>Total price</th>
@@ -93,31 +96,34 @@ const SaleList = () => {
                 </thead>
                 <tbody>
 
-                  {/* {get?.ser?.map((items) => ( */}
-                    <tr>
-                        <td>Depanshu</td>
-                        <td>8796541235</td>
-                        <td>item</td>
-                        <td>100</td>
-                        <td>5</td>
-                        <td>500</td>
-                        
-                       
-                      {/* <td>{items.Service_Name}</td>
-                      <td>{items.Service_Charge}</td> */}
-                  
+                {getsale.saleorders.map((item) => (
+                    <tr key={item._id}>
+                      <td>{item.customerName}</td>
+                      <td>{item.mobileNumber}</td>
+                      {item.Items.map((item) => (
+                        <React.Fragment key={item._id}>
+                          <td>{item.itemName}</td>
+                          <td>{item.amountWithoutGST}</td>
+                          <td>{item.cgstapplied}</td>
+                          <td>{item.sgstapplied}</td>
+                          <td>{item.pricePerItem}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.totalPrice}</td>
+                        </React.Fragment>
+                      ))}
 
+                
                       <td>
-                        {/* <Link to={`/serviceEdit/${items._id}`}> */}
+                        <Link to={`/editsale/${item._id}`}>
                         <Button className='table-btn'
                          variant="light" >
                           &#9998;Edit</Button> 
-                          {/* </Link> */}
+                          </Link>
                           </td>
 
                       <td>
                         <Button className='table-btn' variant="light" 
-                    //   onClick={(e) => { deleteData(items._id) }}
+                      onClick={(e) => { deleteData(item._id) }}
                        value={"Delete"} >
                            <span className='delete-icon'>&#x2717;</span>Delete
                        </Button>
@@ -126,7 +132,7 @@ const SaleList = () => {
                     </tr>
 
 
-                  {/* ))} */}
+                   ))} 
 
 
 

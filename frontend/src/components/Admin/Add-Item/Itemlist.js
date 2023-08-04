@@ -84,6 +84,8 @@ const Itemlist = ({ items }) => {
                     <th>CGST Amount/pcs</th>
                     <th>SGST Amount/pcs</th>
                     <th>Purchase Price</th>
+                    <th>Total GST</th>
+                    <th>Price Without GST</th>
                     <th>Action Edit</th>
                     <th>Action View</th>
                   </tr>
@@ -102,6 +104,10 @@ const Itemlist = ({ items }) => {
                       <td>{items.cgstPerItem}</td>
                       <td>{items.sgstPerItem}</td>
                       <td>{items.PurchasingPrice}</td>
+                      <td>{items.totalGST}</td>
+                      <td>{items.pricewithoutgst}</td>
+                      
+
 
                       <td>
 

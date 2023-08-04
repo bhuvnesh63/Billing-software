@@ -1,13 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
+import axios from 'axios'
 
+
+
+const AccountUrl = "http://localhost:4000/api/v1/gstorders"
 
 
 const GstSaleList = () => {
+
+  const navigate = useNavigate();
+  const [gstSaleList, setGstSaleList] = useState(null);
+
+  useEffect(() => {
+    axios.get(AccountUrl).then((response) => {
+      setGstSaleList(response.data)
+      console.log(response)
+    })
+  }, [gstSaleList])
+
+
+  const deleteData = (id) => {
+    // console.log(id)
+    axios.delete(`http://localhost:4000/api/v1/gstorder/${id}`).then(response => {
+      // alert("Item has been deleted successfully")
+      // toast.success("Item deleted Succesfully")
+    })
+      .catch(error => {
+        console.log(error)
+      })
+
+  }
+  if (!gstSaleList) return null;
 
   return (
    <>

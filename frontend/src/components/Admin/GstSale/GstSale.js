@@ -6,11 +6,10 @@ import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import Form from 'react-bootstrap/Form';
 import "./gstsale.css"
-import ModalCamp from './ModalCamp';
 import axios from 'axios';
 
-const ItemsUrl = "http://localhost:4000/api/v1/items"
 
+const ItemsUrl = "http://localhost:4000/api/v1/items"
 const AccountUrl = "http://localhost:4000/api/v1/accounts"
 
 const GstSale = () => {
@@ -166,6 +165,8 @@ const GstSale = () => {
   };
 
 
+ 
+
   return (
     <>
 
@@ -199,6 +200,7 @@ const GstSale = () => {
 
         </Row>
       </Container>
+      
 
       <div className="form-div">
         <Container>
@@ -248,7 +250,7 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={email}
-        
+
                 />
 
               </div>
@@ -269,107 +271,122 @@ const GstSale = () => {
                   type="text"
                   class="form-control"
                   value={gstNumber}
-            
                 />
               </div>
               <hr></hr>
 
+
+
+
+
+
               <h5>Product Details</h5>
 
-              <Col sm={2}>  
-                <label className="label">Item Name </label>
-                <Form.Select
-                  onChange={(e) => {
-                    setItemName(e.target.value);
-                    getItemPrice(e.target.value);
-                  }}
-                >
-                  <option>Choose</option>
-                  {getitems?.items?.map((items) => (
 
-                    <option key={items._id}
-                      value={items.itemName}>{items.itemName}</option>
-                  ))}
 
-                </Form.Select>
+              
+             
 
-              </Col>
 
-              {/* <Col sm={2}> */}
-              <div className='col-md-2 position-relative'>
-                <label className='label'>Amount without GST</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  value={pricewithoutgst}
-                  readOnly
-                />
+                  <Col sm={2}>
+                    <label name="itemName" className="label">Item Name </label>
+                    <Form.Select
+                      onChange={(e) => {
+                        setItemName(e.target.value);
+                        getItemPrice(e.target.value);
+                      }}
+                    >
+                      <option >Choose</option>
+                      {getitems?.items?.map((items) => (
 
-              </div>
+                        <option key={items._id}
+                          value={items.itemName}>{items.itemName}</option>
+                      ))}
 
-              <div className='col-md-2 position-relative'>
-                <label className='label'>CGST Applied</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  value={cgstPerItem}
-                  readOnly
-                />
+                    </Form.Select>
 
-              </div>
+                  </Col>
 
-              <div className='col-md-2 position-relative'>
-                <label className='label'>SGST Applied</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  value={sgstPerItem}
-                  readOnly
-                />
 
-              </div>
+                  <div className='col-md-2 position-relative'>
+                    <label className='label'>Amount without GST</label>
+                    <input                   
+                      type='text'
+                      className='form-control'                 
+                      value={pricewithoutgst}
+                      readOnly
+                    />
 
-              <div className='col-md-2 position-relative'>
-                <label className='label'>Price per item</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  value={selectedPrice}
-                  readOnly
-                />
-
-              </div>
-
-              <div className="col-md-2 position-relative">
-                <label className="label">Quantity</label>
-                <div className="cart-buttons">
-                  <div className="quantity-buttons">
-                    <span className="increment-buttons" onClick={decrement}>-</span>
-                    <span className="increment-buttons">{quantity}</span>
-                    <span className="increment-buttons" onClick={increment}>+</span>
                   </div>
-                </div>
-              </div>
 
-              <Col sm={2}>
-                <label className="label">Total Price </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  value={totalPrice}
-                  onChange={(e) => setTotalPrice(e.target.value)}
-                  required
-                /></Col>
+                  <div className='col-md-2 position-relative'>
+                    <label className='label'>CGST Applied</label>
+                    <input               
+                      type='text'
+                      className='form-control'
+                      value={cgstPerItem}          
+                      readOnly
+                    />
+
+                  </div>
+
+                  <div className='col-md-2 position-relative'>
+                    <label className='label'>SGST Applied</label>
+                    <input
+                      name="sgstPerItem"
+                      type='text'
+                      className='form-control'
+                      value={sgstPerItem}               
+                      readOnly
+                    />
+
+                  </div>
+
+                  <div className='col-md-2 position-relative'>
+                    <label className='label'>Price per item</label>
+                    <input
+                      name="selectedPrice"
+                      type='text'
+                      className='form-control'
+                      value={selectedPrice}                   
+                      readOnly
+                    />
+
+                  </div>
+
+                  <div className="col-md-2 position-relative">
+                    <label name="quantity" className="label">Quantity</label>
+                    <div className="cart-buttons">
+                      <div className="quantity-buttons">
+                        <span className="increment-buttons" onClick={decrement}>-</span>
+                        <span className="increment-buttons">{quantity}</span>
+                        <span className="increment-buttons" onClick={increment}>+</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Col sm={2}>
+                    <label  className="label">Total Price </label>
+                    <input
+                      name="totalPrice"
+                      type="text"
+                      class="form-control"
+                      value={totalPrice}
+                      onChange={(e) => setTotalPrice(e.target.value)}
+
+                      required
+                    /></Col>
+
               <div>
                 <Button
                   className="float-end"
                   variant="success"
-                  type="submit"
-                // onClick={(event) => submitform(event)} // Pass the event parameter
                 >
                   Add more
                 </Button>
               </div>
+
+
 
 
               <center>
@@ -377,11 +394,14 @@ const GstSale = () => {
                   className="stu_btn"
                   variant="success"
                   type="submit"
-                  onClick={(event) => submitform(event)} 
+                  onClick={(event) => submitform(event)}
                 >
                   Submit
                 </Button>
               </center>
+
+
+
             </form>
           </Row>
         </Container>

@@ -133,8 +133,8 @@ const Billing = () => {
                       <p>
                         Mobile .No : <span>{mobileNumber}</span>
                       </p>
-                      <p>Amroha Gate Near Fruit Mandi Moradabad</p>
-                      <p className='mb-5'>GSTIN/UIN : 1254789632145</p>
+                      {/* <p>Amroha Gate Near Fruit Mandi Moradabad</p>
+                      <p className='mb-5'>GSTIN/UIN : 1254789632145</p> */}
                     </div>
                   </Col>
 
@@ -147,15 +147,17 @@ const Billing = () => {
                       <p>
                         Mobile .No : <span>{mobileNumber}</span>
                       </p>
-                      <p>Amroha Gate Near Fruit Mandi Moradabad</p>
-                      <p className='mb-5'>GSTIN/UIN : 1254789632145</p>
+                      {/* <p>Amroha Gate Near Fruit Mandi Moradabad</p>
+                      <p className='mb-5'>GSTIN/UIN : 1254789632145</p> */}
                     </div>
                   </Col>
 
-                  <Col sm={12}>
-                    <Table responsive className='bill-table'>
+                  <Col sm={12} >
+                  <Table responsive className='bill-table '>
+                  <table class="table table-bordered border-secondary">
+                
                       <thead>
-                        <tr>
+                        <tr className='bill-table'>
                           <th>Item Name</th>
                           <th>Amount without GST</th>
                           <th>CGST Applied</th>
@@ -166,6 +168,7 @@ const Billing = () => {
                         </tr>
                       </thead>
                       <tbody>
+                   
                         {Items?.map((item) => (
                           <tr key={item._id}>
                             <td>{item.itemName}</td>
@@ -177,7 +180,9 @@ const Billing = () => {
                             <td>{item.totalPrice}</td>
                           </tr>
                         ))}
+                      
                       </tbody>
+                      </table>
                     </Table>
                     <div className='total-bill'>
                       <p>Total : <span className='float-end total'>{calculateTotalPrice()}</span></p>

@@ -9,127 +9,116 @@ import axios from 'axios'
 const GSTBillURL = "http://localhost:4000/api/v1/gstorders"
 
 const GSTBillList = ({ items }) => {
-  const [getorders, setOrders] = useState(null);
+    const [getorders, setOrders] = useState(null);
 
-  useEffect(() => {
-    axios.get(GSTBillURL).then((response) => {
-      setOrders(response.data)
-      console.log(response)
-    })
-  }, [getorders])
+    useEffect(() => {
+        axios.get(GSTBillURL).then((response) => {
+            setOrders(response.data)
+            console.log(response)
+        })
+    }, [getorders])
 
-  const deleteData = (id) => {
-    axios.delete(`http://localhost:4000/api/v1/gstorder/${id}`).then(response => {
-      // alert("Item has been deleted successfully")
-      // toast.success("Item deleted Succesfully")
-    })
-      .catch(error => {
-        console.log(error)
-      })
+    const deleteData = (id) => {
+        axios.delete(`http://localhost:4000/api/v1/gstorder/${id}`).then(response => {
+            // alert("Item has been deleted successfully")
+            // toast.success("Item deleted Succesfully")
+        })
+            .catch(error => {
+                console.log(error)
+            })
 
-  }
-
-  
-// console.log("deepanshu",getorders)
-  if (!getorders) return null;
-  return (
-    <>
-      <Layout />
-      <Container className='main-col' >
-        <Table striped bordered hover className='main-table'>
-          <thead>
-            <tr>
-              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ GST Bill List</h5></th>
-            </tr>
-          </thead>
-        </Table>
-        <Row>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>
-                  <div className='table-div' >
-
-                    <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
-                    </Button>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-          </Table>
-
-        </Row>
-      </Container>
+    }
 
 
-      <div className='form-div' >
-        <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Item Details</h5>
-        <Container>
-          <Row>
+    // console.log("deepanshu",getorders)
+    if (!getorders) return null;
+    return (
+        <>
+            <Layout />
+            <Container className='main-col' >
+                <Table striped bordered hover className='main-table'>
+                    <thead>
+                        <tr>
+                            <th><h5><AiFillDashboard /> &nbsp; Dashboard/ GST Bill List</h5></th>
+                        </tr>
+                    </thead>
+                </Table>
+                <Row>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div className='table-div' >
+
+                                        <Button className='table-btn' variant="light" >
+                                            <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
+                                        </Button>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                    </Table>
+
+                </Row>
+            </Container>
 
 
+            <div className='form-div' >
+                <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Item Details</h5>
+                <Container>
+                    <Row>
+                        <Table responsive>
+                            <table class="table table-bordered border-secondary">
+                                <thead>
+                                    <tr>
+                                        <th>Customer Name</th>
+                                        <th>Phone Number</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>GST Number</th>
+                                        <th>View Bill</th>
+                                        <th>Delete Bill</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {getorders?.orders?.map((item) => (
+                                        <tr>
 
+                                            <td>{item.name}</td>
+                                            <td>{item.phoneNumber}</td>
+                                            <td>{item.address}</td>
+                                            <td>{item.email}</td>
+                                            <td>{item.gstNumber}</td>
 
-            <Table responsive>
-              <table class="table table-bordered border-secondary">
-                <thead>
-                  <tr>
-   
-                    <th>Customer Name</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                    <th>Email</th>
-                    <th>GST Number</th>
-                    <th>View Bill</th>
-                    <th>Delete Bill</th> 
-                  </tr>
-                </thead>
+                                            <td>
 
-                <tbody>
-                {getorders?.orders?.map((item) => (
-                    <tr>
+                                                <Link to={`/gstbill/${item._id}`}>
+                                                    <Button className='table-btn'
+                                                        variant="light" >
+                                                        View Bill
+                                                    </Button>
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <Button className='table-btn'
+                                                    variant="light" onClick={(e) => { deleteData(item._id) }} value={"Delete"}
+                                                >
+                                                    <span className='delete-icon'>&#x2717;</span>Delete
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
 
-                      <td>{item.name}</td>
-                      <td>{item.phoneNumber}</td>
-                      <td>{item.address}</td>
-                      <td>{item.email}</td>
-                      <td>{item.gstNumber}</td>
-                    
+                                </tbody>
+                            </table>
+                        </Table>
+                    </Row>
+                </Container>
 
-                      <td>
+            </div>
 
-                        <Link to={`/gstbill/${item._id}`}>
-                          <Button className='table-btn' 
-                          variant="light" >
-                            View Bill
-                          </Button>
-                        </Link>
-                      </td>
-                       <td>
-                        <Button className='table-btn'
-                         variant="light" onClick={(e) => 
-                          { deleteData(item._id) }} value={"Delete"}
-                        >
-                        <span className='delete-icon'>&#x2717;</span>Delete
-                        </Button>
-                      </td> 
-                      
-                    
-                    
-                    </tr>
-                   ))} 
-
-                </tbody>
-              </table>
-            </Table>
-          </Row>
-        </Container>
-
-      </div>
-
-    </>
-  )
+        </>
+    )
 }
 
 export default GSTBillList;

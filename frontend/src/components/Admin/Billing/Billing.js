@@ -6,10 +6,31 @@ import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import './billing.css';
 import axios from 'axios';
+import Form from 'react-bootstrap/Form';
+
 
 const Billing = () => {
   const params = useParams();
-  const [saleOrder, setSaleOrder] = useState(null);
+  const [saleOrder, setSaleOrder] = useState();
+  const [selectedDiscount, setSelectedDiscount] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+  
+  const calculateTotalPrice = () => {
+    if (!saleOrder) return 0;
+    return Items.reduce((total, item) => total + item.totalPrice, 0);
+  };
+
+  useEffect(() => {
+    const totalPrice = saleOrder?.Items?.reduce((total, item) => total + item.totalPrice, 0);
+    const discountAmount = (totalPrice * selectedDiscount) / 100;
+    const calculatedGrandTotal = totalPrice - discountAmount;
+    setGrandTotal(calculatedGrandTotal);
+  }, [selectedDiscount, saleOrder]);
+
+  const handleDiscountChange = (event) => {
+    const selectedDiscount = parseInt(event.target.value);
+    setSelectedDiscount(selectedDiscount);
+  };
 
   useEffect(() => {
     axios
@@ -26,25 +47,9 @@ const Billing = () => {
 
   const { customerName, mobileNumber, Items } = saleOrder;
 
-  // Function to calculate total price for each item
-  const calculateTotalPrice = (item) => {
-    const { amountWithoutGST, cgstapplied, sgstapplied, quantity } = item;
-    // Convert the values to numbers (assuming they are in string format)
-    const amount = parseFloat(amountWithoutGST);
-    const cgst = parseFloat(cgstapplied);
-    const sgst = parseFloat(sgstapplied);
-    const qty = parseInt(quantity);
 
-    // Calculate total price for the item
-    const totalPrice = amount + (amount * (cgst + sgst)) / 100;
-    return totalPrice * qty;
-  };
 
-  // Calculate grand total
-  const grandTotal = Items.reduce(
-    (total, item) => total + calculateTotalPrice(item),
-    0
-  );
+
 
   return (
     <>
@@ -169,17 +174,24 @@ const Billing = () => {
                             <td>{item.sgstapplied}</td>
                             <td>{item.pricePerItem}</td>
                             <td>{item.quantity}</td>
-                            {/* Display the calculated total price for each item */}
-                            <td>{calculateTotalPrice(item).toFixed(2)}</td>
+                            <td>{item.totalPrice}</td>
                           </tr>
                         ))}
                       </tbody>
                     </Table>
                     <div className='total-bill'>
-                      {/* Display the calculated grand total */}
-                      <p>
-                        Grand Total <span className='float-end'>{grandTotal.toFixed(2)}</span>
-                      </p>
+                      <p>Total : <span className='float-end total'>{calculateTotalPrice()}</span></p>
+                      <Form.Group controlId="discountSelect">
+                        <Form.Label>Select Discount :</Form.Label>
+                        <Form.Control as="select" value={selectedDiscount} onChange={handleDiscountChange}>
+                          <option value={0}>No Discount</option>
+                          <option value={5}>5%</option>
+                          <option value={10}>10%</option>
+                          <option value={15}>15%</option>
+                        </Form.Control>
+                      </Form.Group>
+                      <p>Discount : <span className='float-end'>{(calculateTotalPrice() * (selectedDiscount / 100)).toFixed(2)}</span></p>
+                      <p>Discounted Price : <span className='float-end'>{grandTotal.toFixed(2)}</span></p>
                     </div>
                   </Col>
 

@@ -40,7 +40,7 @@ const Itemlist = ({ items }) => {
         <Table striped bordered hover className='main-table'>
           <thead>
             <tr>
-              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ Item-Details</h5></th>
+              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ Sale Bill List</h5></th>
             </tr>
           </thead>
         </Table>
@@ -52,7 +52,7 @@ const Itemlist = ({ items }) => {
                   <div className='table-div' >
 
                     <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/additem">Create</Link>
+                      <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
                     </Button>
                   </div>
                 </th>

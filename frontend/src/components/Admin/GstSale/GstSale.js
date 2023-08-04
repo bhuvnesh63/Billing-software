@@ -176,7 +176,7 @@ const GstSale = () => {
             <tr>
               <th>
                 <h5>
-                  <AiFillDashboard /> &nbsp;Dasboard / Add Stock
+                  <AiFillDashboard /> &nbsp;Dasboard / GST Sale
                 </h5>
               </th>
             </tr>

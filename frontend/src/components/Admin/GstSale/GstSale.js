@@ -285,8 +285,8 @@ const GstSale = () => {
                     />
                   </div>
 
-                  <div className="col-md-2 position-relative">
-                    <label className="label">CGST Applied</label>
+                  <div className="col-md-1 position-relative">
+                    <label className="label">CGST</label>
                     <input
                       type="text"
                       className="form-control"
@@ -295,8 +295,8 @@ const GstSale = () => {
                     />
                   </div>
 
-                  <div className="col-md-2 position-relative">
-                    <label className="label">SGST Applied</label>
+                  <div className="col-md-1 position-relative">
+                    <label className="label">SGST</label>
                     <input
                       type="text"
                       className="form-control"

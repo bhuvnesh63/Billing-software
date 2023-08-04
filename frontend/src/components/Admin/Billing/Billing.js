@@ -120,7 +120,7 @@ const Billing = () => {
         <Row>
           <Col sm={12}>
             <div className='form-div' id="print-bill">
-            <div className='form-div'>
+            {/* <div className='form-div'> */}
               <h5 className='gst'>GSTIN : 09AAZFG2944CIZ2 </h5>
               <div className='text-center'>
                 <h4>TAX INVOICE</h4>
@@ -191,7 +191,7 @@ const Billing = () => {
 
                         <thead>
                           <tr className='bill-table'>
-                            <th>Item Name</th>
+                            <th className='pt-4' >Item Name</th>
                             <th>Amount</th>
                             <th>CGST </th>
                             <th>SGST </th>
@@ -254,7 +254,7 @@ const Billing = () => {
                 </Row>
               </Container>
             </div>
-            </div>
+            {/* </div> */}
           </Col>
         </Row>
       </Container>

@@ -19,6 +19,11 @@ const Sidebar = ({children}) => {
       name: "Dashboard",
       icon: <FaTh />
     },
+    {
+      path: "/additem",
+      name: "Add-Item",
+      icon: <SiGoogleclassroom />
+    },
 
     {
       path: "/sale",
@@ -27,12 +32,15 @@ const Sidebar = ({children}) => {
       // icon: <GiDorsalScales />
       // icon: <MdMeetingRoom />
     },
-    
     {
-      path: "/additem",
-      name: "Add-Item",
-      icon: <SiGoogleclassroom />
+      path: "/billlist",
+      name: "Sale Billing",
+      icon: < FaMoneyBillAlt />
+      // icon: <RiBillFill />
     },
+
+    
+  
 
     {
       path: "/addaccount",
@@ -45,13 +53,13 @@ const Sidebar = ({children}) => {
       name: "Gst-Sale",
       icon: <MdRoomService />
     },
-    {
-        path: "/billlist",
-        name: "Sale Billing",
-        icon: < FaMoneyBillAlt />
-        // icon: <RiBillFill />
-      },
 
+    {
+      path: "/gstbilllist",
+      name: "Gst-Billing",
+      icon: <FaMoneyBillAlt  />
+    },
+ 
 ]
   return (
     <>

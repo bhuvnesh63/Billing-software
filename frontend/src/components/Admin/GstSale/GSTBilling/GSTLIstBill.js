@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../../Header/Layout'
+import Layout from '../../../Header/Layout'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import axios from 'axios'
 
-const ItemsUrl = "http://localhost:4000/api/v1/saleorders"
+const GSTBillURL = "http://localhost:4000/api/v1/gstorders"
 
-const Itemlist = ({ items }) => {
-  const [getitems, setGetItems] = useState(null);
+const GSTBillList = ({ items }) => {
+  const [getorders, setOrders] = useState(null);
 
   useEffect(() => {
-    axios.get(ItemsUrl).then((response) => {
-      setGetItems(response.data)
+    axios.get(GSTBillURL).then((response) => {
+      setOrders(response.data)
       console.log(response)
     })
-  }, [getitems])
+  }, [getorders])
 
   const deleteData = (id) => {
-    // console.log(id)
-    axios.delete(`http://localhost:4000/api/v1/saleorder/${id}`).then(response => {
+    axios.delete(`http://localhost:4000/api/v1/gstorder/${id}`).then(response => {
       // alert("Item has been deleted successfully")
       // toast.success("Item deleted Succesfully")
     })
@@ -31,8 +30,8 @@ const Itemlist = ({ items }) => {
   }
 
   
-// console.log("deepanshu",getitems)
-  if (!getitems) return null;
+// console.log("deepanshu",getorders)
+  if (!getorders) return null;
   return (
     <>
       <Layout />
@@ -40,7 +39,7 @@ const Itemlist = ({ items }) => {
         <Table striped bordered hover className='main-table'>
           <thead>
             <tr>
-              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ Sale Bill List</h5></th>
+              <th><h5><AiFillDashboard /> &nbsp; Dashboard/ GST Bill List</h5></th>
             </tr>
           </thead>
         </Table>
@@ -52,7 +51,7 @@ const Itemlist = ({ items }) => {
                   <div className='table-div' >
 
                     <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
+                      <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
                     </Button>
                   </div>
                 </th>
@@ -79,56 +78,47 @@ const Itemlist = ({ items }) => {
    
                     <th>Customer Name</th>
                     <th>Phone Number</th>
-                    
-                
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>GST Number</th>
                     <th>View Bill</th>
                     <th>Delete Bill</th> 
                   </tr>
                 </thead>
 
                 <tbody>
-                {getitems?.saleorders?.map((item) => (
+                {getorders?.orders?.map((item) => (
                     <tr>
 
-                      <td>{item.customerName}</td>
-                      <td>{item.mobileNumber}</td>
-             
+                      <td>{item.name}</td>
+                      <td>{item.phoneNumber}</td>
+                      <td>{item.address}</td>
+                      <td>{item.email}</td>
+                      <td>{item.gstNumber}</td>
                     
 
                       <td>
 
-                        <Link to={`/billing/${item._id}`}>
+                        <Link to={`/gstbill/${item._id}`}>
                           <Button className='table-btn' 
                           variant="light" >
                             View Bill
                           </Button>
                         </Link>
                       </td>
-                      <td>
+                       <td>
                         <Button className='table-btn'
                          variant="light" onClick={(e) => 
                           { deleteData(item._id) }} value={"Delete"}
                         >
                         <span className='delete-icon'>&#x2717;</span>Delete
                         </Button>
-                      </td>
-                      {/* <td>
-                      <Button className='table-btn' variant="light"
-                        onClick={() => handleModel(items)}
-                      >
-                        &#128065;View
-                      </Button>
-                    </td>
-                    {open && (
-                      <ModalComp
-                        open={open}
-                        setOpen={setOpen}
-                        {...user}
-                      />
-                    )} */}
+                      </td> 
+                      
+                    
                     
                     </tr>
-                  ))}
+                   ))} 
 
                 </tbody>
               </table>
@@ -138,15 +128,8 @@ const Itemlist = ({ items }) => {
 
       </div>
 
-
-
-
-
-
-
-
     </>
   )
 }
 
-export default Itemlist;
+export default GSTBillList;

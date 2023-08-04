@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
@@ -18,6 +18,8 @@ import GstSaleList from './components/Admin/GstSale/GstSaleList';
 import EditItem from './components/Admin/Add-Item/EditItem';
 import EditAccount from './components/Admin/GstSale/EditAccount';
 import EditSale from './components/Admin/Sale/EditSale';
+import GSTBillList from './components/Admin/GstSale/GSTBilling/GSTLIstBill';
+import GSTBill from './components/Admin/GstSale/GSTBilling/GSTBill';
 
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
         <Route path='/billlist' element={<Sidebar><ListBilling /></Sidebar>} />
 
 
+        <Route path='/gstbilllist' element={<Sidebar><GSTBillList /></Sidebar>} />
+        <Route path='/gstbill/:id' element={<Sidebar><GSTBill /></Sidebar>} />
 
       </Routes>
 

@@ -26,6 +26,26 @@ const Billing = () => {
 
   const { customerName, mobileNumber, Items } = saleOrder;
 
+  // Function to calculate total price for each item
+  const calculateTotalPrice = (item) => {
+    const { amountWithoutGST, cgstapplied, sgstapplied, quantity } = item;
+    // Convert the values to numbers (assuming they are in string format)
+    const amount = parseFloat(amountWithoutGST);
+    const cgst = parseFloat(cgstapplied);
+    const sgst = parseFloat(sgstapplied);
+    const qty = parseInt(quantity);
+
+    // Calculate total price for the item
+    const totalPrice = amount + (amount * (cgst + sgst)) / 100;
+    return totalPrice * qty;
+  };
+
+  // Calculate grand total
+  const grandTotal = Items.reduce(
+    (total, item) => total + calculateTotalPrice(item),
+    0
+  );
+
   return (
     <>
       <Layout />
@@ -149,14 +169,16 @@ const Billing = () => {
                             <td>{item.sgstapplied}</td>
                             <td>{item.pricePerItem}</td>
                             <td>{item.quantity}</td>
-                            <td>{item.totalPrice}</td>
+                            {/* Display the calculated total price for each item */}
+                            <td>{calculateTotalPrice(item).toFixed(2)}</td>
                           </tr>
                         ))}
                       </tbody>
                     </Table>
                     <div className='total-bill'>
+                      {/* Display the calculated grand total */}
                       <p>
-                        Grand Total <span className='float-end'>826.00</span>
+                        Grand Total <span className='float-end'>{grandTotal.toFixed(2)}</span>
                       </p>
                     </div>
                   </Col>

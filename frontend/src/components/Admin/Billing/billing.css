@@ -3,8 +3,8 @@
     padding-left: 10px;
 }
 .bill-table{
-    padding-top: 10px !important;
-    margin-top: 0px !important;
+    padding-top: 15px !important;
+    margin-top: -15px !important;
 }
 
 
@@ -19,7 +19,7 @@
     border: 1px solid ;
     margin-left: -25px;
     padding-left: 10px;
-    width: 105%;
+    width: 106%;
 }
 .text-bold{
     font-weight: bold;
@@ -28,8 +28,9 @@
 
 .total-bill{
     border: 1px solid ;
+    border-top: none;
     margin-top: -33px; 
-    padding-top: 10px;
+    padding-top: 20px;
     padding-left: 15px;
     padding-right: 15px;
     font-weight: bold;

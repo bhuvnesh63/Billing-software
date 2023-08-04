@@ -14,7 +14,8 @@ const Billing = () => {
   const [saleOrder, setSaleOrder] = useState();
   const [selectedDiscount, setSelectedDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
-  
+  const [discountPercentage, setDiscountPercentage] = useState(0);
+
   const calculateTotalPrice = () => {
     if (!saleOrder) return 0;
     return Items.reduce((total, item) => total + item.totalPrice, 0);
@@ -29,7 +30,7 @@ const Billing = () => {
 
   const handleDiscountChange = (event) => {
     const selectedDiscount = parseInt(event.target.value);
-    setSelectedDiscount(selectedDiscount);
+    setDiscountPercentage(selectedDiscount);
   };
 
   useEffect(() => {
@@ -42,6 +43,17 @@ const Billing = () => {
         console.log('Error fetching data:', error);
       });
   }, [params.id]);
+
+  const handlePrint = () => {
+    const printContent = document.getElementById('print-bill');
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printContent.innerHTML;
+    window.print();
+    document.body.innerHTML = originalContent;
+
+  };
+
 
   if (!saleOrder) return <div>Loading...</div>;
 
@@ -76,6 +88,26 @@ const Billing = () => {
                       <IoIosCreate />
                       &nbsp;<Link to='/sale'>Create</Link>
                     </Button>
+
+
+                    <Button variant="success" className='float-end' onClick={handlePrint}>
+                      Print Bill
+                    </Button>
+
+
+                    <Col className='dropdown-select'>
+
+                      <Form.Group controlId="discountSelect " className='dropdown'>
+                        <Form.Label className='label'>Select Discount :</Form.Label>
+
+                        <Form.Control as="select" value={discountPercentage} onChange={handleDiscountChange}>
+                          <option value={0}>No Discount</option>
+                          <option value={5}>5%</option>
+                          <option value={10}>10%</option>
+                          <option value={15}>15%</option>
+                        </Form.Control>
+                      </Form.Group>
+                    </Col>
                   </div>
                 </th>
               </tr>
@@ -87,6 +119,7 @@ const Billing = () => {
       <Container>
         <Row>
           <Col sm={12}>
+            <div className='form-div' id="print-bill">
             <div className='form-div'>
               <h5 className='gst'>GSTIN : 09AAZFG2944CIZ2 </h5>
               <div className='text-center'>
@@ -153,49 +186,42 @@ const Billing = () => {
                   </Col>
 
                   <Col sm={12} >
-                  <Table responsive className='bill-table '>
-                  <table class="table table-bordered border-secondary">
-                
-                      <thead>
-                        <tr className='bill-table'>
-                          <th>Item Name</th>
-                          <th>Amount without GST</th>
-                          <th>CGST Applied</th>
-                          <th>SGST Applied</th>
-                          <th>Price per item</th>
-                          <th>Quantity</th>
-                          <th>Total price</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                   
-                        {Items?.map((item) => (
-                          <tr key={item._id}>
-                            <td>{item.itemName}</td>
-                            <td>{item.amountWithoutGST}</td>
-                            <td>{item.cgstapplied}</td>
-                            <td>{item.sgstapplied}</td>
-                            <td>{item.pricePerItem}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.totalPrice}</td>
+                    <Table responsive className='bill-table '>
+                      <table class="table table-bordered border-secondary">
+
+                        <thead>
+                          <tr className='bill-table'>
+                            <th>Item Name</th>
+                            <th>Amount</th>
+                            <th>CGST </th>
+                            <th>SGST </th>
+                            <th>Price per item</th>
+                            <th>Quantity</th>
+                            <th>Total price</th>
                           </tr>
-                        ))}
-                      
-                      </tbody>
+                        </thead>
+                        <tbody>
+
+                          {Items?.map((item) => (
+                            <tr key={item._id}>
+                              <td>{item.itemName}</td>
+                              <td>{item.amountWithoutGST}</td>
+                              <td>{item.cgstapplied}</td>
+                              <td>{item.sgstapplied}</td>
+                              <td>{item.pricePerItem}</td>
+                              <td>{item.quantity}</td>
+                              <td>{item.totalPrice}</td>
+                            </tr>
+                          ))}
+
+                        </tbody>
                       </table>
                     </Table>
                     <div className='total-bill'>
                       <p>Total : <span className='float-end total'>{calculateTotalPrice()}</span></p>
-                      <Form.Group controlId="discountSelect">
-                        <Form.Label>Select Discount :</Form.Label>
-                        <Form.Control as="select" value={selectedDiscount} onChange={handleDiscountChange}>
-                          <option value={0}>No Discount</option>
-                          <option value={5}>5%</option>
-                          <option value={10}>10%</option>
-                          <option value={15}>15%</option>
-                        </Form.Control>
-                      </Form.Group>
-                      <p>Discount : <span className='float-end'>{(calculateTotalPrice() * (selectedDiscount / 100)).toFixed(2)}</span></p>
+                      <p>Discount in %: <span className='float-end'>{discountPercentage}%</span></p>
+
+                      <p>Discount in Price : <span className='float-end'>{(calculateTotalPrice() * (discountPercentage / 100)).toFixed(2)}</span></p>
                       <p>Discounted Price : <span className='float-end'>{grandTotal.toFixed(2)}</span></p>
                     </div>
                   </Col>
@@ -227,6 +253,7 @@ const Billing = () => {
                   </Col>
                 </Row>
               </Container>
+            </div>
             </div>
           </Col>
         </Row>

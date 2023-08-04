@@ -1,3 +1,14 @@
 .bill-table{
     margin-top: -15px;
 }
+.dropdown{
+    width: 35%;
+    height: 40px;
+    margin-left: 120px;
+    margin-top: -25px;
+    display: flex;
+}
+.label{
+    font-size: 15px;
+  
+}

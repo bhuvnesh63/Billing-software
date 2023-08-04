@@ -158,7 +158,7 @@ const GSTBilling = () => {
                                         <p>GST Number: <span>{gstNumber}</span></p>
                                         <p>Amroha Gate Near Fruit Mandi Moradabad</p>
                                         <p className='mb-5'> GSTIN/UIN : 1254789632145 </p>
-                                        <br />
+                                       
 
                                     </div>
 
@@ -175,17 +175,17 @@ const GSTBilling = () => {
                                         <p>Amroha Gate Near Fruit Mandi Moradabad</p>
 
                                         <p className='mb-5'> GSTIN/UIN : 1254789632145 </p>
-                                        <br />
+                                      
                                     </div>
 
                                 </Col>
 
-                                <Table responsive className='bill-table '>
+                                <Table responsive className='gst-table '>
                                     <table class="table table-bordered border-secondary pt-4">
                                         <thead>
-                                            <tr>
+                                            <tr >
                                                 {/* <th>S.N.</th> */}
-                                                <th>Item Name</th>
+                                                <th className='pt-4' >Item Name</th>
                                                 <th>Amount without GST</th>
                                                 <th>CGST Applied</th>
                                                 <th>SGST Applied</th>
@@ -210,7 +210,7 @@ const GSTBilling = () => {
                                         </tbody>
 
                                     </table>
-                                    <div className='total-bill'>
+                                    <div className='gst-bill'>
                                         <p>Total : <span className='float-end total'>{calculateTotalPrice()}</span></p>
 
                                         <p>Discount in %: <span className='float-end'>{discountPercentage}%</span></p>
@@ -218,12 +218,12 @@ const GSTBilling = () => {
                                         <p>Discounted Price : <span className='float-end'>{grandTotal.toFixed(2)}</span></p>
                                     </div>
                                 </Table>
-                                <div className='bank-details'>
+                                <div className='gst-details'>
                                     <p className='text-bold'>Bank Details : </p>
                                     <p  > BANK NAME :<span> PUNJAB NATIONAL BANK </span> </p>
                                     <p >  IFSC : <span>PUNB0027872 A/C NO.54789654785158458 </span> </p>
                                 </div>
-                                <div className='bank-details'>
+                                <div className='gst-details'>
                                     <h5>Terms & Conditions</h5>
                                     <p>E.& O.E.</p>
                                     <p>1. Goods once sold will not be taken back.</p>

@@ -2,7 +2,10 @@
     padding-bottom: 20px;
     padding-left: 10px;
 }
-
+.bill-table{
+    padding-top: 10px !important;
+    margin-top: 0px !important;
+}
 
 
 .billing-border{
@@ -25,18 +28,20 @@
 
 .total-bill{
     border: 1px solid ;
-    margin-top: -18px; 
+    margin-top: -33px; 
     padding-top: 10px;
-    padding-left: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
     font-weight: bold;
 }
 
 .bank-details{
 border: 1px solid;
 border-top: none;
-width: 97.8% !important;
+width: 100% !important;
 margin-top: -18px !important;
-margin-left: 12px;
+padding-left: 15px;
+padding-right: 15px;
 padding-top: 20px;
 }
 

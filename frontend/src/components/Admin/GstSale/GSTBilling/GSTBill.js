@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../../Header/Layout'
+import Layout from '../../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
-import "./billing.css"
+import "../../Billing/billing.css"
 import axios from 'axios'
 
 
-const Billing = () => {
+const GSTBilling = () => {
   const params = useParams();
-  const [saleOrder, setSaleOrder] = useState(null);
+  const [order, setOrder] = useState();
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/v1/saleorder/${params.id}`)
+    axios.get(`http://localhost:4000/api/v1/gstorder/${params.id}`)
       .then((response) => {
-        setSaleOrder(response.data.sale); 
+        setOrder(response.data.order); 
       })
       .catch((error) => {
         console.log('Error fetching data:', error);
       });
   }, [params.id]);
 
-  if (!saleOrder) return <div>Loading...</div>;
+  console.log("lckuy",order)
+  if (!order) return <div>Loading...</div>;
 
-  const { customerName, mobileNumber, Items } = saleOrder;
+  const { name, phoneNumber,address,email,gstNumber, Items } = order;
 
 
   return (
@@ -51,7 +52,7 @@ const Billing = () => {
                 <th>
                   <div className="table-div">
                     <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
+                      <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
                     </Button>
                   </div>
                 </th>
@@ -116,8 +117,11 @@ const Billing = () => {
 
                   <div className='billing-border'>
                     <p className='text-bold' >Billed to :</p>
-                    <p>Customer Name : <span>{customerName}</span></p>
-                    <p>Mobile .No : <span>{mobileNumber}</span></p>
+                    <p>Customer Name : <span>{name}</span></p>
+                    <p>Mobile Number : <span>{phoneNumber}</span></p>
+                    <p>Address : <span>{address}</span></p>
+                    <p>Email: <span>{email}</span></p>
+                    <p>GST Number: <span>{gstNumber}</span></p>
                     <p>Amroha Gate Near Fruit Mandi Moradabad</p>
                     <p className='mb-5'> GSTIN/UIN : 1254789632145 </p>
                     <br />
@@ -131,8 +135,11 @@ const Billing = () => {
 
                   <div className='bill-border'>
                     <p className='text-bold' >Shipped to :</p>
-                    <p>Customer Name : <span>{customerName}</span></p>
-                    <p>Mobile .No : <span>{mobileNumber}</span></p>
+                    <p>Customer Name : <span>{name}</span></p>
+                    <p>Mobile Number : <span>{phoneNumber}</span></p>
+                    <p>Address : <span>{address}</span></p>
+                    <p>Email: <span>{email}</span></p>
+                    <p>GST Number: <span>{gstNumber}</span></p>
                     <p>Amroha Gate Near Fruit Mandi Moradabad</p>
 
                     <p className='mb-5'> GSTIN/UIN : 1254789632145 </p>
@@ -223,4 +230,4 @@ const Billing = () => {
   )
 }
 
-export default Billing
+export default GSTBilling;

@@ -68,30 +68,52 @@ const Sale = () => {
     updatePriceWithQuantity();
   }, [items]);
 
-  const getItemPrice = (selectedItemName, index) => {
-    const selectedItemObj = getitems?.items?.find(
-      (items) => items.itemName === selectedItemName
-    );
+ const getItemPrice = (selectedItemName, index) => {
+  if (!selectedItemName) {
 
-    if (selectedItemObj) {
-      setItems((prevItems) =>
-        prevItems.map((item, i) =>
-          i === index
-            ? {
-                ...item,
-                pricePerItem: selectedItemObj.sellingPrice,
-                initialCgstPerItem: selectedItemObj.cgstPerItem,
-                cgstPerItem: selectedItemObj.cgstPerItem,
-                initialSgstPerItem: selectedItemObj.sgstPerItem,
-                sgstPerItem: selectedItemObj.sgstPerItem,
-                pricewithoutgst: selectedItemObj.pricewithoutgst,
-                initialamountwithoutgst: selectedItemObj.pricewithoutgst,
-              }
-            : item
-        )
-      );
-    }
-  };
+    setItems((prevItems) =>
+      prevItems.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              pricePerItem: '',
+              initialCgstPerItem: '',
+              cgstPerItem: '',
+              initialSgstPerItem: '',
+              sgstPerItem: '',
+              pricewithoutgst: '',
+              initialamountwithoutgst: '',
+            }
+          : item
+      )
+    );
+    return;
+  }
+
+  const selectedItemObj = getitems?.items?.find(
+    (item) => item.itemName === selectedItemName
+  );
+
+  if (selectedItemObj) {
+    setItems((prevItems) =>
+      prevItems.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              pricePerItem: selectedItemObj.sellingPrice,
+              initialCgstPerItem: selectedItemObj.cgstPerItem,
+              cgstPerItem: selectedItemObj.cgstPerItem,
+              initialSgstPerItem: selectedItemObj.sgstPerItem,
+              sgstPerItem: selectedItemObj.sgstPerItem,
+              pricewithoutgst: selectedItemObj.pricewithoutgst,
+              initialamountwithoutgst: selectedItemObj.pricewithoutgst,
+            }
+          : item
+      )
+    );
+  }
+};
+
 
   const addMoreItems = () => {
     setItems((prevItems) => [

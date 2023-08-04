@@ -147,6 +147,9 @@ const GstSale = () => {
     }
   };
 
+
+ 
+
   return (
     <>
       <Layout />
@@ -178,6 +181,7 @@ const GstSale = () => {
           </Table>
         </Row>
       </Container>
+      
 
       <div className="form-div">
         <Container>
@@ -245,6 +249,11 @@ const GstSale = () => {
                 />
               </div>
               <hr></hr>
+
+
+
+
+
 
               <h5>Product Details</h5>
 
@@ -357,6 +366,8 @@ const GstSale = () => {
                 </Button>
               </center>
 
+
+
               <center>
                 <Button
                   className="stu_btn"
@@ -367,6 +378,9 @@ const GstSale = () => {
                   Submit
                 </Button>
               </center>
+
+
+
             </form>
           </Row>
         </Container>

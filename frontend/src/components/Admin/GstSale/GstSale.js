@@ -159,21 +159,6 @@ const GstSale = () => {
 
       // console.log('Sale order data saved:', response.data);
 
-      setname('');
-      setEmail('');
-      setAddress('');
-      setGstNumber('');
-      setPhoneNumber('');
-      setItemName('');
-      setQuantity(1);
-      setTotalPrice('');
-      setSelectedPrice('');
-      setCgstPerItem('');
-      setSgstPerItem('');
-      setPricewithoutgst('');
-      setInitialCgstPerItem('');
-      setInitialSgstPerItem('');
-      setInitialAmountwithoutgst('');
 
     } catch (error) {
       console.log('Error saving sale order data:', error.response);
@@ -392,7 +377,7 @@ const GstSale = () => {
                   className="stu_btn"
                   variant="success"
                   type="submit"
-                  // onClick={(event) => (event)} 
+                  onClick={(event) => submitform(event)} 
                 >
                   Submit
                 </Button>

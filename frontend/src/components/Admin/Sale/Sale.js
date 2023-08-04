@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../Header/Layout';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { AiFillDashboard} from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
@@ -26,7 +26,7 @@ const Sale = () => {
   const [initialCgstPerItem, setInitialCgstPerItem] = useState('');
   const [initialSgstPerItem, setInitialSgstPerItem] = useState('');
   const [initialamountwithoutgst, setInitialAmountwithoutgst] = useState('');
-
+  const navigate = useNavigate();
   const [totalGST, setTotalGST] = useState('');
 
   useEffect(() => {
@@ -109,21 +109,9 @@ const Sale = () => {
 
   
       const response = await axios.post(SaleOrderUrl, saleOrderData);
-      
-      console.log('Sale order data saved:', response.data);
+      navigate("/billlist");
+      // console.log('Sale order data saved:', response.data);
 
-      setCustomerName('');
-      setMobileNumber('');
-      setItemName('');
-      setQuantity(1);
-      setTotalPrice('');
-      setSelectedPrice('');
-      setCgstPerItem('');
-      setSgstPerItem('');
-      setPricewithoutgst('');
-      setInitialCgstPerItem('');
-      setInitialSgstPerItem('');
-      setInitialAmountwithoutgst('');
 
     } catch (error) {
       console.log('Error saving sale order data:', error.response);

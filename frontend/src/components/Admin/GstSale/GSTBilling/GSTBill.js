@@ -180,8 +180,8 @@ const GSTBilling = () => {
 
                                 </Col>
 
-                                <Table responsive className='bill-table'>
-                                    <table class="table table-bordered border-secondary">
+                                <Table responsive className='bill-table '>
+                                    <table class="table table-bordered border-secondary pt-4">
                                         <thead>
                                             <tr>
                                                 {/* <th>S.N.</th> */}

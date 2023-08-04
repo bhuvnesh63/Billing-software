@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from './components/Admin/Sidebar/Sidebar';
@@ -11,7 +10,6 @@ import ListBilling from './components/Admin/Billing/ListBill';
 import Itemlist from './components/Admin/Add-Item/Itemlist';
 import GstSale from './components/Admin/GstSale/GstSale';
 import SaleList from './components/Admin/Sale/SaleList';
-import CreateGst from './components/Admin/GstSale/AddAccount';
 import AddAccount from './components/Admin/GstSale/AddAccount';
 import AddAccountList from './components/Admin/GstSale/AddAccountList';
 import GstSaleList from './components/Admin/GstSale/GstSaleList';
@@ -22,6 +20,9 @@ import GSTBillList from './components/Admin/GstSale/GSTBilling/GSTLIstBill';
 import GSTBill from './components/Admin/GstSale/GSTBilling/GSTBill';
 
 
+
+
+
 function App() {
   return (
     <div className="App">
@@ -29,6 +30,8 @@ function App() {
 
       <Routes>
 
+
+        
         <Route path='/' element={<Sidebar><Dashboard /></Sidebar>} />
         <Route path='/sale' element={<Sidebar><Sale /></Sidebar>} />
         <Route path='/salelist' element={<Sidebar><SaleList /></Sidebar>} />
@@ -41,13 +44,12 @@ function App() {
         <Route path='/addaccount' element={<Sidebar><AddAccount /></Sidebar>} />
         <Route path='/editaccount/:id' element={<Sidebar><EditAccount /></Sidebar>} />
         <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
-
         <Route path='/billing/:id' element={<Sidebar><Billing /></Sidebar>} />
         <Route path='/billlist' element={<Sidebar><ListBilling /></Sidebar>} />
-
-
         <Route path='/gstbilllist' element={<Sidebar><GSTBillList /></Sidebar>} />
         <Route path='/gstbill/:id' element={<Sidebar><GSTBill /></Sidebar>} />
+
+
 
       </Routes>
 

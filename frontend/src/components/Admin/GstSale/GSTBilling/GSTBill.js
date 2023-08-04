@@ -17,7 +17,7 @@ const GSTBilling = () => {
 
     const calculateTotalPrice = () => {
         if (!order) return 0;
-        return Items.reduce((total, item) => total + item.totalPrice, 0);
+        return order.Items.reduce((total, item) => total + item.totalPrice, 0);
     };
 
 
@@ -83,18 +83,32 @@ const GSTBilling = () => {
                                             <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
                                         </Button>
 
-                                        ||
 
-                                        <Button variant="primary" onClick={handlePrint}>
+
+                                        <Button variant="success" className='float-end' onClick={handlePrint}>
                                             Print Bill
                                         </Button>
+
+                                        <Col  className='dropdown-select'>
+
+                                            <Form.Group controlId="discountSelect " className='dropdown'>
+                                                <Form.Label className='label'>Select Discount :</Form.Label>
+
+                                                <Form.Control as="select" value={discountPercentage} onChange={handleDiscountChange}>
+                                                    <option value={0}>No Discount</option>
+                                                    <option value={5}>5%</option>
+                                                    <option value={10}>10%</option>
+                                                    <option value={15}>15%</option>
+                                                </Form.Control>
+                                            </Form.Group>
+                                        </Col>
                                     </div>
                                 </th>
                             </tr>
                         </thead>
                     </Table>
                 </Row>
-            </Container>
+            </Container >
 
 
             <>
@@ -198,16 +212,9 @@ const GSTBilling = () => {
                                     </table>
                                     <div className='total-bill'>
                                         <p>Total : <span className='float-end total'>{calculateTotalPrice()}</span></p>
-                                        <Form.Group controlId="discountSelect">
-                                            <Form.Label>Select Discount :</Form.Label>
-                                            <Form.Control as="select" value={discountPercentage} onChange={handleDiscountChange}>
-                                                <option value={0}>No Discount</option>
-                                                <option value={5}>5%</option>
-                                                <option value={10}>10%</option>
-                                                <option value={15}>15%</option>
-                                            </Form.Control>
-                                        </Form.Group>
-                                        <p>Discount : <span className='float-end'>{(calculateTotalPrice() * (discountPercentage / 100)).toFixed(2)}</span></p>
+
+                                        <p>Discount in %: <span className='float-end'>{discountPercentage}%</span></p>
+                                        <p>Discount in Price : <span className='float-end'>{(calculateTotalPrice() * (discountPercentage / 100)).toFixed(2)}</span></p>
                                         <p>Discounted Price : <span className='float-end'>{grandTotal.toFixed(2)}</span></p>
                                     </div>
                                 </Table>

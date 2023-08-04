@@ -7,6 +7,7 @@ import Dashboard from './components/Admin/Dashboard/Dashboard';
 import Sale from './components/Admin/Sale/Sale';
 import Additem from './components/Admin/Add-Item/Additem';
 import Billing from './components/Admin/Billing/Billing';
+import ListBilling from './components/Admin/Billing/ListBill';
 import Itemlist from './components/Admin/Add-Item/Itemlist';
 import GstSale from './components/Admin/GstSale/GstSale';
 import SaleList from './components/Admin/Sale/SaleList';
@@ -39,7 +40,8 @@ function App() {
         <Route path='/editaccount/:id' element={<Sidebar><EditAccount /></Sidebar>} />
         <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
 
-        <Route path='/billing' element={<Sidebar><Billing /></Sidebar>} />
+        <Route path='/billing/:id' element={<Sidebar><Billing /></Sidebar>} />
+        <Route path='/billlist' element={<Sidebar><ListBilling /></Sidebar>} />
 
 
 

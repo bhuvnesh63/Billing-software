@@ -46,8 +46,8 @@ const Sidebar = ({children}) => {
       icon: <MdRoomService />
     },
     {
-        path: "/billing",
-        name: "Billing",
+        path: "/billlist",
+        name: "Sale Billing",
         icon: < FaMoneyBillAlt />
         // icon: <RiBillFill />
       },

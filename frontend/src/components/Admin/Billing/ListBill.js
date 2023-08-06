@@ -4,19 +4,22 @@ import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
-import axios from 'axios'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 const ItemsUrl = "http://localhost:4000/api/v1/saleorders"
 
 const Itemlist = ({ items }) => {
   const [getitems, setGetItems] = useState(null);
-
+  const navigate= useNavigate();
   useEffect(() => {
     axios.get(ItemsUrl).then((response) => {
       setGetItems(response.data)
       console.log(response)
     })
   }, [getitems])
+
+  
 
   const deleteData = (id) => {
     // console.log(id)
@@ -30,8 +33,8 @@ const Itemlist = ({ items }) => {
 
   }
 
-  
-// console.log("deepanshu",getitems)
+
+  // console.log("deepanshu",getitems)
   if (!getitems) return null;
   return (
     <>
@@ -50,10 +53,14 @@ const Itemlist = ({ items }) => {
               <tr>
                 <th>
                   <div className='table-div' >
-
+                  <Button className="table-btn" variant="success" onClick={()=> navigate("/sale")} >
+                      <IoIosCreate />&nbsp;
+                       New Sale
+                    </Button>
+{/* 
                     <Button className='table-btn' variant="light" >
                       <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
-                    </Button>
+                    </Button> */}
                   </div>
                 </th>
               </tr>
@@ -76,40 +83,40 @@ const Itemlist = ({ items }) => {
               <table class="table table-bordered border-secondary">
                 <thead>
                   <tr>
-   
+                    <th>Serial No.</th> {/* Add the Serial No. column */}
+
                     <th>Customer Name</th>
                     <th>Phone Number</th>
-                    
-                
+
+
                     <th>View Bill</th>
-                    <th>Delete Bill</th> 
+                    <th>Delete Bill</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                {getitems?.saleorders?.map((item) => (
-                    <tr>
-
+                  {getitems?.saleorders?.map((item, index) => (
+                    <tr key={item._id}>
+                      <td>{index + 1}</td>
                       <td>{item.customerName}</td>
                       <td>{item.mobileNumber}</td>
-             
-                    
+
+
 
                       <td>
 
                         <Link to={`/billing/${item._id}`}>
-                          <Button className='table-btn' 
-                          variant="light" >
-                            View Bill
+                          <Button className='table-btn'
+                            variant="success" >
+                            &#128065;   View Bill
                           </Button>
                         </Link>
                       </td>
                       <td>
                         <Button className='table-btn'
-                         variant="light" onClick={(e) => 
-                          { deleteData(item._id) }} value={"Delete"}
+                          variant="success" onClick={(e) => { deleteData(item._id) }} value={"Delete"}
                         >
-                        <span className='delete-icon'>&#x2717;</span>Delete
+                          <span className='delete-icon'>&#x2717;</span>Delete
                         </Button>
                       </td>
                       {/* <td>
@@ -126,7 +133,7 @@ const Itemlist = ({ items }) => {
                         {...user}
                       />
                     )} */}
-                    
+
                     </tr>
                   ))}
 

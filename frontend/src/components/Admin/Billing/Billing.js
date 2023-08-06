@@ -8,6 +8,8 @@ import './billing.css';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
+import { useNavigate } from 'react-router-dom'
+
 
 const Billing = () => {
   const params = useParams();
@@ -15,11 +17,12 @@ const Billing = () => {
   const [selectedDiscount, setSelectedDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [discountPercentage, setDiscountPercentage] = useState(0);
-
+  const navigate= useNavigate();
   const calculateTotalPrice = () => {
     if (!saleOrder) return 0;
-    return Items.reduce((total, item) => total + item.totalPrice, 0);
+    return saleOrder.Items.reduce((total, item) => total + item.totalPrice, 0);
   };
+  
 
   useEffect(() => {
     const totalPrice = saleOrder?.Items?.reduce((total, item) => total + item.totalPrice, 0);
@@ -31,6 +34,7 @@ const Billing = () => {
   const handleDiscountChange = (event) => {
     const selectedDiscount = parseInt(event.target.value);
     setDiscountPercentage(selectedDiscount);
+    setSelectedDiscount(selectedDiscount);
   };
 
   useEffect(() => {
@@ -54,6 +58,13 @@ const Billing = () => {
 
   };
 
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    return `${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+};
 
   if (!saleOrder) return <div>Loading...</div>;
 
@@ -84,11 +95,11 @@ const Billing = () => {
               <tr>
                 <th>
                   <div className='table-div'>
-                    <Button className='table-btn' variant='light'>
-                      <IoIosCreate />
-                      &nbsp;<Link to='/sale'>Create</Link>
+                    
+                    <Button className="table-btn" variant="success" onClick={()=> navigate("/sale")} >
+                      <IoIosCreate />&nbsp;
+                       New Sale
                     </Button>
-
 
                     <Button variant="success" className='float-end' onClick={handlePrint}>
                       Print Bill
@@ -141,7 +152,7 @@ const Billing = () => {
                         Invoice No : <span>260</span>
                       </p>
                       <p>
-                        Dated : <span>01-06-2023</span>
+                      <p>Dated : <span> {getCurrentDate()}</span></p>
                       </p>
                     </div>
                   </Col>

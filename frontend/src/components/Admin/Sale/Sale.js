@@ -7,6 +7,7 @@ import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import './sale.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ItemsUrl = 'http://localhost:4000/api/v1/items';
 const SaleOrderUrl = 'http://localhost:4000/api/v1/saleorder/new';
@@ -17,6 +18,8 @@ const Sale = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [items, setItems] = useState([
     {
+      _id: '',
+      productId: '',
       itemName: '',
       pricewithoutgst: '',
       cgstPerItem: '',
@@ -68,14 +71,15 @@ const Sale = () => {
     updatePriceWithQuantity();
   }, [items]);
 
- const getItemPrice = (selectedItemName, index) => {
-  if (!selectedItemName) {
+  const getItemPrice = (selectedItemName, index) => {
+    if (!selectedItemName) {
 
-    setItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index
-          ? {
+      setItems((prevItems) =>
+        prevItems.map((item, i) =>
+          i === index
+            ? {
               ...item,
+              productId: '',
               pricePerItem: '',
               initialCgstPerItem: '',
               cgstPerItem: '',
@@ -84,22 +88,23 @@ const Sale = () => {
               pricewithoutgst: '',
               initialamountwithoutgst: '',
             }
-          : item
-      )
+            : item
+        )
+      );
+      return;
+    }
+
+    const selectedItemObj = getitems?.items?.find(
+      (item) => item.itemName === selectedItemName
     );
-    return;
-  }
 
-  const selectedItemObj = getitems?.items?.find(
-    (item) => item.itemName === selectedItemName
-  );
-
-  if (selectedItemObj) {
-    setItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index
-          ? {
+    if (selectedItemObj) {
+      setItems((prevItems) =>
+        prevItems.map((item, i) =>
+          i === index
+            ? {
               ...item,
+              productId: selectedItemObj._id,
               pricePerItem: selectedItemObj.sellingPrice,
               initialCgstPerItem: selectedItemObj.cgstPerItem,
               cgstPerItem: selectedItemObj.cgstPerItem,
@@ -108,17 +113,18 @@ const Sale = () => {
               pricewithoutgst: selectedItemObj.pricewithoutgst,
               initialamountwithoutgst: selectedItemObj.pricewithoutgst,
             }
-          : item
-      )
-    );
-  }
-};
+            : item
+        )
+      );
+    }
+  };
 
 
   const addMoreItems = () => {
     setItems((prevItems) => [
       ...prevItems,
       {
+        productId: '',
         itemName: '',
         pricewithoutgst: '',
         cgstPerItem: '',
@@ -130,13 +136,18 @@ const Sale = () => {
     ]);
   };
 
+
+
   const submitform = async (event) => {
     event.preventDefault();
+    // console.log("deepanshu",items)rs
+    const finalItems = items.filter((item) => item.productId)
     try {
       const saleOrderData = {
         customerName: customerName,
         mobileNumber: mobileNumber,
-        Items: items.map((item) => ({
+        Items: finalItems.map((item) => ({
+          productId: item.productId,
           itemName: item.itemName,
           pricePerItem: item.pricePerItem,
           quantity: item.quantity.toString(),
@@ -144,16 +155,18 @@ const Sale = () => {
           amountWithoutGST: parseFloat(item.pricewithoutgst),
           cgstapplied: parseFloat(item.cgstPerItem),
           sgstapplied: parseFloat(item.sgstPerItem),
+
         })),
       };
 
       await axios.post(SaleOrderUrl, saleOrderData);
       navigate('/billlist');
+      toast.success("Order Placed Successfully");
     } catch (error) {
       console.log('Error saving sale order data:', error.response);
     }
   };
-
+  console.log("deepansu", items)
   return (
     <>
       <Layout />
@@ -176,10 +189,20 @@ const Sale = () => {
               <tr>
                 <th>
                   <div>
-                    <Button className="table-btn" variant="light">
-                      <IoIosCreate />
-                      &nbsp;
-                      <Link to="/salelist">Go Back</Link>
+                    {/* <Button className="table-btn" variant="light">
+                    <IoIosCreate />
+                    &nbsp;
+                    <Link to="/salelist">Go Back</Link>
+                  </Button> */}
+
+                    <Button className="table-btn" variant="success" onClick={() => navigate("/salelist")} >
+                      <IoIosCreate />&nbsp;
+                      Check Sale List
+                    </Button>
+
+                    <Button className="table-btn float-end" variant="success" onClick={() => navigate("/salehistory")} >
+                      <IoIosCreate />&nbsp;
+                      Check Sale History
                     </Button>
                   </div>
                 </th>
@@ -315,6 +338,7 @@ const Sale = () => {
                   </Col>
                 </React.Fragment>
               ))}
+
 
               <center>
                 <Button className="float-end" variant="success" type="button" onClick={addMoreItems}>

@@ -5,18 +5,18 @@ import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import Layout from '../../Header/Layout';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom'
 
 const SaleUrl = "http://localhost:4000/api/v1/saleorders"
 
 
 const SaleList = () => {
   const [getsale, setSale] = useState(null);
-
+  const navigate= useNavigate();
   useEffect(() => {
     axios.get(SaleUrl).then((response) => {
       setSale(response.data)
-      console.log(response ,"sale-list")
+      console.log(response, "sale-list")
     })
   }, [getsale])
 
@@ -36,9 +36,9 @@ const SaleList = () => {
 
 
   return (
-   <>
-    <Layout />
-    <Container className='main-col' >
+    <>
+      <Layout />
+      <Container className='main-col' >
         <Table striped bordered hover className='main-table'>
           <thead>
             <tr>
@@ -53,15 +53,19 @@ const SaleList = () => {
                 <th>
                   <div className='table-div' >
 
-                    <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
+                  <Button className="table-btn" variant="success" onClick={() => navigate("/sale")} >
+                      <IoIosCreate />&nbsp;
+                      New Sale 
                     </Button>
+                    {/* <Button className='table-btn' variant="light" >
+                      <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
+                    </Button> */}
                   </div>
                 </th>
               </tr>
             </thead>
           </Table>
-      
+
         </Row>
       </Container>
 
@@ -82,57 +86,58 @@ const SaleList = () => {
                     <th>Customer Name</th>
                     <th>Mobile No</th>
                     <th>Item Name</th>
-                    <th>Amount without GST</th>
-                    <th>CGST Applied</th>
-                    <th>SGST Applied</th> 
-                    <th>Price per item</th>
-                    <th>Quantity</th>
-                    <th>Total price</th>
-                    <th>Action Edit</th>
+                    {/* <th>Amount without GST</th> */}
+                    {/* <th>CGST Applied</th> */}
+                    {/* <th>SGST Applied</th>  */}
+                    {/* <th>Price per item</th> */}
+                    {/* <th>Quantity</th> */}
+                    {/* <th>Total price</th> */}
+                    <th>Item Name (2)</th>
                     <th>Action View</th>
+                    <th>Action Delete</th>
 
 
                   </tr>
                 </thead>
                 <tbody>
 
-                {getsale.saleorders.map((item) => (
+                  {getsale.saleorders.map((item) => (
                     <tr key={item._id}>
                       <td>{item.customerName}</td>
                       <td>{item.mobileNumber}</td>
                       {item.Items.map((item) => (
                         <React.Fragment key={item._id}>
                           <td>{item.itemName}</td>
-                          <td>{item.amountWithoutGST}</td>
+                          {/* <td>{item.amountWithoutGST}</td>
                           <td>{item.cgstapplied}</td>
                           <td>{item.sgstapplied}</td>
                           <td>{item.pricePerItem}</td>
                           <td>{item.quantity}</td>
-                          <td>{item.totalPrice}</td>
+                          <td>{item.totalPrice}</td> */}
                         </React.Fragment>
                       ))}
 
-                
-                      <td>
-                        <Link to={`/editsale/${item._id}`}>
-                        <Button className='table-btn'
-                         variant="light" >
-                          &#9998;Edit</Button> 
-                          </Link>
-                          </td>
 
                       <td>
-                        <Button className='table-btn' variant="light" 
-                      onClick={(e) => { deleteData(item._id) }}
-                       value={"Delete"} >
-                           <span className='delete-icon'>&#x2717;</span>Delete
-                       </Button>
-                       </td>
-                      
+                        <Link to={`/billing/${item._id}`}>
+                          <Button className='table-btn'
+                            variant="success" >
+                            &#128065;View</Button>
+                        </Link>
+                      </td>
+
+                      <td>
+                        <Button className='table-btn' variant="success"
+                          onClick={(e) => { deleteData(item._id) }}
+                          value={"Delete"} >
+                          <span className='delete-icon'>&#x2717;</span>Delete
+                        </Button>
+                      </td>
+
                     </tr>
 
 
-                   ))} 
+                  ))}
 
 
 
@@ -144,8 +149,8 @@ const SaleList = () => {
 
       </div>
 
-   
-   </>
+
+    </>
   )
 }
 

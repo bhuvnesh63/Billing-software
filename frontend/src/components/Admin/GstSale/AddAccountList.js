@@ -5,6 +5,7 @@ import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import Layout from '../../Header/Layout';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 const AccountUrl = "http://localhost:4000/api/v1/accounts"
@@ -12,14 +13,7 @@ const AccountUrl = "http://localhost:4000/api/v1/accounts"
 const AddAccountList = () => {
   const navigate = useNavigate();
   const [getaccounts, setGetAccounts] = useState(null);
-  // const params = useParams();
-
-  // const [specificItem, setSpecificItem] = useState("");
-  // const [name, setName] = useState(specificItem.name);
-  // const [phoneNumber, setPhoneNumber] = useState(specificItem.phoneNumber);
-  // const [email, setEmail] = useState(specificItem.email);
-  // const [address, setAddress] = useState(specificItem.address);
-  // const [gstNumber, setGstnumber] = useState(specificItem.gstNumber);
+ 
 
   useEffect(() => {
     axios.get(AccountUrl).then((response) => {
@@ -33,7 +27,7 @@ const AddAccountList = () => {
     // console.log(id)
     axios.delete(`http://localhost:4000/api/v1/account/${id}`).then(response => {
       // alert("Item has been deleted successfully")
-      // toast.success("Item deleted Succesfully")
+      toast.success("Item deleted Succesfully")
     })
       .catch(error => {
         console.log(error)
@@ -58,9 +52,9 @@ const AddAccountList = () => {
               <tr>
                 <th>
                   <div className='table-div' >
-
-                    <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/addaccount">Create</Link>
+                  <Button className="table-btn" variant="success" onClick={()=> navigate("/addaccount")} >
+                      <IoIosCreate />&nbsp;
+                       Create New Account
                     </Button>
                   </div>
                 </th>
@@ -108,13 +102,13 @@ const AddAccountList = () => {
                     <td>
                       <Link to={`/editaccount/${account._id}`}>
                       <Button className='table-btn'
-                        variant="light" >
+                        variant="success" >
                         &#9998;Edit</Button>
                       </Link>
                     </td>
 
                     <td>
-                      <Button className='table-btn' variant="light"
+                      <Button className='table-btn' variant="success"
                         onClick={(e) => { deleteData(account._id) }}
                         value={"Delete"} >
                         <span className='delete-icon'>&#x2717;</span>Delete

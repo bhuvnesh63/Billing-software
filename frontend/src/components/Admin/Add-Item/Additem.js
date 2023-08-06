@@ -6,6 +6,7 @@ import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-
 import { IoIosCreate } from 'react-icons/io';
 import axios from 'axios';
 import './additem.css';
+import { toast } from 'react-toastify';
 
 const Additem = () => {
 
@@ -64,7 +65,7 @@ const Additem = () => {
         "pricewithoutgst": pricewithoutgst,
 
       })
-      // toast.success("Item Add Successfully");
+      toast.success("Item Add Successfully");
       navigate("/itemlist");
 
     } catch (error) {
@@ -95,8 +96,15 @@ const Additem = () => {
               <tr>
                 <th>
                   <div className="table-div">
-                    <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/itemlist">Go Back</Link>
+                  
+                    <Button className="table-btn" variant="success" onClick={()=> navigate("/itemlist")} >
+                      <IoIosCreate />&nbsp;
+                       Check Item List
+                    </Button>
+
+                    <Button className="table-btn float-end" variant="success" onClick={()=> navigate("/purchasehistory")} >
+                      <IoIosCreate />&nbsp;
+                       Check Purchase History
                     </Button>
                   </div>
                 </th>

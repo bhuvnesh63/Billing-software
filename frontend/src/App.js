@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Sidebar from './components/Admin/Sidebar/Sidebar';
 import Dashboard from './components/Admin/Dashboard/Dashboard';
 import Sale from './components/Admin/Sale/Sale';
@@ -20,6 +20,8 @@ import GSTBillList from './components/Admin/GstSale/GSTBilling/GSTLIstBill';
 import GSTBill from './components/Admin/GstSale/GSTBilling/GSTBill';
 import PurchaseHistory from './components/Admin/Transaction/Purchasetransaction';
 import Purchasetransaction from './components/Admin/Transaction/Purchasetransaction';
+import Login from './login/Login';
+import Signup from './components/Admin/Signup/Signup';
 
 import SaleHistory from './components/Admin/Transaction/SaleHistory';
 import GSTSalehistory from './components/Admin/Transaction/GSTSaleHistory';
@@ -29,33 +31,46 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token); 
+  }, []);
+
+  const PrivateRoute = ({ children }) => {
+    return isLoggedIn ? children : <Navigate to="/login" />;
+  };
+
+
   return (
     <div className="App">
 
 <ToastContainer position="top-center" />
       <Routes>
-
-
         
-        <Route path='/' element={<Sidebar><Dashboard /></Sidebar>} />
-        <Route path='/sale' element={<Sidebar><Sale /></Sidebar>} />
-        <Route path='/salelist' element={<Sidebar><SaleList /></Sidebar>} />
-        <Route path='/editsale/:id' element={<Sidebar><EditSale /></Sidebar>} />
-        <Route path='/additem' element={<Sidebar><Additem /></Sidebar>} />
-        <Route path='/edititem/:id' element={<Sidebar><EditItem /></Sidebar>} />
-        <Route path='/itemlist' element={<Sidebar><Itemlist /></Sidebar>} />
-        <Route path='/gstsale' element={<Sidebar><GstSale /></Sidebar>} />
-        <Route path='/gstsale-list' element={<Sidebar><GstSaleList /></Sidebar>} />
-        <Route path='/addaccount' element={<Sidebar><AddAccount /></Sidebar>} />
-        <Route path='/editaccount/:id' element={<Sidebar><EditAccount /></Sidebar>} />
-        <Route path='/addaccount-list' element={<Sidebar><AddAccountList /></Sidebar>} />
-        <Route path='/billing/:id' element={<Sidebar><Billing /></Sidebar>} />
-        <Route path='/billlist' element={<Sidebar><ListBilling /></Sidebar>} />
-        <Route path='/gstbilllist' element={<Sidebar><GSTBillList /></Sidebar>} />
-        <Route path='/gstbill/:id' element={<Sidebar><GSTBill /></Sidebar>} />
-        <Route path='/purchasehistory' element={<Sidebar><Purchasetransaction/></Sidebar>} />
-        <Route path='/salehistory' element={<Sidebar><SaleHistory/></Sidebar>} />
-        <Route path='/gstsalehistory' element={<Sidebar><GSTSalehistory/></Sidebar>} />
+        <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path='/dashboard' element={<PrivateRoute><Sidebar><Dashboard /></Sidebar></PrivateRoute>} />
+        <Route path='/sale' element={<PrivateRoute><Sidebar><Sale /></Sidebar></PrivateRoute>} />
+        <Route path='/salelist' element={<PrivateRoute><Sidebar><SaleList /></Sidebar></PrivateRoute>} />
+        <Route path='/editsale/:id' element={<PrivateRoute><Sidebar><EditSale /></Sidebar></PrivateRoute>} />
+        <Route path='/additem' element={<PrivateRoute><Sidebar><Additem /></Sidebar></PrivateRoute>} />
+        <Route path='/edititem/:id' element={<PrivateRoute><Sidebar><EditItem /></Sidebar></PrivateRoute>} />
+        <Route path='/itemlist' element={<PrivateRoute><Sidebar><Itemlist /></Sidebar></PrivateRoute>} />
+        <Route path='/gstsale' element={<PrivateRoute><Sidebar><GstSale /></Sidebar></PrivateRoute>} />
+        <Route path='/gstsale-list' element={<PrivateRoute><Sidebar><GstSaleList /></Sidebar></PrivateRoute>} />
+        <Route path='/addaccount' element={<PrivateRoute><Sidebar><AddAccount /></Sidebar></PrivateRoute>} />
+        <Route path='/editaccount/:id' element={<PrivateRoute><Sidebar><EditAccount /></Sidebar></PrivateRoute>} />
+        <Route path='/addaccount-list' element={<PrivateRoute><Sidebar><AddAccountList /></Sidebar></PrivateRoute>} />
+        <Route path='/billing/:id' element={<PrivateRoute><Sidebar><Billing /></Sidebar></PrivateRoute>} />
+        <Route path='/billlist' element={<PrivateRoute><Sidebar><ListBilling /></Sidebar></PrivateRoute>} />
+        <Route path='/gstbilllist' element={<PrivateRoute><Sidebar><GSTBillList /></Sidebar></PrivateRoute>} />
+        <Route path='/gstbill/:id' element={<PrivateRoute><Sidebar><GSTBill /></Sidebar></PrivateRoute>} />
+        <Route path='/signup' element={<PrivateRoute><Sidebar><Signup /></Sidebar></PrivateRoute>} />
+        <Route path='/purchasehistory' element={<PrivateRoute><Sidebar><Purchasetransaction/></Sidebar></PrivateRoute>} />
+        <Route path='/salehistory' element={<PrivateRoute><Sidebar><SaleHistory/></Sidebar></PrivateRoute>} />
+        <Route path='/gstsalehistory' element={<PrivateRoute><Sidebar><GSTSalehistory/></Sidebar></PrivateRoute>} />
 
       </Routes>
 

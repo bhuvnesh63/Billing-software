@@ -1,10 +1,33 @@
 const Order = require("../models/gstorderModel");
+const ItemModel = require("../models/itemModel");
+const GSTOrderHistory = require("../models/GSTSalehistory")
+const ApiFeatures = require("../utils/apifeatures");
 
 
 
 // create student --Admin
 exports.createOrder = (async (req, res, next) => {
     const order = await Order.create(req.body);
+    const gstsalehistory = { ...req.body, createdDate: new Date() }
+    await GSTOrderHistory.create(gstsalehistory)
+
+    req.body.Items.forEach(async (product) => {
+        const productId = product.productId;
+
+
+        const item = await ItemModel.findById(productId);
+        const totalQuantity = item.stock;
+        const quantity = product.quantity
+        const remaningQuantity = totalQuantity - quantity
+
+        // console.log(remaningQuantity, "lucky")
+        const items = await ItemModel.findByIdAndUpdate(productId, { stock: remaningQuantity }, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        });
+
+    });
 
     res.status(201).json({
         success: true,
@@ -24,6 +47,65 @@ exports.getAllOrder = async (req, res) => {
 }
 
 
+
+exports.getGSTSaleHistory = async (req, res) => {
+
+    // const date1 = "2023-06-05T10:25:41.597+00:00";
+    // const date2 = "2023-08-05T10:25:41.597+00:00";
+  
+    const date1 = new Date();
+    const date2 = date1.setMonth(date1.getMonth() - 1)
+    date1.setHours(0,0,0)
+    // console.log(new Date(), date1, "rishi")
+    const apiFeature = new ApiFeatures(GSTOrderHistory.find(
+        {
+            createdDate: {
+                $gte: new Date(date1),
+                $lte: new Date()
+            }
+        }
+
+    ), req.query).search().filter();
+
+    const gstsalehistory_orders = await apiFeature.query;
+
+    res.status(200).json({
+        success: true,
+        gstsalehistory_orders,
+    });
+
+}
+
+exports.getGSTSAleDetailsByDate = async (req, res) => {
+
+    // const date1 = "2023-06-05T10:25:41.597+00:00";
+    // const date2 = "2023-08-05T10:25:41.597+00:00";
+    // console.log(req.params,"deep")
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    const date1 = new Date(startDate);
+    // const date2 = date1.setMonth(date1.getMonth() - 1)
+    const date2=new Date(endDate)
+    // date1.setHours(0,0,0)
+    console.log( date1,date2, "rishi")
+    const apiFeature = new ApiFeatures(gstsalehistory.find(
+        {
+            createdDate: {
+                $gte: date1,
+                $lte: date2
+            }
+        }
+
+    ), req.query).search().filter();
+
+    const gstsalehistory_orders = await apiFeature.query;
+
+    res.status(200).json({
+        success: true,
+        gstsalehistory_orders,
+    });
+
+}
 // get single item 
 
 exports.getOrderDetail = async (req, res, next) => {

@@ -1,10 +1,31 @@
 const SaleOrder = require("../models/saleOrderModel");
+const allSaleHistory = require("../models/saleorderhistory")
+const ItemModel = require("../models/itemModel");
 
+const ApiFeatures = require("../utils/apifeatures");
 
 
 // create student --Admin
 exports.createSaleOrder = (async (req, res, next) => {
     const sale = await SaleOrder.create(req.body);
+    const allsalesOrderbydate = { ...req.body, createdDate: new Date() }
+    await allSaleHistory.create(allsalesOrderbydate)
+
+    req.body.Items.forEach(async (product) => {
+        if (product.productId) {
+            const productId = product.productId;
+            const item = await ItemModel.findById(productId);
+            const totalQuantity = item.stock;
+            const quantity = product.quantity
+            const remaningQuantity = totalQuantity - quantity
+            const items = await ItemModel.findByIdAndUpdate(productId, { stock: remaningQuantity }, {
+                new: true,
+                runValidators: true,
+                useFindAndModify: false,
+            });
+        }
+    });
+
 
     res.status(201).json({
         success: true,
@@ -23,6 +44,64 @@ exports.getAllsaleOrder = async (req, res) => {
 
 }
 
+exports.getAllSaleHistory = async (req, res) => {
+
+    // const date1 = "2023-06-05T10:25:41.597+00:00";
+    // const date2 = "2023-08-05T10:25:41.597+00:00";
+    console.log("deep")
+    const date1 = new Date();
+    const date2 = date1.setMonth(date1.getMonth() - 1)
+    date1.setHours(0, 0, 0)
+    // console.log(new Date(), date1, "rishi")
+    const apiFeature = new ApiFeatures(allSaleHistory.find(
+        {
+            createdDate: {
+                $gte: new Date(date1),
+                $lte: new Date()
+            }
+        }
+
+    ), req.query).search().filter();
+
+    const sale_history = await apiFeature.query;
+
+    res.status(200).json({
+        success: true,
+        sale_history,
+    });
+
+}
+
+exports.getSaleHistoryByDate = async (req, res) => {
+
+    // const date1 = "2023-06-05T10:25:41.597+00:00";
+    // const date2 = "2023-08-05T10:25:41.597+00:00";
+    // console.log(req.params,"deep")
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    const date1 = new Date(startDate);
+    // const date2 = date1.setMonth(date1.getMonth() - 1)
+    const date2 = new Date(endDate)
+    // date1.setHours(0,0,0)
+    console.log(date1, date2, "rishi")
+    const apiFeature = new ApiFeatures(allSaleHistory.find(
+        {
+            createdDate: {
+                $gte: date1,
+                $lte: date2
+            }
+        }
+
+    ), req.query).search().filter();
+
+    const sale_history = await apiFeature.query;
+
+    res.status(200).json({
+        success: true,
+        sale_history,
+    });
+
+}
 
 // get single item 
 
@@ -102,23 +181,23 @@ exports.deleteSaleOrder = async (req, res, next) => {
 
     // req.body.student=req.student.id
     const sale = await SaleOrder.findById(req.params.id);
-  
+
     if (!sale) {
-      return next(new ErrorHandler("SaleOrder Not Found ", 404));
+        return next(new ErrorHandler("SaleOrder Not Found ", 404));
     }
-  
+
     // ==========================================================================
-  
+
     // another trick to delete one record
-  
-    await sale.deleteOne({_id:req.params.id});
-  
+
+    await sale.deleteOne({ _id: req.params.id });
+
     //   ===========================================================================
-  
+
     // await Order.findOneAndDelete();
-  
+
     res.status(200).json({
-      success: true,
-      message: "SaleOrder delete successfully",
+        success: true,
+        message: "SaleOrder delete successfully",
     });
-  } ;
+};

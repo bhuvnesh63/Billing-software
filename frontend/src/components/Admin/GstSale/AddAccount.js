@@ -5,7 +5,7 @@ import { Form, Link, useNavigate, } from 'react-router-dom'
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import axios from 'axios'
-
+import { toast } from 'react-toastify';
 
 
 const AddAccount = () => {
@@ -27,7 +27,7 @@ const AddAccount = () => {
         "address": address,
         "gstNumber": gstNumber,
       });
-      // toast.success("Item Add Successfully");
+      toast.success("Account Added Successfully");
       navigate("/addaccount-list");
     } catch (error) {
       console.log(error.response);
@@ -55,8 +55,11 @@ const AddAccount = () => {
               <tr>
                 <th>
                   <div className="table-div">
-                    <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/addaccount-list">Go Back</Link>
+                   
+
+<Button className="table-btn" variant="success" onClick={()=> navigate("/addaccount-list")} >
+                      <IoIosCreate />&nbsp;
+                      Account List
                     </Button>
                   </div>
                 </th>

@@ -35,6 +35,7 @@ const GstSaleList = () => {
       })
 
   }
+  console.log("deepanshu",gstSaleList)
   if (!gstSaleList) return null;
 
   return (
@@ -54,10 +55,11 @@ const GstSaleList = () => {
               <tr>
                 <th>
                   <div className='table-div' >
-
-                    <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
+                  <Button className="table-btn" variant="success" onClick={()=> navigate("/gstsale")} >
+                      <IoIosCreate />&nbsp;
+                       New Sale
                     </Button>
+                   
                   </div>
                 </th>
               </tr>
@@ -73,9 +75,6 @@ const GstSaleList = () => {
         <Container>
           <Row>
 
-
-
-
             <Table responsive>
               <table class="table table-bordered border-secondary">
                 <thead>
@@ -86,47 +85,36 @@ const GstSaleList = () => {
                     <th>Email ID</th>
                     <th>Address</th>
                     <th>GST No</th>
-                    <th>Stock </th>
-                    <th>Price per item</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                    <th>Action Edit</th>
-                    <th>Action View</th>
+                    <th>View Bill </th>
+                    <th>Action Delete</th>
 
 
                   </tr>
                 </thead>
                 <tbody>
 
-                  {/* {get?.ser?.map((items) => ( */}
+                  {gstSaleList?.orders?.map((items) => (
                     <tr>
-                        <td>Depanshu</td>
-                        <td>8796541235</td>
-                        <td>depanshu@gmail.com</td>
-                        <td>Delhi</td>
-                        <td>265A45BB7</td>
-                        <td>500</td>
-                        <td>200</td>
-                        <td>500</td>
-                        <td>2000</td> 
+                     
                        
-                        
-                       
-                      {/* <td>{items.Service_Name}</td>
-                      <td>{items.Service_Charge}</td> */}
+                       <td>{items.name}</td>
+                      <td>{items.phoneNumber}</td> 
+                      <td>{items.email}</td> 
+                      <td>{items.address}</td> 
+                      <td>{items.gstNumber}</td> 
                   
 
                       <td>
-                        {/* <Link to={`/serviceEdit/${items._id}`}> */}
+                        <Link to={`/gstbill/${items._id}`}>
                         <Button className='table-btn'
-                         variant="light" >
-                          &#9998;Edit</Button> 
-                          {/* </Link> */}
+                         variant="success" >
+                          &#128065;View</Button> 
+                          </Link>
                           </td>
 
                       <td>
-                        <Button className='table-btn' variant="light" 
-                    //   onClick={(e) => { deleteData(items._id) }}
+                        <Button className='table-btn' variant="success" 
+                      onClick={(e) => { deleteData(items._id) }}
                        value={"Delete"} >
                            <span className='delete-icon'>&#x2717;</span>Delete
                        </Button>
@@ -135,7 +123,7 @@ const GstSaleList = () => {
                     </tr>
 
 
-                  {/* ))} */}
+                   ))} 
 
 
 

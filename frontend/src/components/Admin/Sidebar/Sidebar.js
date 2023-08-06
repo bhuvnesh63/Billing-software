@@ -59,6 +59,22 @@ const Sidebar = ({children}) => {
       name: "Gst-Billing",
       icon: <FaMoneyBillAlt  />
     },
+    {
+      path: "/purchasehistory",
+      name: "Purchase-History",
+      icon: <FaMoneyBillAlt  />
+    },
+
+    {
+      path: "/salehistory",
+      name: "Sale-History",
+      icon: <FaMoneyBillAlt  />
+    },
+    {
+      path: "/gstsalehistory",
+      name: "GST Sale-History",
+      icon: <FaMoneyBillAlt  />
+    },
  
 ]
   return (

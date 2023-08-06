@@ -20,6 +20,10 @@ const OrderSchema = new mongoose.Schema({
 
   Items: [
     {
+      productId: {
+        type: String,
+        required: true
+      },
       itemName: {
         type: String,
 
@@ -46,7 +50,8 @@ const OrderSchema = new mongoose.Schema({
       },
       pricePerItem: {
         type: Number,
-      },    },
+      },
+    },
   ],
 });
 

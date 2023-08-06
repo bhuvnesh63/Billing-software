@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Layout from '../../Header/Layout';
 import './additem.css';
+import { toast } from 'react-toastify';
 
 const EditItem = () => {
   const params = useParams();
@@ -21,6 +22,8 @@ const EditItem = () => {
   const [cgstPerItem, setCgstPerItem] = useState('');
   const [sgstPerItem, setSgstPerItem] = useState('');
   const [PurchasingPrice, setPurchasingPrice] = useState('');
+  const [pricewithoutgst, setPricewithoutgst] = useState('');
+  const [totalGST, setTotalGST] = useState('');
 
   const calculateValues = () => {
     setCgstPerItem((parseFloat(cgst) / parseFloat(stock)).toFixed(2));
@@ -40,11 +43,13 @@ const EditItem = () => {
       setCgstPerItem(response.data.item.cgstPerItem);
       setSgstPerItem(response.data.item.sgstPerItem);
       setPurchasingPrice(response.data.item.PurchasingPrice);
+      setPricewithoutgst(response.data.item.pricewithoutgst);
+      setTotalGST(response.data.item.totalGST);
 
       calculateValues();
     });
   }, [params.id]);
-  console.log("deepanshu",specificItem)
+
   const submitform = async (event) => {
     event.preventDefault();
     try {
@@ -58,8 +63,11 @@ const EditItem = () => {
         cgstPerItem,
         sgstPerItem,
         PurchasingPrice,
+        pricewithoutgst,
+        totalGST
       });
       navigate('/itemlist');
+      toast.success("Item Update Successfully");
     } catch (error) {
       console.log(error.response);
     }
@@ -86,8 +94,15 @@ const EditItem = () => {
               <tr>
                 <th>
                   <div className="table-div">
-                    <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/itemlist">Go Back</Link>
+                  
+                    <Button className="table-btn" variant="success" onClick={()=> navigate("/itemlist")} >
+                      <IoIosCreate />&nbsp;
+                       Check Item List
+                    </Button>
+
+                    <Button className="table-btn float-end" variant="success" onClick={()=> navigate("/purchasehistory")} >
+                      <IoIosCreate />&nbsp;
+                       Check Purchase History
                     </Button>
                   </div>
                 </th>
@@ -137,6 +152,14 @@ const EditItem = () => {
               <div className="col-md-4 position-relative">
                 <label className="label">Purchase Price</label>
                 <input type="number" className="form-control" value={PurchasingPrice} onChange={(e) => setPurchasingPrice(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">Total GST</label>
+                <input type="number" className="form-control" value={totalGST} onChange={(e) => setTotalGST(e.target.value)} required />
+              </div>
+              <div className="col-md-4 position-relative">
+                <label className="label">Amount Without GST</label>
+                <input type="number" className="form-control" value={pricewithoutgst} onChange={(e) => setPricewithoutgst(e.target.value)} required />
               </div>
               <center>
                 <Button className="stu_btn" variant="success" type="submit" onClick={(event) => submitform(event)}>

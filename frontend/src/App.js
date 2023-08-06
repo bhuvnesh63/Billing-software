@@ -18,8 +18,13 @@ import EditAccount from './components/Admin/GstSale/EditAccount';
 import EditSale from './components/Admin/Sale/EditSale';
 import GSTBillList from './components/Admin/GstSale/GSTBilling/GSTLIstBill';
 import GSTBill from './components/Admin/GstSale/GSTBilling/GSTBill';
+import PurchaseHistory from './components/Admin/Transaction/Purchasetransaction';
+import Purchasetransaction from './components/Admin/Transaction/Purchasetransaction';
 
-
+import SaleHistory from './components/Admin/Transaction/SaleHistory';
+import GSTSalehistory from './components/Admin/Transaction/GSTSaleHistory';
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -27,7 +32,7 @@ function App() {
   return (
     <div className="App">
 
-
+<ToastContainer position="top-center" />
       <Routes>
 
 
@@ -48,8 +53,9 @@ function App() {
         <Route path='/billlist' element={<Sidebar><ListBilling /></Sidebar>} />
         <Route path='/gstbilllist' element={<Sidebar><GSTBillList /></Sidebar>} />
         <Route path='/gstbill/:id' element={<Sidebar><GSTBill /></Sidebar>} />
-
-
+        <Route path='/purchasehistory' element={<Sidebar><Purchasetransaction/></Sidebar>} />
+        <Route path='/salehistory' element={<Sidebar><SaleHistory/></Sidebar>} />
+        <Route path='/gstsalehistory' element={<Sidebar><GSTSalehistory/></Sidebar>} />
 
       </Routes>
 

@@ -14,6 +14,11 @@ const OrderSchema = new mongoose.Schema({
   // },
   Items: [
     {
+
+      productId:{
+        type: String,
+        
+      },
       itemName: {
         type: String,
 

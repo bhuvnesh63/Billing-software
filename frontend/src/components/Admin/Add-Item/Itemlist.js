@@ -4,12 +4,15 @@ import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
-import axios from 'axios'
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 
 const ItemsUrl = "http://localhost:4000/api/v1/items"
 
 const Itemlist = ({ items }) => {
   const [getitems, setGetItems] = useState(null);
+  const navigate= useNavigate();
 
   useEffect(() => {
     axios.get(ItemsUrl).then((response) => {
@@ -22,7 +25,7 @@ const Itemlist = ({ items }) => {
     // console.log(id)
     axios.delete(`http://localhost:4000/api/v1/item/${id}`).then(response => {
       // alert("Item has been deleted successfully")
-      // toast.success("Item deleted Succesfully")
+      toast.success("Item deleted Succesfully")
     })
       .catch(error => {
         console.log(error)
@@ -48,10 +51,16 @@ const Itemlist = ({ items }) => {
               <tr>
                 <th>
                   <div className='table-div' >
-
-                    <Button className='table-btn' variant="light" >
-                      <IoIosCreate />&nbsp;<Link to="/additem">Create</Link>
+                  <Button className="table-btn" variant="success" onClick={()=> navigate("/additem")} >
+                      <IoIosCreate />&nbsp;
+                      Add New Item
                     </Button>
+
+                    <Button className="table-btn float-end" variant="success" onClick={()=> navigate("/purchasehistory")} >
+                      <IoIosCreate />&nbsp;
+                       Check Purchase History
+                    </Button>
+                  
                   </div>
                 </th>
               </tr>

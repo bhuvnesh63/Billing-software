@@ -4,7 +4,8 @@ import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Form, Link, useNavigate, useParams, } from 'react-router-dom'
 import { AiFillDashboard, AiFillDelete, AiFillEdit, AiFillSetting } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
-import axios from 'axios'
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 
@@ -40,7 +41,7 @@ const EditAccount = () => {
         "address": address,
         "gstNumber": gstNumber,
       });
-      // toast.success("Item Add Successfully");
+      toast.success("Account Updated Successfully");
       navigate("/addaccount-list");
     } catch (error) {
       console.log(error.response);
@@ -68,8 +69,12 @@ const EditAccount = () => {
               <tr>
                 <th>
                   <div className="table-div">
-                    <Button className="table-btn" variant="light">
+                    {/* <Button className="table-btn" variant="light">
                       <IoIosCreate />&nbsp;<Link to="/addaccount-list">Go Back</Link>
+                    </Button> */}
+                     <Button className="table-btn" variant="success" onClick={()=> navigate("/addaccount-list")} >
+                      <IoIosCreate />&nbsp;
+                       Check Account List
                     </Button>
                   </div>
                 </th>

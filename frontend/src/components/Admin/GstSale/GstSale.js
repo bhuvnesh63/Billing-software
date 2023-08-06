@@ -7,6 +7,7 @@ import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import './gstsale.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const ItemsUrl = 'http://localhost:4000/api/v1/items';
 const AccountUrl = 'http://localhost:4000/api/v1/accounts';
@@ -22,6 +23,8 @@ const GstSale = () => {
   const [gstNumber, setGstNumber] = useState('');
   const [items, setItems] = useState([
     {
+      _id: '',
+      productId: '',
       itemName: '',
       pricewithoutgst: '',
       cgstPerItem: '',
@@ -80,9 +83,10 @@ const GstSale = () => {
     updatePriceWithQuantity();
   }, [items]);
 
+
   const getItemPrice = (selectedItemName, index) => {
     const selectedItemObj = getitems?.items?.find(
-      (items) => items.itemName === selectedItemName
+      (item) => item.itemName === selectedItemName
     );
 
     if (selectedItemObj) {
@@ -90,25 +94,29 @@ const GstSale = () => {
         prevItems.map((item, i) =>
           i === index
             ? {
-                ...item,
-                pricePerItem: selectedItemObj.sellingPrice,
-                initialCgstPerItem: selectedItemObj.cgstPerItem,
-                cgstPerItem: selectedItemObj.cgstPerItem,
-                initialSgstPerItem: selectedItemObj.sgstPerItem,
-                sgstPerItem: selectedItemObj.sgstPerItem,
-                pricewithoutgst: selectedItemObj.pricewithoutgst,
-                initialamountwithoutgst: selectedItemObj.pricewithoutgst,
-              }
+              ...item,
+              productId: selectedItemObj._id,
+              itemName: selectedItemObj.itemName,
+              pricePerItem: selectedItemObj.sellingPrice,
+              initialCgstPerItem: selectedItemObj.cgstPerItem,
+              cgstPerItem: selectedItemObj.cgstPerItem,
+              initialSgstPerItem: selectedItemObj.sgstPerItem,
+              sgstPerItem: selectedItemObj.sgstPerItem,
+              pricewithoutgst: selectedItemObj.pricewithoutgst,
+              initialamountwithoutgst: selectedItemObj.pricewithoutgst,
+            }
             : item
         )
       );
     }
   };
 
+
   const addMoreItems = () => {
     setItems((prevItems) => [
       ...prevItems,
       {
+        productId: '',
         itemName: '',
         pricewithoutgst: '',
         cgstPerItem: '',
@@ -122,6 +130,7 @@ const GstSale = () => {
 
   const submitform = async (event) => {
     event.preventDefault();
+    const finalItems = items.filter((item) => item.productId)
     try {
       const saleOrderData = {
         name: customerName,
@@ -129,7 +138,8 @@ const GstSale = () => {
         email: email,
         address: address,
         gstNumber: gstNumber,
-        Items: items.map((item) => ({
+        Items: finalItems.map((item) => ({
+          productId: item.productId,
           itemName: item.itemName,
           pricePerItem: item.pricePerItem,
           quantity: item.quantity.toString(),
@@ -141,14 +151,15 @@ const GstSale = () => {
       };
 
       await axios.post(GstOrderUrl, saleOrderData);
-      navigate('/billlist');
+      toast.success("Order Placed Successfully");
+      navigate('/gstsale-list');
     } catch (error) {
       console.log('Error saving sale order data:', error.response);
     }
   };
 
 
- 
+
 
   return (
     <>
@@ -171,8 +182,14 @@ const GstSale = () => {
               <tr>
                 <th>
                   <div className="table-div">
-                    <Button className="table-btn" variant="light">
-                      <IoIosCreate />&nbsp;<Link to="/gstsale-list">Go Back</Link>
+                    <Button className="table-btn" variant="success" onClick={() => navigate("/gstsale-list")} >
+                      <IoIosCreate />&nbsp;
+                      GST Order List
+                    </Button>
+
+                    <Button className="table-btn float-end" variant="success" onClick={()=> navigate("/gstsalehistory")} >
+                      <IoIosCreate />&nbsp;
+                       Check GST Sale  History
                     </Button>
                   </div>
                 </th>
@@ -181,7 +198,7 @@ const GstSale = () => {
           </Table>
         </Row>
       </Container>
-      
+
 
       <div className="form-div">
         <Container>
@@ -189,14 +206,27 @@ const GstSale = () => {
             <form className="row g-4 p-3 registration-form">
               <div className="col-md-4 position-relative">
                 <label className="label">Customer name</label>
+
                 <Form.Select
-                  onChange={(e) => setCustomerName(e.target.value)}
+                  onChange={(e) => {
+                    setCustomerName(e.target.value);
+                    const selectedAccount = getaccounts?.accounts?.find(
+                      (account) => account.name === e.target.value
+                    );
+                    if (selectedAccount) {
+                      setPhoneNumber(selectedAccount.phoneNumber);
+                      setEmail(selectedAccount.email);
+                      setAddress(selectedAccount.address);
+                      setGstNumber(selectedAccount.gstNumber);
+                    }
+                  }}
                 >
                   <option>Choose</option>
                   {getaccounts?.accounts?.map((account) => (
                     <option key={account._id}>{account.name}</option>
                   ))}
                 </Form.Select>
+
               </div>
 
               <div className="col-md-4 position-relative">
@@ -249,12 +279,6 @@ const GstSale = () => {
                 />
               </div>
               <hr></hr>
-
-
-
-
-
-
               <h5>Product Details</h5>
 
               {items.map((item, index) => (

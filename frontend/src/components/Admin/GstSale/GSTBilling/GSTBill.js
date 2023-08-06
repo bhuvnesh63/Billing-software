@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../../Header/Layout'
 import { Button, Col, Container, Row, Table } from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
 import "../../Billing/billing.css"
@@ -11,9 +11,13 @@ import './gstbill.css'
 
 const GSTBilling = () => {
     const params = useParams();
+    const location = useLocation();
+
     const [order, setOrder] = useState();
     const [discountPercentage, setDiscountPercentage] = useState(0);
     const [grandTotal, setGrandTotal] = useState(0);
+ 
+
 
     const calculateTotalPrice = () => {
         if (!order) return 0;
@@ -26,6 +30,7 @@ const GSTBilling = () => {
         const discountAmount = (totalPrice * discountPercentage) / 100;
         const calculatedGrandTotal = totalPrice - discountAmount;
         setGrandTotal(calculatedGrandTotal);
+    
     }, [discountPercentage]);
 
     const handleDiscountChange = (event) => {
@@ -50,6 +55,15 @@ const GSTBilling = () => {
         document.body.innerHTML = printContent.innerHTML;
         window.print();
         document.body.innerHTML = originalContent;
+
+    };
+    const getCurrentDate = () => {
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+        return `${day}-${month < 10 ? '0' : ''}${month}-${year} `;
+       
 
     };
 
@@ -130,8 +144,8 @@ const GSTBilling = () => {
                                 <Col sm={6}>
 
                                     <div className='billing-border'>
-                                        <p>Invoice No : <span>  260</span></p>
-                                        <p>Dated : <span>  01-06-2023</span></p>
+                                    <p>Invoice No : <span>{new URLSearchParams(location.search).get("invoiceNumber")}</span></p>
+                                        <p>Dated : <span> {getCurrentDate()}</span></p>
 
                                     </div>
 

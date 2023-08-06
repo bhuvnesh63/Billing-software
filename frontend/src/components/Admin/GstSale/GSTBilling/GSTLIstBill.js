@@ -4,13 +4,16 @@ import { Button, Container, Row, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoIosCreate } from "react-icons/io";
-import axios from 'axios'
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 const GSTBillURL = "http://localhost:4000/api/v1/gstorders"
 
 const GSTBillList = ({ items }) => {
     const [getorders, setOrders] = useState(null);
 
+
+    const navigate= useNavigate();
     useEffect(() => {
         axios.get(GSTBillURL).then((response) => {
             setOrders(response.data)
@@ -20,8 +23,8 @@ const GSTBillList = ({ items }) => {
 
     const deleteData = (id) => {
         axios.delete(`http://localhost:4000/api/v1/gstorder/${id}`).then(response => {
-            // alert("Item has been deleted successfully")
-            // toast.success("Item deleted Succesfully")
+            // alert("Order has been deleted successfully")
+            toast.success("Order has been deleted successfully")
         })
             .catch(error => {
                 console.log(error)
@@ -49,10 +52,13 @@ const GSTBillList = ({ items }) => {
                             <tr>
                                 <th>
                                     <div className='table-div' >
-
-                                        <Button className='table-btn' variant="light" >
-                                            <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
+                                        <Button className="table-btn" variant="success" onClick={() => navigate("/gstsale")} >
+                                            <IoIosCreate />&nbsp;
+                                            New GST Sale
                                         </Button>
+                                        {/* <Button className='table-btn' variant="light" >
+                                            <IoIosCreate />&nbsp;<Link to="/gstsale">Create</Link>
+                                        </Button> */}
                                     </div>
                                 </th>
                             </tr>
@@ -71,6 +77,8 @@ const GSTBillList = ({ items }) => {
                             <table class="table table-bordered border-secondary">
                                 <thead>
                                     <tr>
+                                        <th>Serial No.</th> {/* Add the Serial No. column */}
+
                                         <th>Customer Name</th>
                                         <th>Phone Number</th>
                                         <th>Address</th>
@@ -81,9 +89,9 @@ const GSTBillList = ({ items }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {getorders?.orders?.map((item) => (
-                                        <tr>
-
+                                    {getorders?.orders?.map((item, index) => (
+                                        <tr key={item._id}>
+                                            <td>{index + 1}</td>
                                             <td>{item.name}</td>
                                             <td>{item.phoneNumber}</td>
                                             <td>{item.address}</td>
@@ -92,16 +100,16 @@ const GSTBillList = ({ items }) => {
 
                                             <td>
 
-                                                <Link to={`/gstbill/${item._id}`}>
+                                                <Link to={`/gstbill/${item._id}?invoiceNumber=${index + 1}`}>
                                                     <Button className='table-btn'
-                                                        variant="light" >
-                                                        View Bill
+                                                        variant="success" >
+                                                        &#128065;View Bill
                                                     </Button>
                                                 </Link>
                                             </td>
                                             <td>
                                                 <Button className='table-btn'
-                                                    variant="light" onClick={(e) => { deleteData(item._id) }} value={"Delete"}
+                                                    variant="success" onClick={(e) => { deleteData(item._id) }} value={"Delete"}
                                                 >
                                                     <span className='delete-icon'>&#x2717;</span>Delete
                                                 </Button>

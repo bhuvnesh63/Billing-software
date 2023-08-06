@@ -7,19 +7,24 @@ import { Col, Container, Row } from 'react-bootstrap'
 
 const Dashboard = () => {
   return (
-   <>
-  <Header />
-   
-   <Container>
-    <Row>
-      <Col sm={4}>tt</Col>
-      <Col sm={4}>tttr</Col>
-      <Col sm={4}>rr</Col>
-    </Row>
-   </Container>
-   
-   
-   </>
+    <>
+      <Header />
+
+
+
+      <div className='dash-img'>
+     
+        <img className='top-img' src='img/dashboard1.jpg' />
+      
+      </div>
+
+
+
+
+
+
+
+    </>
   )
 }
 

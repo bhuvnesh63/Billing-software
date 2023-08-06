@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { MdCrisisAlert, MdRoomService } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import { VscAccount } from "react-icons/vsc";
+import { MdOutlineMeetingRoom , MdOutlineCategory} from 'react-icons/md';
 import './sidebar.css';
 
 
@@ -15,7 +16,7 @@ const Sidebar = ({children}) => {
   const menuItem = [
  
     {
-      path: "/",
+      path: "/dashboard",
       name: "Dashboard",
       icon: <FaTh />
     },
@@ -38,22 +39,16 @@ const Sidebar = ({children}) => {
       icon: < FaMoneyBillAlt />
       // icon: <RiBillFill />
     },
-
-    
-  
-
     {
       path: "/addaccount",
       name: "Add-Account",
       icon: <VscAccount />
     },
-    
     {
       path: "/gstsale",
       name: "Gst-Sale",
       icon: <MdRoomService />
     },
-
     {
       path: "/gstbilllist",
       name: "Gst-Billing",
@@ -74,6 +69,11 @@ const Sidebar = ({children}) => {
       path: "/gstsalehistory",
       name: "GST Sale-History",
       icon: <FaMoneyBillAlt  />
+    },
+    {
+      path: "/signup",
+      name: "Signup",
+      icon: <MdOutlineMeetingRoom />
     },
  
 ]

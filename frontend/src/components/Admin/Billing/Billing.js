@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../Header/Layout';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams ,useLocation} from 'react-router-dom';
 import { AiFillDashboard } from 'react-icons/ai';
 import { IoIosCreate } from 'react-icons/io';
 import './billing.css';
@@ -17,6 +17,7 @@ const Billing = () => {
   const [selectedDiscount, setSelectedDiscount] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [discountPercentage, setDiscountPercentage] = useState(0);
+  const location = useLocation();
   const navigate= useNavigate();
   const calculateTotalPrice = () => {
     if (!saleOrder) return 0;
@@ -58,17 +59,11 @@ const Billing = () => {
 
   };
 
-  const getCurrentDate = () => {
-    const currentDate = new Date();
-    const day = currentDate.getDate();
-    const month = currentDate.getMonth() + 1;
-    const year = currentDate.getFullYear();
-    return `${day}-${month < 10 ? '0' : ''}${month}-${year}`;
-};
+
 
   if (!saleOrder) return <div>Loading...</div>;
 
-  const { customerName, mobileNumber, Items } = saleOrder;
+  const { customerName, mobileNumber, createdDate,Items } = saleOrder;
 
 
 
@@ -132,7 +127,7 @@ const Billing = () => {
           <Col sm={12}>
             <div className='form-div' id="print-bill">
             {/* <div className='form-div'> */}
-              <h5 className='gst'>GSTIN : 09AAZFG2944CIZ2 </h5>
+              <h5 className='gst'>GSTIN : 09IILPS7478M1ZU </h5>
               <div className='text-center'>
                 <h4>TAX INVOICE</h4>
                 <h3>M/S V K ENTERPRISES</h3>
@@ -146,27 +141,18 @@ const Billing = () => {
 
               <Container>
                 <Row>
-                  <Col sm={6}>
+                  <Col sm={12}>
                     <div className='billing-border'>
                       <p>
-                        Invoice No : <span>260</span>
+                      <p>Invoice No : <span>{new URLSearchParams(location.search).get("invoiceNumber")}</span></p>
                       </p>
                       <p>
-                      <p>Dated : <span> {getCurrentDate()}</span></p>
+                      <p>Dated : <span>{createdDate}</span></p>
                       </p>
                     </div>
                   </Col>
 
-                  <Col sm={6}>
-                    <div className='bill-border'>
-                      <p>
-                        Place of Supply : <span>Uttar Pradesh (09)</span>
-                      </p>
-                      <p>
-                        Reverse Charge : <span>N</span>
-                      </p>
-                    </div>
-                  </Col>
+    
 
                   <Col sm={6}>
                     <div className='billing-border'>
@@ -203,10 +189,11 @@ const Billing = () => {
                         <thead>
                           <tr className='bill-table'>
                             <th className='pt-4' >Item Name</th>
-                            <th>Amount</th>
-                            <th>CGST </th>
-                            <th>SGST </th>
                             <th>Price per item</th>
+                          
+                            <th>CGST in ₹</th>
+                            <th>SGST in ₹</th>
+                            <th>Amount</th>
                             <th>Quantity</th>
                             <th>Total price</th>
                           </tr>
@@ -216,10 +203,12 @@ const Billing = () => {
                           {Items?.map((item) => (
                             <tr key={item._id}>
                               <td>{item.itemName}</td>
-                              <td>{item.amountWithoutGST}</td>
+                              <td>{item.pricePerItem}</td>
                               <td>{item.cgstapplied}</td>
                               <td>{item.sgstapplied}</td>
-                              <td>{item.pricePerItem}</td>
+                              <td>{item.amountWithoutGST}</td>
+                          
+                        
                               <td>{item.quantity}</td>
                               <td>{item.totalPrice}</td>
                             </tr>

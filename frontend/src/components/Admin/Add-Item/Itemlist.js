@@ -88,8 +88,8 @@ const Itemlist = ({ items }) => {
                     <th>MRP</th>
                     <th>Total Amount</th>
                     <th>Stock</th>
-                    <th>CGST</th>
-                    <th>SGST</th>
+                    <th>CGST in ₹</th>
+                    <th>SGST in ₹</th>
                     <th>CGST Amount/pcs</th>
                     <th>SGST Amount/pcs</th>
                     <th>Purchase Price</th>

@@ -72,7 +72,7 @@ const EditItem = () => {
       console.log(error.response);
     }
   };
-// console.log("deepanshu",specificItem)
+
   return (
     <>
       <Layout />

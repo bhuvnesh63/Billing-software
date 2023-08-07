@@ -7,7 +7,10 @@ const ApiFeatures = require("../utils/apifeatures");
 
 // create student --Admin
 exports.createOrder = (async (req, res, next) => {
-    const order = await Order.create(req.body);
+
+    const order = { ...req.body, createdDate: new Date() }
+    await Order.create(order)
+    // const order = await Order.create(req.body);
     const gstsalehistory = { ...req.body, createdDate: new Date() }
     await GSTOrderHistory.create(gstsalehistory)
 
@@ -87,7 +90,7 @@ exports.getGSTSAleDetailsByDate = async (req, res) => {
     // const date2 = date1.setMonth(date1.getMonth() - 1)
     const date2=new Date(endDate)
     // date1.setHours(0,0,0)
-    console.log( date1,date2, "rishi")
+  
     const apiFeature = new ApiFeatures(gstsalehistory.find(
         {
             createdDate: {

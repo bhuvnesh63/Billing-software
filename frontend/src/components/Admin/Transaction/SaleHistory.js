@@ -123,57 +123,12 @@ const navigate= useNavigate();
 
 
             <div className='form-div' >
-                <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Item Details</h5>
-                {/* <Container>
-                    <Row>
+                <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Sale History</h5>
 
-
-
-
-                        <Table responsive>
-                            <table class="table table-bordered border-secondary">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Customer Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Item Name</th>
-                                        <th>Price Per Item</th>
-                                        <th>Quantity</th>
-                                        <th>Price Without GST</th>
-                                        <th>CGST</th>
-                                        <th>SGST</th>
-                                        <th>Total Price</th>
-                                       
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {getpurchase?.sale_history?.map((saleHistoryItem) => (
-                                        saleHistoryItem.Items.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{saleHistoryItem.createdDate}</td>
-                                                <td>{saleHistoryItem.customerName}</td>
-                                                <td>{saleHistoryItem.mobileNumber}</td>
-                                                <td>{item.itemName}</td>
-                                                <td>{item.pricePerItem}</td>
-                                                <td>{item.quantity}</td>
-                                                <td>{item.amountWithoutGST}</td>
-                                                <td>{item.cgstapplied}</td>
-                                                <td>{item.sgstapplied}</td>
-                                                <td>{item.totalPrice}</td>
-                                            
-                                            </tr>
-                                        ))
-                                    ))}
-                                </tbody>
-
-                            </table>
-                        </Table>
-                    </Row>
-                </Container> */}
                 <Container>
                     <Row>
+                    <span className='note'>Note:<h6 className='note-text'>By default you have current month history</h6></span >
+
                         <Table responsive>
                             <table className="table table-bordered border-secondary">
                                 <thead>

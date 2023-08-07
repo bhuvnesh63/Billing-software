@@ -17,6 +17,9 @@ const OrderSchema = new mongoose.Schema({
   gstNumber: {
     type: String,
   },
+  createdDate:{
+    type: Date,
+  },
 
   Items: [
     {

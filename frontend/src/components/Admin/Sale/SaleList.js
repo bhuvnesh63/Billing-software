@@ -12,7 +12,7 @@ const SaleUrl = "http://localhost:4000/api/v1/saleorders"
 
 const SaleList = () => {
   const [getsale, setSale] = useState(null);
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get(SaleUrl).then((response) => {
       setSale(response.data)
@@ -53,9 +53,13 @@ const SaleList = () => {
                 <th>
                   <div className='table-div' >
 
-                  <Button className="table-btn" variant="success" onClick={() => navigate("/sale")} >
+                    <Button className="table-btn" variant="success" onClick={() => navigate("/sale")} >
                       <IoIosCreate />&nbsp;
-                      New Sale 
+                      New Sale
+                    </Button>
+                    <Button className="table-btn float-end" variant="success" onClick={() => navigate("/salehistory")} >
+                      <IoIosCreate />&nbsp;
+                      Check Sale History
                     </Button>
                     {/* <Button className='table-btn' variant="light" >
                       <IoIosCreate />&nbsp;<Link to="/sale">Create</Link>
@@ -82,7 +86,7 @@ const SaleList = () => {
               <table class="table table-bordered border-secondary">
                 <thead>
                   <tr>
-
+                    <th>Serial Number</th>
                     <th>Customer Name</th>
                     <th>Mobile No</th>
                     <th>Item Name</th>
@@ -92,7 +96,7 @@ const SaleList = () => {
                     {/* <th>Price per item</th> */}
                     {/* <th>Quantity</th> */}
                     {/* <th>Total price</th> */}
-                    <th>Item Name (2)</th>
+                    {/* <th>Item Name (2)</th> */}
                     <th>Action View</th>
                     <th>Action Delete</th>
 
@@ -101,8 +105,9 @@ const SaleList = () => {
                 </thead>
                 <tbody>
 
-                  {getsale.saleorders.map((item) => (
+                  {getsale.saleorders.map((item, index) => (
                     <tr key={item._id}>
+                      <td>{index + 1}</td>
                       <td>{item.customerName}</td>
                       <td>{item.mobileNumber}</td>
                       {item.Items.map((item) => (
@@ -119,7 +124,7 @@ const SaleList = () => {
 
 
                       <td>
-                        <Link to={`/billing/${item._id}`}>
+                        <Link to={`/billing/${item._id}?invoiceNumber=${index + 1}`}>
                           <Button className='table-btn'
                             variant="success" >
                             &#128065;View</Button>

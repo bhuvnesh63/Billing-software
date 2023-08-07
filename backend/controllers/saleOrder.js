@@ -7,7 +7,12 @@ const ApiFeatures = require("../utils/apifeatures");
 
 // create student --Admin
 exports.createSaleOrder = (async (req, res, next) => {
-    const sale = await SaleOrder.create(req.body);
+   
+    // const sale = await SaleOrder.create(req.body);
+
+    const sale = { ...req.body, createdDate: new Date() }
+    await SaleOrder.create(sale)
+
     const allsalesOrderbydate = { ...req.body, createdDate: new Date() }
     await allSaleHistory.create(allsalesOrderbydate)
 
@@ -48,7 +53,7 @@ exports.getAllSaleHistory = async (req, res) => {
 
     // const date1 = "2023-06-05T10:25:41.597+00:00";
     // const date2 = "2023-08-05T10:25:41.597+00:00";
-    console.log("deep")
+
     const date1 = new Date();
     const date2 = date1.setMonth(date1.getMonth() - 1)
     date1.setHours(0, 0, 0)
@@ -83,7 +88,7 @@ exports.getSaleHistoryByDate = async (req, res) => {
     // const date2 = date1.setMonth(date1.getMonth() - 1)
     const date2 = new Date(endDate)
     // date1.setHours(0,0,0)
-    console.log(date1, date2, "rishi")
+
     const apiFeature = new ApiFeatures(allSaleHistory.find(
         {
             createdDate: {

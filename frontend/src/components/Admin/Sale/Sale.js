@@ -166,7 +166,7 @@ const Sale = () => {
       console.log('Error saving sale order data:', error.response);
     }
   };
-  console.log("deepansu", items)
+ 
   return (
     <>
       <Layout />

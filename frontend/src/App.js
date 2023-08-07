@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   const PrivateRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
+    return isLoggedIn ? children : <Navigate to="" />;
   };
 
 

@@ -46,7 +46,7 @@ exports.getAllPurchase = async (req, res) => {
 
     // const date1 = "2023-06-05T10:25:41.597+00:00";
     // const date2 = "2023-08-05T10:25:41.597+00:00";
-    console.log("deep")
+
     const date1 = new Date();
     const date2 = date1.setMonth(date1.getMonth() - 1)
     date1.setHours(0,0,0)
@@ -81,7 +81,7 @@ exports.getPurchaseDetailsByDate = async (req, res) => {
     // const date2 = date1.setMonth(date1.getMonth() - 1)
     const date2=new Date(endDate)
     // date1.setHours(0,0,0)
-    console.log( date1,date2, "rishi")
+
     const apiFeature = new ApiFeatures(purchaseOrder.find(
         {
             createdDate: {
@@ -153,7 +153,7 @@ exports.updateitem = async (req, res, next) => {
 exports.deleteItem = async (req, res, next) => {
 
     // req.body.student=req.student.id
-    console.log(res.params)
+
     const item = await Item.findById(req.params.id);
 
 

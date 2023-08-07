@@ -35,8 +35,7 @@ const Login = ({ setIsLoggedIn }) => {
       if (response.ok) {
         // Login successful
         const token = data.token;
-        console.log('Login successful');
-        console.log('Token:', token);
+   
         localStorage.setItem('token', token); // Save the token in local storage
         setIsLoggedIn(true); // Set isLoggedIn state to true
         navigate('/dashboard'); // Redirect to home page

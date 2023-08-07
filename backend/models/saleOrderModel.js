@@ -8,6 +8,9 @@ const OrderSchema = new mongoose.Schema({
   mobileNumber: {
     type: Number,
   },
+  createdDate:{
+    type: Date,
+  },
 
   // phoneNumber: {
   //   type: Number,

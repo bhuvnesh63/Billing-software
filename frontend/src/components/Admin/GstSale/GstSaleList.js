@@ -35,13 +35,13 @@ const GstSaleList = () => {
       })
 
   }
-  console.log("deepanshu",gstSaleList)
+
   if (!gstSaleList) return null;
 
   return (
-   <>
-   <Layout />
-   <Container  className='main-col' >
+    <>
+      <Layout />
+      <Container className='main-col' >
         <Table striped bordered hover >
           <thead>
             <tr>
@@ -55,17 +55,20 @@ const GstSaleList = () => {
               <tr>
                 <th>
                   <div className='table-div' >
-                  <Button className="table-btn" variant="success" onClick={()=> navigate("/gstsale")} >
+                    <Button className="table-btn" variant="success" onClick={() => navigate("/gstsale")} >
                       <IoIosCreate />&nbsp;
-                       New Sale
+                      New Sale
                     </Button>
-                   
+                    <Button className="table-btn float-end" variant="success" onClick={() => navigate("/gstsalehistory")} >
+                      <IoIosCreate />&nbsp;
+                      Check GST Sale  History
+                    </Button>
                   </div>
                 </th>
               </tr>
             </thead>
           </Table>
-         
+
         </Row>
       </Container>
 
@@ -79,7 +82,7 @@ const GstSaleList = () => {
               <table class="table table-bordered border-secondary">
                 <thead>
                   <tr>
-
+                    <th>Serial Number</th>
                     <th>Customer name</th>
                     <th>Phone No</th>
                     <th>Email ID</th>
@@ -93,37 +96,36 @@ const GstSaleList = () => {
                 </thead>
                 <tbody>
 
-                  {gstSaleList?.orders?.map((items) => (
-                    <tr>
-                     
-                       
-                       <td>{items.name}</td>
-                      <td>{items.phoneNumber}</td> 
-                      <td>{items.email}</td> 
-                      <td>{items.address}</td> 
-                      <td>{items.gstNumber}</td> 
-                  
+                  {gstSaleList?.orders?.map((items, index) => (
+                    <tr key={items._id}>
+                      <td>{index + 1}</td>
+                      <td>{items.name}</td>
+                      <td>{items.phoneNumber}</td>
+                      <td>{items.email}</td>
+                      <td>{items.address}</td>
+                      <td>{items.gstNumber}</td>
+
 
                       <td>
-                        <Link to={`/gstbill/${items._id}`}>
-                        <Button className='table-btn'
-                         variant="success" >
-                          &#128065;View</Button> 
-                          </Link>
-                          </td>
+                        <Link to={`/gstbill/${items._id}?invoiceNumber=${index + 1}`}>
+                          <Button className='table-btn'
+                            variant="success" >
+                            &#128065;View</Button>
+                        </Link>
+                      </td>
 
                       <td>
-                        <Button className='table-btn' variant="success" 
-                      onClick={(e) => { deleteData(items._id) }}
-                       value={"Delete"} >
-                           <span className='delete-icon'>&#x2717;</span>Delete
-                       </Button>
-                       </td>
-                      
+                        <Button className='table-btn' variant="success"
+                          onClick={(e) => { deleteData(items._id) }}
+                          value={"Delete"} >
+                          <span className='delete-icon'>&#x2717;</span>Delete
+                        </Button>
+                      </td>
+
                     </tr>
 
 
-                   ))} 
+                  ))}
 
 
 
@@ -134,9 +136,9 @@ const GstSaleList = () => {
         </Container>
 
       </div>
-   
-   
-   </>
+
+
+    </>
 
   )
 }

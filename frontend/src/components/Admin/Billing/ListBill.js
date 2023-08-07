@@ -100,12 +100,9 @@ const Itemlist = ({ items }) => {
                       <td>{index + 1}</td>
                       <td>{item.customerName}</td>
                       <td>{item.mobileNumber}</td>
-
-
-
                       <td>
 
-                        <Link to={`/billing/${item._id}`}>
+                        <Link to={`/billing/${item._id}?invoiceNumber=${index + 1}`}>
                           <Button className='table-btn'
                             variant="success" >
                             &#128065;   View Bill

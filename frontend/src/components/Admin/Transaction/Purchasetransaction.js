@@ -100,10 +100,12 @@ const Purchasetransaction = ({ items }) => {
 
 
             <div className='form-div' >
-                <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Item Details</h5>
+                <h5 className="w3-center w3-flat-midnight-blue w3-padding-48 w3-border-blue-grey w3-grey text text-center mb-5 mt-3">Purchase History</h5>
+
                 <Container>
                     <Row>
 
+                    <span className='note'>Note:<h6 className='note-text'>By default you have current month history</h6></span >
 
 
 

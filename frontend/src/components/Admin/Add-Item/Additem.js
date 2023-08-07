@@ -153,7 +153,7 @@ const Additem = () => {
                 />
               </div>
               <div class="col-md-4 position-relative">
-                <label className="label">CGST</label>
+                <label className="label">CGST in ₹</label>
                 <input
                   type="number"
                   class="form-control"
@@ -163,7 +163,7 @@ const Additem = () => {
                 />
               </div>
               <div class="col-md-4 position-relative">
-                <label className="label">SGST</label>
+                <label className="label">SGST in ₹</label>
                 <input
                   type="number"
                   class="form-control"
